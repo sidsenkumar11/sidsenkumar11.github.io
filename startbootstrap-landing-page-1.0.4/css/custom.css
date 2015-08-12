@@ -16,19 +16,23 @@ div.row div div img {
 	display: block;
 }
 
-.skills i {
-	display: inline-block;
-	margin-right: 50px;
+div.skills div div {
+	margin-bottom: 50px;
+	text-align: center;
+}
+div.skills div div i {
+	margin-right: auto;
+	margin-bottom: 25px;
 }
 
-.skills h3 {
-	display: inline-block;
-	margin-right: 50px;
+div.skills div div h3 {
+	/*text-align: center;*/
 }
 
 .skills-container {
 	background-color: #60be86;
 }
+
 /*div {
 	border: 1px solid black;
 }*/
