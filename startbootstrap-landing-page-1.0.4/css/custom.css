@@ -7,7 +7,7 @@
 	text-align: center;
 }
 
-img {
+div.row div div img {
 	border: 4px solid #5A5A63;
 	border-radius: 20px;
 	max-width: 100%;
@@ -16,6 +16,19 @@ img {
 	display: block;
 }
 
+.skills i {
+	display: inline-block;
+	margin-right: 50px;
+}
+
+.skills h3 {
+	display: inline-block;
+	margin-right: 50px;
+}
+
+.skills-container {
+	background-color: #60be86;
+}
 /*div {
 	border: 1px solid black;
 }*/
