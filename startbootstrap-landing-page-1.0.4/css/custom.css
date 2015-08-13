@@ -1,10 +1,61 @@
+/* Intro section */
+.height-full {
+  height: 100vh;
+}
+.black-alpha {
+	 /*padding-top: 50px;*/
+	 /*padding-bottom: 50px;*/
+	 z-index: 1;
+	 height: 100%;
+	 width: 100%;
+	 max-width: 100%;
+	 max-height: 100%;
+	 display: block;
+	 overflow: auto;
+	 background: rgba(0, 0, 0, 0.6);
+}
+
+/* About Me Section */
+.aboutMe-section {
+	background-color: #222222;
+}
+
+.aboutMe-section h2 {
+	color: #DDDDDD;
+}
+
+.aboutMe-section p {
+	color: #DDDDDD;
+	text-align: justify;
+}
+
+/* Skills & Languages Section */
+div.skills div div div {
+	margin-bottom: 25px;
+	text-align: center;
+}
+div.skills div div div i {
+	margin-right: auto;
+	margin-bottom: 25px;
+}
+
+div.skills div div h3 {
+	/*text-align: center;*/
+}
+
+.skills-section {
+	background-color: #60be86;
+}
+
+/* Project Images Grid */
 .image-div {
 	width: 360px;
 	height: 220px;
 }
 
-.project-div {
+.project-div h3 {
 	text-align: center;
+	color: #DDDDDD;
 }
 
 div.row div div img {
@@ -16,23 +67,8 @@ div.row div div img {
 	display: block;
 }
 
-div.skills div div {
-	margin-bottom: 50px;
-	text-align: center;
-}
-div.skills div div i {
-	margin-right: auto;
-	margin-bottom: 25px;
-}
 
-div.skills div div h3 {
-	/*text-align: center;*/
-}
-
-.skills-container {
-	background-color: #60be86;
-}
-
-/*div {
-	border: 1px solid black;
+/*
+div {
+	border: 1px solid white;
 }*/
