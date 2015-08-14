@@ -20,6 +20,12 @@
 	background-color: #222222;
 }
 
+.aboutMe-image {
+	width: 50%;
+	height: 75%;
+	margin-top: 200px;
+  margin-bottom: 50px;
+}
 .aboutMe-section h2 {
 	color: #DDDDDD;
 }
