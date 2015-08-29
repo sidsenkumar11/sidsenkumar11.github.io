@@ -1,7 +1,20 @@
+/* NavBar */
+/*.navbar {
+  background-color: transparent;
+  background: transparent;
+  border: none;
+  color: white;
+  z-index: 100;
+  margin-bottom: 0;
+  border-radius: 0;
+}*/
+
+
 /* Intro section */
 .height-full {
   height: 100vh;
 }
+
 .black-alpha {
 	 /*padding-top: 50px;*/
 	 /*padding-bottom: 50px;*/
@@ -73,7 +86,40 @@ div.row div div img {
 	display: block;
 }
 
+/*div.row div div img:hover {
+  -webkit-filter: sepia(100%) blur(2px);
+}*/
+.tint {
+  position: relative;
+  float: left;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  -webkit-box-shadow: rgba(0,0,0,.2) 3px 5px 5px;
+  -moz-box-shadow: rgba(0,0,0,.2) 3px 5px 5px;
+  box-shadow: rgba(0,0,0,.2) 3px 5px 5px;
+}
 
+.tint:before {
+  border-radius: 20px;
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: none;
+  -moz-transition: all .3s linear;
+  -webkit-transition: all .3s linear;
+  -ms-transition: all .3s linear;
+  -o-transition: all .3s linear;
+  transition: all .3s linear;
+}
+
+.tint:hover:before {
+  background: rgba(0,0,250, 0.5);
+}
 /*
 div {
 	border: 1px solid white;
