@@ -59,10 +59,18 @@
 }
 
 /* Skills & Languages Section */
+
+.section-heading-spacer-skills {
+    float: left;
+    width: 200px;
+    border-top: 3px solid;
+}
+
 div.skills div div div {
 	margin-bottom: 25px;
 	text-align: center;
 }
+
 div.skills div div div i {
 	margin-right: auto;
 	margin-bottom: 25px;
