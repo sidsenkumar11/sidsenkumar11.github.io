@@ -26,7 +26,7 @@
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="img/icons/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
-  <title>Sid | Landing Page</title>
+  <title>Sid | GreyHat</title>
 
   <!-- Bootstrap Core CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -92,44 +92,89 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-5 col-sm-6">
+          <h2 class="section-heading">GreyHat CTF Meetings</h2>
           <hr class="section-heading-spacer">
           <div class="clearfix"></div>
-          <h2 class="section-heading">GreyHat Work</h2>
-          <p class="lead">Welcome! If you're looking for my GreyHat CTF team practice problem page, you're in the right place!
-          If you're lost or wondering why you'd ever need a gray hat, you can head on back to my main page by clicking <a href="index.html">here</a>.
-          </p>
-          <br />
-          <br />
           <h2 class="section-heading">Meeting 1 Problems</h4>
           <p class="lead">
             This first week's problem set will be about cryptography.
-            I'll be dividing the problems up into 3-4 categories of difficulty to give
-            people of all levels a chance to learn during these meetings.
+            Cryptography is the art of code making and cryptanalysis is the art of code breaking.
+            I'll be dividing the problems up into 2 categories
+            to give more people a chance to learn during these meetings.
+            You can also view my slides from last semester <a href="resources/Beginner Crypto.zip">here</a>.
             <br />
             <br />
-            Some of you may be unfamiliar with cryptography. Put simply, it's the art of writing codes to disguise or hide information from others.
-            On the flip side, we have something called cryptanalysis. Cryptanalysis is the art of breaking and deciphering codes.
-
-            Today we'll practice learning about some of the most famous (and well studied) cryptographic systems available, and how to break them.
-            For most of the problems, I will give you a text and I'd like for you to decrypt this text. If you think you've got the plaintext (readable text) or have any questions, feel free to ask me and I'll do my best to help you.
+            Generally, crypto problems will go something like this:
+          I will give you a text and I'd like for you to decrypt this text. If you think you've got the plaintext (readable text) or have any questions, feel free to ask me and I'll do my best to help you!
           </p>
+        </div>
+        <div class="col-lg-7">
+          <br /><br /><br /><br /><br /><br /><br />
+          <img src="http://thecryptoworld.org/wp-content/uploads/2015/12/163727876-660x495.jpg" height="400" width="600"/>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-5 col-sm-6">
           <h3 class="section-heading">Beginner</h3>
           <p class="lead">
             Probably the least secure and easiest to break crptographic schemes ever invented was the Caesar Cipher.
             Read more on it <a href="http://practicalcryptography.com/ciphers/caesar-cipher/" target="_blank">here</a>.
             <br />
             <br />
-            <span id="caesar">
-              Rzzo uzm! Esp Nlpdlc Ntaspc td dz dtxawp esle espcp lcp xlyj ezzwd zywtyp esle htww txxpotlepwj dszh jzf lww esp azddtmwp dstqed. Xj qlgzctep td estd zyp: seea://hhh.ctnsvyt.nz.fv/asa/ncjael/nlpdlc.asa Estd zyp dszhd jzf lww 26 azddtmwp dstqed le zynp dz esle jzf nly ufde wzzv lyo dpp hstns zyp td esp opntaspcpo epie.
-            </span>
+          </p>
         </div>
         <div class="col-lg-7 col-sm-6">
-          <p class="lead">
-
-          </p>
+            <h3>Caesar Cipher</h3>
+            <br />
+            <p class="lead">
+              Rzzo uzm! Esp Nlpdlc Ntaspc td dz dtxawp esle espcp lcp xlyj ezzwd zywtyp esle htww txxpotlepwj dszh jzf lww esp azddtmwp dstqed. Xj qlgzctep td estd zyp: seea://hhh.ctnsvyt.nz.fv/asa/ncjael/nlpdlc.asa Estd zyp dszhd jzf lww 26 azddtmwp dstqed le zynp dz esle jzf nly ufde wzzv lyo dpp hstns zyp td esp opntaspcpo epie.
+            </p>
+            <h4>Vignere Cipher</h4>
+            <p class="lead">
+              Vrwsp xfe dn xaciilcg lzeg fqt oml. Zwu bdu cfkk kkpt "hsognrgd" ak pvv pdsl ukadrclq mosu spskokfu lc tzw scios? Il'k lffepbdq jck d vogv ervd io zsrs gdhsognr fu pnq nwfzdct gx eh kr qe qgqf rfiusd lojvlojv.
+            </p>
         </div>
       </div>
       <!-- /.row -->
+      <div class="row">
+        <div class="col-lg-5 col-sm-6">
+          <h3 class="section-heading">Intermediate</h3>
+          <p class="lead">
+            There is another encryption scheme called the "One Time Pad". This is quite famous because it is known to be one of the only "perfect" encryptions - that is, when implemented correctly, it has been
+            mathematically proven to be impossible to break.
+            <br /><br />
+            The way the one time pad works is as follows:<br /><br />
+            1) Generate a random key at least as long as the plaintext.<br />
+            2) XOR the plaintext with the key.<br /><br />
+            It is definitely a very simple algorithm, and can lead to very secure encryption, but when not implemented correctly can lead to vulnerability.
+            <br /><br />
+          </p>
+        </div>
+        <div class="col-lg-7 col-sm-6">
+          <h3>One-Time Pad</h3>
+          <p class="lead">
+            Specifically, today's problem will feature a problem known as Many Time Pad. The whole purpose of crib drag is that you use one long key.<br /><br />
+            Let's say you pick a key smaller than your actual plaintext - the only way to encrypt the remainder of the plaintext is to repeat the key.<br /><br />
+            Ex. Let's say your plaintext is "ILIKEAPPLES", but your key is "ABC". Since your key is shorter than your plaintext, you might be inclined to repeat the key until it covers the lenght of the message.
+            <br /><br />Perhaps like "ABCABCABCAB". Seems logical, but this type of padding is not secure and as you will hopefully see is vulnerable to attack.<br /><br />
+            <a href="http://travisdazell.blogspot.com/2012/11/many-time-pad-attack-crib-drag.html"> This</a> website provides a really great introduction to the one-time pad and an attack against repeated keys using a method called the Crib Drag.
+
+            <br /> <br /> <br />
+            <font color="red">
+              Here is the ciphertext: Can you find the plaintext?<br/><br/>
+            2d0710181b01111f0817171401071c11091a0a 3c091311111a1a0e180003120d1a0811091a0a
+          </font>
+          <br /><br />
+          Hint:
+          <a href="https://github.com/sidsenkumar11/Cryptography/blob/master/Ciphers%20and%20Encryptions/CribDrag.py">Helpful Python script</a>
+          <br /> <br />
+          Hint 2: You're going to have to guess words. Are some words more common in the English language than others?
+
+          </p>
+        </div>
+
+      </div>
     </div>
     <!-- /.container -->
 
