@@ -86,6 +86,112 @@
     <!-- /.container -->
   </nav>
 
+  <!-- POST 2 -->
+  <!-- Page Content -->
+  <div class="content-section-b" style="background-color: #2F4F4F;">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5 col-sm-6">
+          <h2 class="section-heading">GreyHat CTF Meetings</h2>
+          <hr class="section-heading-spacer">
+          <div class="clearfix"></div>
+          <h2 class="section-heading">Meeting 2 Problems</h4>
+          <p class="lead">
+            This first week's problem set will be about breaking password hashes.
+          </p>
+        </div>
+        <div class="col-lg-7">
+          <br /><br /><br /><br /><br /><br /><br />
+          <img src="http://www.unixwiz.net/images/password-hash-1.gif" height="400" width="600"/>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-5 col-sm-6">
+          <h3 class="section-heading">Beginner</h3>
+          <p class="lead">
+            Using a bad hashing algorithm results in hashes that can easily be reverse engineered.
+            <br /><br />
+            This means you could figure out the plaintext password!
+          </p>
+        </div>
+        <div class="col-lg-7 col-sm-6">
+            <h3>Bad Hash Algorithm</h3>
+            <br />
+            <p class="lead">
+              Oh no! You're at the last day at the end of the semester at Tech but you find out that you're failing CS 1332! Not wanting your future employer to find this out, you decide
+              you must take drastic measures to fix your grade.
+              <br /><br />
+              Fortunately, Tech is still using 1960s version of GTWifi and security protocols so you're able to intercept your professor's hashed password on the network.
+              <br /><br />
+              You also happen to have a contact in the IT department. He's a balding, single, middle aged man named Joe. Fed up with his work, his boss, and the fact that his department possibly has the worst security protocols in the country, he decides he is willing to provide you with a copy of the hashing algorithm.
+              <br /><br />
+              Can you reverse engineer the hash and find out the password in time to change your grade?
+              <br /><br />
+              <a href="resources/floors.txt">Ciphertext</a>
+              <br />
+              <a href="resources/hardwood.py">Hashing Algorithm</a>
+
+              <br /><br />
+              Hint 1:
+              The password is in the form: easyctf{...}<br />
+              There will be some guesswork involved to find out what the ... is.
+             </p>
+        </div>
+      </div>
+      <!-- /.row -->
+      <div class="row">
+        <div class="col-lg-5 col-sm-6">
+          <h3 class="section-heading">Intermediate</h3>
+          <p class="lead">
+            Brute Forcing a Hashed Password
+            <br /><br />
+            At GreyHat on Thursday, we went over Wi-Fi attacks using programs such as Aerodump and Aircrack. What these programs do
+            is collect many hashed and encrypted packets over the network and attempt to brute force the password that leads to the right hash.
+            <br /><br />
+            We will do a similar attack in this problem. Often you see websites that force you to use combinations of numbers, letters, symbols, and other things when you create a password.
+            Hopefully, this problem will give you an idea for why they do this.
+            <br /><br />
+          </p>
+        </div>
+        <div class="col-lg-7 col-sm-6">
+          <h3>SHA-256 Brute Force</h3>
+          <p class="lead">
+            You decide that you're fed up with society and want to become Mr. Robot. Subsequently, you decide that you need to hack into the accounts of every other person you meet.
+            <br /><br />
+            One day, you're about to go out on a date with a cute girl but you secretly think she might be crazy. In an effort to find out, you decide to hack into her email account.
+            <br /><br />
+            You obtain a leaked list of password hashes from the database and identify that her username is mapped to this password hash:<br /><br />
+            <font color="red">
+            f82fae9becc67392b1bdf9a9ba753d8c7838f0aa0e806455625875bdf0992122</font><br /><br />
+
+            You have studied common password formats and determine that the original password was created in this format:<br /><br />
+            <font color="red">
+            [car brand][0-9][0-9][0-9][punctuation mark]
+            </font>
+            <br />
+            Example: TOYotA111.
+            <br /><br />
+            Can you find out her password before going on a terrible date?
+          <br /><br />
+          Hint 1:
+          You will need to create a few dictionaries to get words from.
+          <br /> <br />
+          Hint 2:
+          <a href="resources/CapPermutations.py">Generate permutations of capital/lowercase letters of a word</a>
+          <br /> <br />
+
+          </p>
+        </div>
+
+      </div>
+    </div>
+    <!-- /.container -->
+
+  </div>
+  <!-- /.content-section-a -->
+
   <!-- Page Content -->
   <div class="content-section-a" style="background-color: #222222;">
 
