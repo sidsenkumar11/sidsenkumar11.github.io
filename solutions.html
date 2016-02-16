@@ -91,7 +91,74 @@
     </div>
     <!-- /.container -->
   </nav>
+  <!-- Page Content -->
+  <div class="content-section-a" style="background-color: #2F2F2F;">
+    <div class="container">
+      <br /><br />
+      <h1 class="section-heading"><img src="resources/greyhatimage.png" width="75" height="75" /> GreyHat CTF Problem Solutions</h1>
+    </div>
+  </div>
+  <div class="content-section-b" style="background-color: #4f2f3f;">
 
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-sm-12">
+          <h2 class="section-heading">Meeting 3 Solutions</h4>
+            <h3 class="section-heading">Beginner - Any Questions or Comments?</h3>
+
+          <p class="lead">
+            You're told that the flag is on the current page, so there are only so many places that the flag could be. The title of this problem is "Any Questions or Comments?", so let's try looking at the HTML source of this page and looking for any comments that might contain the flag.
+            <br /><br />
+            Visting "view-source:sidsenkumar11.github.io/greyhat.html" displays the source HTML for the curren page. Then simply Ctrl+F the word "flag" until you find it at the bottom of the page.
+            <br /><br />
+            Flag: gatech_greyhat{c0mments_r_n0t_the_best_place_to_hide_something}
+            <br /><br /><br />
+          </p>
+
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-sm-12">
+            <h3 class="section-heading">Intermediate/Expert - Hidden Site</h3>
+
+          <p class="lead">
+            Note: You could brute force the URL for this problem or go to my Github commit history to find the solution, but as the intention was to get you familiar with Burp Suite, this is not the recommended solution.
+            <br />
+            <br />
+            First, as the hint suggests, we are going to download Burp Suite. Burp Suite is a jar file that should be in the toolkit of any network CTF problem solver. What is Burp Suite? It is a program that analyzes all network traffic coming into and out of your browser. This is very useful for finding things that may not directly be visible on the actual rendered page.
+            You can find the link <a href="https://portswigger.net/burp/download.html">here</a>.
+            <br /><br />
+            Next, we need to configure our browser to send network traffic through Burp Suite. This is easily done on browsers like Firefox by opening the Advanced tab and changing the proxy settings. You can find a tutorial on how to do this <a href="https://portswigger.net/burp/tutorials/ConfiguringYourBrowser.html">here</a>.
+
+            <br /><br />
+            Finally, open up Burp Suite (can be run using java -jar) and open up the browser with the configured proxy settings. Note that the problem hint says "Spider". This is a function in Burp Suite that essentially crawls the pages you visit on the browser and makes a map of all links, images, and pages it finds. Go to the "Spider" tab in Burp Suite and click "Spider is paused" so that Spider will be enabled. Now, let's visit the url in question (i.e. sidsenkumar11.github.io).
+            <br /><br />
+            Browse around the website and click on as many links and pages as possible. (If the browser seems to be stuck on "Connecting", see Note 2 below). If you click on some of the project links, like "Password Manager", you will reach in-progress.html. If you've done this, go back to Burp Suite.
+            <br /><br />
+            On the left pane of Burp Suite, expand the arrow next to sidsenkumar11.github.io to see what Spider has collected information on.
+            <img src="resources/BurpsuiteExpanded.png" />
+            <br />
+            Notice how there is a page it found called "theflag.html"? This seems suspicious! Let's visit sidsenkumar11.github.io/theflag.html
+            <img src="resources/theflagpage.png" />
+            <br />
+            Aha! The page renders and there is text on it! The word "INTERMEDIATE" should tell you that we are close to the flag since this is the Intermediate problem. Now looking at the text to the right, we can see spaces, underscores, and curly braces but the text does not make any sense. Likely the text was encrypted with a simple substitution cipher.
+            <br />
+            Putting the text into <a href="http://www.richkni.co.uk/php/crypta/caesar.php">this website</a> and viewing all the shifts reveals one shift that produces readable text, which is the flag.
+            <br /><br />
+            Flag: GREYHAT_ GATECH{HIDDEN_WEBSITE_FAIL}
+            <br /><br />
+            Note 2: If the browser is stuck on "Connecting", you are likely stuck on Intercept. Go to the Proxy tab in Burp Suite and go to the Intercept sub-tab. Click "Intercept is on" to turn Intercept off.
+          </p>
+        </div>
+
+      </div>
+      </div>
+    </div>
+    <!-- /.container -->
+
+  </div>
+  <!-- /.content-section-a -->
   <!-- POST 2 -->
   <!-- Page Content -->
   <div class="content-section-b" style="background-color: #2F4F4F;">
@@ -100,9 +167,6 @@
 
       <div class="row">
         <div class="col-lg-12 col-sm-12">
-          <h2 class="section-heading">GreyHat CTF Meetings Solutions Page</h2>
-          <hr class="section-heading-spacer">
-          <div class="clearfix"></div>
           <h2 class="section-heading">Meeting 2 Solutions</h4>
           <h3 class="section-heading">Beginner - Bad Hash Algorithm</h3>
           <p class="lead">
