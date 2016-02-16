@@ -137,10 +137,10 @@
             Browse around the website and click on as many links and pages as possible. (If the browser seems to be stuck on "Connecting", see Note 2 below). If you click on some of the project links, like "Password Manager", you will reach in-progress.html. If you've done this, go back to Burp Suite.
             <br /><br />
             On the left pane of Burp Suite, expand the arrow next to sidsenkumar11.github.io to see what Spider has collected information on.
-            <img src="resources/BurpsuiteExpanded.png" />
+            <img src="resources/BurpsuiteExpanded.PNG" />
             <br />
             Notice how there is a page it found called "theflag.html"? This seems suspicious! Let's visit sidsenkumar11.github.io/theflag.html
-            <img src="resources/theflagpage.png" />
+            <img src="resources/theflagpage.PNG" />
             <br />
             Aha! The page renders and there is text on it! The word "INTERMEDIATE" should tell you that we are close to the flag since this is the Intermediate problem. Now looking at the text to the right, we can see spaces, underscores, and curly braces but the text does not make any sense. Likely the text was encrypted with a simple substitution cipher.
             <br />
