@@ -147,10 +147,10 @@
               <br /><br />
               3. Immediately after this text, we see more more hex data. If you google "PK File signature", you will find that PK file signatures denote .zip files. So, we actually have an archive appended to the end of our image!
               <br /><br />
-              <img src="resources/stego1.PNG" />
+              <img src="resources/stego1.PNG" /><br /><br />
               4. Copy and paste the binary data for the archive file into a new tab in the hex editor. Save the file and give it any name you like but save it as a .zip file.
               <br /><br />
-              5. Extract the zip file and what do we find? A suspicious file named "wow.txt"!
+              5. Extract the zip file and what do we find? A suspicious file named "wow.txt"!><br /><br />
               <img src="resources/stego1hidden.PNG" />
               6. Open the text file and we see the text in the image above. Notice that the text ends in "==". This is highly likely to be base 64 encoded to text. So simply copy the text and use your favorite "base 64 to ASCII" website and decipher the text to be:
               <br />
