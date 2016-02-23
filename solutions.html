@@ -98,6 +98,72 @@
       <h1 class="section-heading"><img src="resources/greyhatimage.png" width="75" height="75" /> GreyHat CTF Problem Solutions</h1>
     </div>
   </div>
+
+
+  <div class="content-section-b" style="background-color: #003B80;">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5 col-sm-6">
+          <h2 class="section-heading">Meeting 4 Problems</h4>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12 col-sm-6">
+          <h3 class="section-heading">Beginner - A000045.txt</h3>
+          <blockquote>
+            <font color="orange">
+              1. A google search of A000045 brings us to this website: <a href="https://oeis.org/A000045">https://oeis.org/A000045</a>. We realize that A000045 is actually a sequence of integers, namely a variant of the Fibonnaci sequence.
+              <br /><br />
+              2. Now we can take a look at the text file. An obvious guess to find the flag would be to Ctrl+F the word "flag", but we can see that this brings nearly 70 matches. The file appears to be a randomly generated sequence of characters, so it is likely
+              that these occurrences of "flag" are completely arbitrary - it just so happened the there were four random characters generated such that 'F' happened to be next to 'L' which happened to be next to 'A' and so on.
+              <br /><br />
+              3. Instead, let us try using the sequence as indices into the large text file. For example, since the sequence starts with 0, 1, 1..., take the 0th character in the file, the 1st characterin the file, the 1st character in the file, and so on and concatenate them together.
+              <br /><a href="resources/A000045.py">Here is a script that will do this.</a>
+              Running the script in the same directory as the A000045.txt file produces the output "pffibonacciiscoolandtheflagisrecursion".
+              <br /><br /><br />
+              Flag: recursion
+            </font>
+          </blockquote>
+        </div>
+      </div>
+      <!-- /.row -->
+      <hr class="section-heading-spacer">
+      <div class="clearfix"></div>
+
+      <div class="row">
+        <div class="col-lg-12 col-sm-6">
+          <h3 class="section-heading">Intermediate - Hidden Archive</h3>
+          <p class="lead">
+            Some background knowledge:<br />
+            The first few bytes of every file's binary data are denoted the "File Signature". The File Signature tells the computer what kind of file it is dealing with. For example, for a JPG file, the file signature is "FF D8 FF DB".<br />
+          </p>
+          <blockquote>
+            <font color="orange">
+              1. Save the image of deadpool's body onto your Desktop. Open it up with a hex editor and notice that the first few bytes are indeed FF D8 FF D8! It is a JPG file.
+              <br /><br />
+              2. Now a good idea would be to CTRL+F the word "flag" or anything else that might be suspicious in the data. We see the phrase "WANTAFLAG?LOOKNOFURTHER!" near the end of the file.
+              <br /><br />
+              3. Immediately after this text, we see more more hex data. If you google "PK File signature", you will find that PK file signatures denote .zip files. So, we actually have an archive appended to the end of our image!
+              <br /><br />
+              <img src="resources/stego1.png" />
+              4. Copy and paste the binary data for the archive file into a new tab in the hex editor. Save the file and give it any name you like but save it as a .zip file.
+              <br /><br />
+              5. Extract the zip file and what do we find? A suspicious file named "wow.txt"!
+              <img src="resources/stego1hidden.png" />
+              6. Open the text file and we see the text in the image above. Notice that the text ends in "==". This is highly likely to be base 64 encoded to text. So simply copy the text and use your favorite "base 64 to ASCII" website and decipher the text to be:
+              <br />
+              Congratulations! The flag is gatech_greyhat{D1d_u_know_tht_cAnc3r_in_spAn!sh_is_EL_CANCER?}
+              <br /><br />
+              Flag: gatech_greyhat{D1d_u_know_tht_cAnc3r_in_spAn!sh_is_EL_CANCER?}
+            </font>
+          </blockquote>
+        </div>
+
+      </div>
+    </div>
+    <!-- /.container -->
   <div class="content-section-b" style="background-color: #4f2f3f;">
 
     <div class="container">
