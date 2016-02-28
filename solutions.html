@@ -100,6 +100,66 @@
   </div>
 
 
+  <div class="content-section-b" style="background-color: #690085;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-sm-6">
+          <h3 class="section-heading">Beginner - Simple SQL Injection</h3>
+          <p class="lead">
+            <blockquote>
+              <p class="lead">
+              First, let's take a look at standard SQL syntax. SQL deals with databases that contain tables.<br />
+              Traditionally, a statement to retrieve information from such a table follows as:
+              <br />
+              SELECT * FROM users WHERE name = 'userName'
+              <br />
+              SELECT, FROM, and WHERE are keywords in SQL.<br />
+              * means "all things".<br />
+              users is the name of this table<br />
+              name is a column in the table.<br /><br />
+              So, the SQL statement SELECT * FROM users WHERE name = 'admin' will return the line in the table where the username is admin. Of course, the solution to this problem isn't that simple - the author of the problem chose to write code that prevents the admin password from being directly accessed.
+              <br /><br />
+              Typically, the way the system will call this SQL statement is by passing whatever you input as your username and password in those fields into the query.<br />
+              So, a query would look something like: select * from users where username='$username' and password='$password'<br />
+              where $username is a string of text and $password is a string of text that the user provides to the website in a textfield.<br />
+              Now, how can we use SQL injection to give us things that are not meant to be sent to us?<br /><br />
+              With our vulnerable website, we only have one field - username. So likely, the SQL statement will be something like:<br />
+              select * from users where username='$username'<br />
+              To retrieve all the table data, we will simply set:<br />
+              $username = ' or '1'='1<br />
+              The new query will become:<br />
+              select * from users where username='' or '1'='1'<br />
+              (If that doesn't make sense, just replace $username in the original query with the text that I set $username to).<br />
+              This statement basically says "Give me every line in the table where the username is '' OR where '1'='1'". Since '1'='1' is true no matter which row of the table you are in, the output wil be every row in the table.<br />
+              <img src="resources/sqlinjection.png" />
+              <br /><br />
+              We can see that is exactly what happens when we enter in this input. Scroll to the bottom of the page and get the admin password.
+              <br /><br />
+              Flag: bad_code_and_databases_is_no_fun
+            </p>
+            </blockquote>
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-sm-6">
+          <h3 class="section-heading">Intermediate - Another SQL Injection</h3>
+            <blockquote>
+              <p class="lead">
+                Very similar to the above problem's solution.<br />
+                The script specifies a password field as well as a username field this time.<br />
+                To get around that, use the input: 'or '1'='1' or '<br />
+                The query becomes: select * from users where username='' or '1'='1' or '' and password=''<br />
+                Note that the password field cannot be empty, so type any character for the password.
+                <img src="resources/sqlinjection2.png" /><br /><br />
+                Flag: kids_dont_code_like_this_at_home
+              </p>
+            </blockquote>
+        </div>
+      </div>
+
+    </div>
+  </div>
   <div class="content-section-b" style="background-color: #003B80;">
 
     <div class="container">
@@ -163,6 +223,7 @@
 
       </div>
     </div>
+  </div>
     <!-- /.container -->
   <div class="content-section-b" style="background-color: #4f2f3f;">
 
