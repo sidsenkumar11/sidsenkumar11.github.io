@@ -100,6 +100,57 @@
   </div>
 
 
+  <div class="content-section-b" style="background-color: #270085;">
+    <div class="container">
+      <h2 class="section-heading">Meeting 6 Problems</h4>
+      <div class="row">
+        <div class="col-lg-12">
+          <h3 class="section-heading">Find Me<h3>
+          <p class="lead">
+            IDA Problem 1:<br />
+            1) Open the file in IDA. Looking on the right side of the screen, we can see various function names. Find "find_string" and look at the number next to it.
+            This is the address of the find_string function, and our flag.<br />
+            <img src="resources/idaOne.PNG" width="1000px" /><br />
+            Flag: 08048444<br /><br />
+
+            IDA Problem 2:<br />
+            Actually, we don't really need IDA for this one, but we will use it anyway.<br />
+            Open this file as an ELF in IDA and we notice some suspicious things off the bat:<br />
+            <img src="resources/idatwo.PNG" width="500" /><br />
+            We already know this program is an ELF file (can be seen from file signature). Looking this up reveals that ELF files are executables in Linux.<br />
+            We also know from the above picture that this program seems to take in a password from the command line as an argument to the program. But it seems like the silly programmer
+            hard-coded the debug password into the program, then forgot to remove it before sending the application to production. As you can see, the password is perfectly visible to us in IDA.
+            Note that you could also have seen this just by looking at a hex editor.
+            <br /><br />
+            So, simply run the program from terminal of a Linux and give the debug password as an argument:
+            ./cyborg_defense 2manyHacks_Debug_Admin_Test<br />
+            Running this produces a string that is the flag.<br /><br />
+            <img src="resources/idatwotwo.PNG" width="500" /><br /><br />
+            Flag: 403-shutdown-for-what
+
+            **Note: If you are having difficulty running the program because it keeps saying "permission denied", enter this first: chmod +x cyborg_defense<br />
+            This will make the program actually an executable and should let you run it.
+        </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-sm-6">
+          <h3 class="section-heading">Java</h3>
+          <p class="lead">
+            1) First, this is a class file, which is a bytecode file that Java creates when you compile. We can use a tool such as a "decompiler" to give us an approximation for the original source code. It won't be perfect
+            but it'll be good enough. I used <a href="http://www.javadecompilers.com/">this</a> one.<br /><br />
+            <img src="resources/decompiledjava.PNG" /><br /><br />
+            2) We can see that this program takes a string (which is supposed to be the flag, but has been redacted for obvious reasons) and another string, and calls the lolxor() on them. We can presume that string 3 is the result.<br />
+            Note that "lolxor" is not a true implementation of XOR in Java; running this program would give us an error because the inputs are strings that are not necessarily integers.<br /><br />
+            3) To get the flag, all we need to do is XOR the resultant string (which we are given in hex already) with the hex representation of the string2 that is given ("GEORGIA_TECH_GREYHAT..."). Doing this gives us the result: "ZGVjcnlwdDFvbl93IXRoX3MwdXJjZV9pc19lel9weg==".<br />
+            4) Notice that the result in step 3 is a base64 string. Converting it to ASCII yields decrypt1on_w!th_s0urce_is_ez_pz.<br /><br />
+            The flag is: decrypt1on_w!th_s0urce_is_ez_pz
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
   <div class="content-section-b" style="background-color: #690085;">
     <div class="container">
       <div class="row">
