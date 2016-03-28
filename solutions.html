@@ -99,7 +99,70 @@
     </div>
   </div>
 
+<div class="content-section-b" style="background-color: #222222;">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-sm-12">
+        <h2 class="section-heading">Meeting 8 Solutions</h4>
+          <h3 class="section-heading">Beginner - RSA Introduction</h3>
+        <p class="lead">
+          We know that the public key consists of e and n. The private key consists of d, the decryption exponent.<br />
+          In this problem, we are actually given d, the decryption key, so we have nothing to really do but decrypt it.<br />
+          So, to convert the given ciphertext to plaintext, simply take c, raise it to the d'th power, and mod it by n.<br />
+          <a href="resources/RSAOne.py">Solution Script</a><br />
+          Flag: modular_arithmetics_not_so_bad_after_all
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-sm-12">
+          <h3 class="section-heading">Intermediate - Factorization</h3>
 
+        <p class="lead">
+          The given n is a pretty small number for a computer. Plugging it into wolfram alpha and asking for a prime factorization, we can see that
+          it factors into two distinct primes, our p and q.<br />
+          Using the given p and q, we can calculate totient(n) as (p-1) * (q-1).<br />
+          Use totient(n) to find the decryption exponent d, calculated as e*d = 1 mod totient(n).<br />
+          Once we have the decryption exponent d, simply do c^d mod n to find the plaintext p.<br />
+          <a href="resources/RSATwo.py">Solution Script</a><br />
+          Flag: nicejob
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-sm-12">
+          <h3 class="section-heading">Intermediate - Small Private Key and Known Plaintext RSA</h3>
+
+        <p class="lead">
+          This time, we are given an n and a ciphertext c. Note that n is relatively small and easy to factor.<br />
+          We can again use wolfram alpha to factor into its p and q. Now, we know p and q so we can calculate totient(n) as (p-1) * (q-1).<br />
+          Now, normally we would use totient(n) and e to calculate the decryption exponent d, using the formula e*d = 1 mod totient(n). However, we are not
+          given an encryption exponent e in this problem! So what do we do?<br />
+          Use the fact that the given ciphertext is known to contain the text "rsa", and brute force encryption exponents that are co-prime with n until a resulting
+          ciphertext yields plaintext that contains the text "rsa".<br />
+          <a href="resources/RSAThree.py">Solution Script</a><br />
+          Flag: rsa_2_easy<br /><br / >
+          Note 1: This script is literally brute forcing the e, and thus may take a while to run. I could have done a co-prime check but didn't, so this script took me ~1 minute and 12 seconds to run on an i7 processor.<br />
+          Note 2: You may see a message saying "Output not utf-8" or something similar. Don't worry and let the script keep running. This just means that a particular value of e worked, but didn't give you readable text. Let it keep going until it finds an e that works AND gives you a readable text.
+        </p>
+      </div>
+    </div>
+    </div>
+  </div>
+<div class="content-section-b" style="background-color: #232452;">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-sm-12">
+        <h2 class="section-heading">Meeting 7 Solutions</h4>
+          <h3 class="section-heading">More IDA!</h3>
+        <p class="lead">
+          I borrowed this problem from an old CTF I did; you can find a writeup here:<br />
+          <a href="http://hsctf.com/slashey/README.html">http://hsctf.com/slashey/README.html</a>
+        </p>
+      </div>
+    </div>
+    </div>
+  </div>
   <div class="content-section-b" style="background-color: #270085;">
     <div class="container">
       <h2 class="section-heading">Meeting 6 Problems</h4>

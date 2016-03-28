@@ -113,6 +113,82 @@
   </div>
 </div>
 
+<div class="content-section-b" style="background-color: #222222;">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 col-sm-6">
+        <h2 class="section-heading">Meeting 8 Problems</h2>
+        <p class="lead">
+          Today, we're going to do some RSA cryptography.
+          RSA is an asymmetric encryption algorithm developed by Ron Rivest, Adi Shamir, and Leonard Adleman (hence RSA).<br /><br />
+          The principle of assymetric encryption is as follows:<br /><br />
+          1) A "lock" is made. We throw this lock into the wild and keep the key to ourselves.<br /><br />
+          2) Anyone who wants to send us a secret message picks up our lock and "locks" their information with it before sending it to us.<br /><br />
+          3) Now, since we are the only person with the key to the lock, we are the only one able to decrypt the message.<br /><br />
+        </p>
+      </div>
+      <div class="col-lg-7">
+      <p class="lead">
+        <br /><br /><br />
+        <img src="https://stephenhaunts.files.wordpress.com/2013/03/publickey.png" height="300" width="600"/><br /><br />
+        With assymetric cryptosystems, we call the "lock" a <u>public key</u>, and the "key to the lock" a <u>private key</u>. Everyone has access to the public key,
+        but only we have access to the private key.<br />
+      </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-5 col-sm-6">
+        <h3 class="section-heading">Beginner</h3>
+        <p class="lead">
+            Here is a simple RSA problem to get your feet wet with the math. Given this information, you should be able to
+            easily decrypt the message. Note that once you retrieve the original plaintext in numerical form, you should transform it to ascii.
+            As always, please don't hesitate to ask me any questions if you need any help!
+        </p>
+      </div>
+      <div class="col-lg-7">
+        <h3 class="section-heading">RSA Introduction</h3>
+      <p class="lead">
+        <a href="resources/RSAFiles.zip">Information</a><br />
+        <a href="http://doctrina.org/How-RSA-Works-With-Examples.html">Here is a nice web tutorial if you need any help.</a>
+      </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-5 col-sm-6">
+        <h3 class="section-heading">Intermediate</h3>
+        <p class="lead">
+            RSA depends on the fact that factoring is difficult. If an algorithm is created to factor numbers rapidly and easily,
+            then RSA breaks down. This in turn means that to make proper and secure implementations of RSA, you need to choose proper moduli
+            that are large enough to be difficult to factor.
+        </p>
+      </div>
+      <div class="col-lg-7">
+        <h3 class="section-heading">Factorization</h3>
+      <p class="lead">
+        Can you find the plaintext from this message?<br />
+        <a href="resources/RSAEasyVuln.txt">Information</a><br />
+      </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-5 col-sm-6">
+        <h3 class="section-heading">Intermediate</h3>
+        <p class="lead">
+            Similar to the above problem, but this one has an additional twist.
+        </p>
+      </div>
+      <div class="col-lg-7">
+        <h3 class="section-heading">Small Private Key and Known Plaintext RSA</h3>
+      <p class="lead">
+        Can you find the plaintext from this message?<br />
+        <a href="resources/RSAHard.txt">Information</a><br />
+        Hint: The text contains the string "rsa".
+      </p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="content-section-b" style="background-color: #232452;">
   <div class="container">
     <div class="row">
