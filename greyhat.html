@@ -113,6 +113,95 @@
   </div>
 </div>
 
+<div class="content-section-b" style="background-color: #2F4F4F;">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 col-sm-6">
+        <h2 class="section-heading">Meeting 9 Problems</h2>
+        <p class="lead">
+          Today, we'll work through some web challenges on a wargame.<br /><br />
+          Wargames are like CTFs in that you need to find a flag, but the problems stay
+          up forever and there is no prize if you win. The reason why wargames are good is
+          that you can practice doing problems at any time, going at your own pace and learning
+          a wide array of concepts.<br /><br />
+          We are going to specifically look at some of the problems are <a href="http://overthewire.org/wargames/natas/">this</a> website.<br /><br />
+          And we'll be using BurpSuite.
+        </p>
+      </div>
+      <div class="col-lg-7">
+      <p class="lead">
+        <br /><br /><br />
+        <img src="http://38yd0v3od0mxh5o9j10vahq6p0.wpengine.netdna-cdn.com/wp-content/uploads/2015/11/burpsuite.png" height="300" width="600"/><br /><br />
+      </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-5 col-sm-6">
+        <h3 class="section-heading">Beginner</h3>
+        <p class="lead">
+          When we make request to a website, a bunch of metadata gets sent to the website that identifies us.<br /><br />
+          This information is known as HTTP headers. Your browser automatically sends it to the serve whenever you request a webpage,
+          so that the server knows who you are. As a practical application of this, this is how servers know whether to send you a mobile
+          version of their site or a desktop version - they will read a particular header that tells them what kind of device you are browsing from.<br /><br />
+          <a href="https://msdn.microsoft.com/en-us/library/aa287673(v=vs.71).aspx">This</a> website has some more information if you're interested.<br /><br />
+          Checking headers for security purposes, like seeing if you are an authorized user, or to see if you are accessing a website from a particular place, is not a good idea.
+          This is because request headers can easily be modified by the user before being sent to the the server.
+        </p>
+      </div>
+      <div class="col-lg-7">
+        <h3 class="section-heading">Request Headers</h3>
+        <p class="lead">
+          Go to <a href="http://natas4.natas.labs.overthewire.org/">this</a> website.<br /><br />
+          The username is natas4 and the password is Z9tkRkWmpt9Qr7XrR5jWRkgOU901swEZ.<br /><br />
+          Follow the instruction(s). The flag is the password to natas5.
+          <br /><br />
+          NOTE: Overthewire is a popular wargame. A lot of people have done writeups on these problems,
+          but for your benefit, I HIGHLY recommend you don't look them up. It will be better for you
+          if you struggle and look up the concepts because you will learn more about what is going on.
+          But as always, ask me for help if you are completely stuck and don't know what to do. :)
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-5 col-sm-6">
+        <h3 class="section-heading">Beginner</h3>
+        <p class="lead">
+          Just like we don't trust the request's header files, we also never trust any user side cookies.<br /><br />
+          It is very important that we never store unencrypted authentication information client side because, like always,
+          anything stored client side can be modified by the user before sending!
+        </p>
+      </div>
+      <div class="col-lg-7">
+        <h3 class="section-heading">LogMeIn</h3>
+        <p class="lead">
+          Go to <a href="http://natas5.natas.labs.overthewire.org/">this</a> website.<br /><br />
+          The username is natas5 and the password is the flag you got from the previous problem.<br /><br />
+          Follow the instruction(s). The flag is the password to natas6.
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-5 col-sm-6">
+        <h3 class="section-heading">Beginner</h3>
+        <p class="lead">
+          Sometimes, we have PHP scripts in the backend that serve up the information/files that a user requests on a website.
+          The script will do exactly what the user asks it to do. Normally, a user will just click a link that will send a particular
+          request to the PHP script. However, we can modify the input so that we can get to files we were not meant to see.
+        </p>
+      </div>
+      <div class="col-lg-7">
+        <h3 class="section-heading">Directory Traversal</h3>
+        <p class="lead">
+          Go to <a href="http://natas7.natas.labs.overthewire.org/">this</a> website.<br /><br />
+          The username is natas7 and the password is the 7z3hEENjQtflzgnT29q7wAvMNfZdh0i9.<br /><br />
+          Follow the instruction(s). The flag is the password to natas8.<br /><br />
+          If you finish all of these problems, feel free to continue working through the natas problems. They are all
+          designed to teach you a new security concept and can be quite fun!
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="content-section-b" style="background-color: #222222;">
   <div class="container">
     <div class="row">
@@ -460,7 +549,6 @@
   </div>
   <!-- /.content-section-a -->
 
-  <!-- POST 2 -->
   <!-- Page Content -->
   <div class="content-section-b" style="background-color: #2F4F4F;">
 
