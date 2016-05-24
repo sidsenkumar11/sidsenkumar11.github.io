@@ -95,7 +95,7 @@
   <div class="content-section-a" style="background-color: #2F2F2F;">
     <div class="container">
       <br /><br />
-      <h1 class="section-heading"><img src="resources/greyhatimage.png" width="75" height="75" /> GreyHat CTF Problem Solutions</h1>
+      <h1 class="section-heading"><img src="resources/greyhat/greyhatimage.png" width="75" height="75" /> GreyHat CTF Problem Solutions</h1>
     </div>
   </div>
 
@@ -124,7 +124,7 @@
           We know that the public key consists of e and n. The private key consists of d, the decryption exponent.<br />
           In this problem, we are actually given d, the decryption key, so we have nothing to really do but decrypt it.<br />
           So, to convert the given ciphertext to plaintext, simply take c, raise it to the d'th power, and mod it by n.<br />
-          <a href="resources/RSAOne.py">Solution Script</a><br />
+          <a href="resources/greyhat/CTF/solutions/RSAOne.py">Solution Script</a><br />
           Flag: modular_arithmetics_not_so_bad_after_all
         </p>
       </div>
@@ -139,7 +139,7 @@
           Using the given p and q, we can calculate totient(n) as (p-1) * (q-1).<br />
           Use totient(n) to find the decryption exponent d, calculated as e*d = 1 mod totient(n).<br />
           Once we have the decryption exponent d, simply do c^d mod n to find the plaintext p.<br />
-          <a href="resources/RSATwo.py">Solution Script</a><br />
+          <a href="resources/greyhat/CTF/solutions/RSATwo.py">Solution Script</a><br />
           Flag: nicejob
         </p>
       </div>
@@ -155,7 +155,7 @@
           given an encryption exponent e in this problem! So what do we do?<br />
           Use the fact that the given ciphertext is known to contain the text "rsa", and brute force encryption exponents that are co-prime with n until a resulting
           ciphertext yields plaintext that contains the text "rsa".<br />
-          <a href="resources/RSAThree.py">Solution Script</a><br />
+          <a href="resources/greyhat/CTF/solutions/RSAThree.py">Solution Script</a><br />
           Flag: rsa_2_easy<br /><br / >
           Note 1: This script is literally brute forcing the e, and thus may take a while to run. I could have done a co-prime check but didn't, so this script took me ~1 minute and 12 seconds to run on an i7 processor.<br />
           Note 2: You may see a message saying "Output not utf-8" or something similar. Don't worry and let the script keep running. This just means that a particular value of e worked, but didn't give you readable text. Let it keep going until it finds an e that works AND gives you a readable text.
@@ -188,13 +188,13 @@
             IDA Problem 1:<br />
             1) Open the file in IDA. Looking on the right side of the screen, we can see various function names. Find "find_string" and look at the number next to it.
             This is the address of the find_string function, and our flag.<br />
-            <img src="resources/idaone.PNG" width="600px" /><br />
+            <img src="resources/greyhat/CTF/solutions/idaone.PNG" width="600px" /><br />
             Flag: 08048444<br /><br />
 
             IDA Problem 2:<br />
             Actually, we don't really need IDA for this one, but we will use it anyway.<br />
             Open this file as an ELF in IDA and we notice some suspicious things off the bat:<br />
-            <img src="resources/idatwo.PNG" width="500" /><br />
+            <img src="resources/greyhat/CTF/solutions/idatwo.PNG" width="500" /><br />
             We already know this program is an ELF file (can be seen from file signature). Looking this up reveals that ELF files are executables in Linux.<br />
             We also know from the above picture that this program seems to take in a password from the command line as an argument to the program. But it seems like the silly programmer
             hard-coded the debug password into the program, then forgot to remove it before sending the application to production. As you can see, the password is perfectly visible to us in IDA.
@@ -203,7 +203,7 @@
             So, simply run the program from terminal of a Linux and give the debug password as an argument:
             ./cyborg_defense 2manyHacks_Debug_Admin_Test<br />
             Running this produces a string that is the flag.<br /><br />
-            <img src="resources/idatwotwo.PNG" width="500" /><br /><br />
+            <img src="resources/greyhat/CTF/solutions/idatwotwo.PNG" width="500" /><br /><br />
             Flag: 403-shutdown-for-what
 
             **Note: If you are having difficulty running the program because it keeps saying "permission denied", enter this first: chmod +x cyborg_defense<br />
@@ -217,7 +217,7 @@
           <p class="lead">
             1) First, this is a class file, which is a bytecode file that Java creates when you compile. We can use a tool such as a "decompiler" to give us an approximation for the original source code. It won't be perfect
             but it'll be good enough. I used <a href="http://www.javadecompilers.com/">this</a> one.<br /><br />
-            <img src="resources/decompiledjava.PNG" /><br /><br />
+            <img src="resources/greyhat/CTF/solutions/decompiledjava.PNG" /><br /><br />
             2) We can see that this program takes a string (which is supposed to be the flag, but has been redacted for obvious reasons) and another string, and calls the lolxor() on them. We can presume that string 3 is the result.<br />
             Note that "lolxor" is not a true implementation of XOR in Java; running this program would give us an error because the inputs are strings that are not necessarily integers.<br /><br />
             3) To get the flag, all we need to do is XOR the resultant string (which we are given in hex already) with the hex representation of the string2 that is given ("GEORGIA_TECH_GREYHAT..."). Doing this gives us the result: "ZGVjcnlwdDFvbl93IXRoX3MwdXJjZV9pc19lel9weg==".<br />
@@ -260,7 +260,7 @@
               select * from users where username='' or '1'='1'<br />
               (If that doesn't make sense, just replace $username in the original query with the text that I set $username to).<br />
               This statement basically says "Give me every line in the table where the username is '' OR where '1'='1'". Since '1'='1' is true no matter which row of the table you are in, the output wil be every row in the table.<br />
-              <img src="resources/sqlinjection.png" />
+              <img src="resources/greyhat/CTF/solutions/sqlinjection.png" />
               <br /><br />
               We can see that is exactly what happens when we enter in this input. Scroll to the bottom of the page and get the admin password.
               <br /><br />
@@ -280,7 +280,7 @@
                 To get around that, use the input: 'or '1'='1' or '<br />
                 The query becomes: select * from users where username='' or '1'='1' or '' and password=''<br />
                 Note that the password field cannot be empty, so type any character for the password.
-                <img src="resources/sqlinjection2.png" /><br /><br />
+                <img src="resources/greyhat/CTF/solutions/sqlinjection2.png" /><br /><br />
                 Flag: kids_dont_code_like_this_at_home
               </p>
             </blockquote>
@@ -309,7 +309,7 @@
               that these occurrences of "flag" are completely arbitrary - it just so happened the there were four random characters generated such that 'F' happened to be next to 'L' which happened to be next to 'A' and so on.
               <br /><br />
               3. Instead, let us try using the sequence as indices into the large text file. For example, since the sequence starts with 0, 1, 1..., take the 0th character in the file, the 1st characterin the file, the 1st character in the file, and so on and concatenate them together.
-              <br /><a href="resources/A000045.py">Here is a script that will do this.</a>
+              <br /><a href="resources/greyhat/CTF/solutions/A000045.py">Here is a script that will do this.</a>
               Running the script in the same directory as the A000045.txt file produces the output "pffibonacciiscoolandtheflagisrecursion".
               <br /><br /><br />
               Flag: recursion
@@ -336,11 +336,11 @@
               <br /><br />
               3. Immediately after this text, we see more more hex data. If you google "PK File signature", you will find that PK file signatures denote .zip files. So, we actually have an archive appended to the end of our image!
               <br /><br />
-              <img src="resources/stego1.PNG" /><br /><br />
+              <img src="resources/greyhat/CTF/solutions/stego1.PNG" /><br /><br />
               4. Copy and paste the binary data for the archive file into a new tab in the hex editor. Save the file and give it any name you like but save it as a .zip file.
               <br /><br />
               5. Extract the zip file and what do we find? A suspicious file named "wow.txt"!><br /><br />
-              <img src="resources/stego1hidden.PNG" />
+              <img src="resources/greyhat/CTF/solutions/stego1hidden.PNG" />
               6. Open the text file and we see the text in the image above. Notice that the text ends in "==". This is highly likely to be base 64 encoded text. So simply copy the text and use your favorite "base 64 to ASCII" website and decipher the text to be:
               <br />
               Congratulations! The flag is gatech_greyhat{D1d_u_know_tht_cAnc3r_in_spAn!sh_is_EL_CANCER?}
@@ -393,10 +393,10 @@
             Browse around the website and click on as many links and pages as possible. (If the browser seems to be stuck on "Connecting", see Note 2 below). If you click on some of the project links, like "Password Manager", you will reach in-progress.html. If you've done this, go back to Burp Suite.
             <br /><br />
             On the left pane of Burp Suite, expand the arrow next to sidsenkumar11.github.io to see what Spider has collected information on.
-            <img src="resources/BurpsuiteExpanded.PNG" />
+            <img src="resources/greyhat/CTF/solutions/BurpsuiteExpanded.PNG" />
             <br />
             Notice how there is a page it found called "theflag.html"? This seems suspicious! Let's visit sidsenkumar11.github.io/theflag.html
-            <img src="resources/theflagpage.PNG" />
+            <img src="resources/greyhat/CTF/solutions/theflagpage.PNG" />
             <br />
             Aha! The page renders and there is text on it! The word "INTERMEDIATE" should tell you that we are close to the flag since this is the Intermediate problem. Now looking at the text to the right, we can see spaces, underscores, and curly braces but the text does not make any sense. Likely the text was encrypted with a simple substitution cipher.
             <br />
@@ -439,17 +439,17 @@
             <br />Well, as I showed in 2), all three of 81, 82, and 83 yield 27 when we floor divide by 3!
             <br />So, for 27, we know that the plaintext ascii value is either 81, 82, or 83. These correspond to the ASCII characters <font color="red">'Q', 'R', and 'S'</font> (you can use an ASCII table to verify this).
             <br /><br />
-            3) Repeat the process shown above for every character to generate a table of all possible values for each number given in the ciphertext. <a href="resources/FloorDivideSolution.py">Here's a script I wrote.</a>
+            3) Repeat the process shown above for every character to generate a table of all possible values for each number given in the ciphertext. <a href="resources/greyhat/CTF/solutions/FloorDivideSolution.py">Here's a script I wrote.</a>
             <br />
           </font>
           </blockquote>
-          <img width="1000" src="resources/FloorDivideTable.png"></img><br /><br />
+          <img width="1000" src="resources/greyhat/CTF/solutions/FloorDivideTable.png"></img><br /><br />
           <blockquote>
             <font color="orange">
               4) Guess which letters from each set of 3 make a readable sentence.
             </font>
           </blockquote>
-          <img width="1000" src="resources/FloorDivideOutput.PNG"></img><br /><br />
+          <img width="1000" src="resources/greyhat/CTF/solutions/FloorDivideOutput.PNG"></img><br /><br />
             </p>
             <p class="lead">
               The sentence reads "Such lack of rigor... easyctf{fl00r_d1visi0n}". So the flag is easyctf{fl00r_d1visi0n}.
@@ -472,11 +472,11 @@
             <blockquote>
               <font color="orange">
                 1) The SHA-256 is a fairly secure hash so the only we're going to be able to reverse this is by a bruteforce dictionary attack. Since we know the format of the password, let's create a few dictionaries and save them as text files.<br />
-                <a href="resources/SomeDictionaries.zip">Here's some I made.</a><br /><br />
+                <a href="resources/greyhat/CTF/solutions/SomeDictionaries.zip">Here's some I made.</a><br /><br />
                 2) We're basically going to append every combination of words from the dictionaries, hash them, and see if the hash matches. Ex. Try toyota111. , then try toyota111!, then try toyota111?, .... honda111. , honda111! and so on.<br /><br />
                 If a hash matches the one given, we found our password. Note that there is no need for you to learn exactly how the SHA-256 hashes the words; people have already written many hash functions for you to use.<br /><br />
 
-                <a href="resources/BruteForceSHA.py">Solution script</a>
+                <a href="resources/greyhat/CTF/solutions/BruteForceSHA.py">Solution script</a>
               </font><br /><br />
               <p class="lead">
               A few friendly notes:<br />
