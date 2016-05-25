@@ -1,0 +1,144 @@
+/* NavBar */
+/*.navbar {
+  background-color: transparent;
+  background: transparent;
+  border: none;
+  color: white;
+  z-index: 100;
+  margin-bottom: 0;
+  border-radius: 0;
+}*/
+
+
+/* Intro section */
+.height-full {
+  height: 100vh;
+}
+
+/*.face-pic {
+  border-radius: 50%;
+  width: 200px;
+  height: 228px;
+}*/
+.face-pic {
+  border-radius: 50%;
+  width: 170px;
+  height: 200px;
+}
+.black-alpha {
+	 /*padding-top: 50px;*/
+	 /*padding-bottom: 50px;*/
+	 z-index: 1;
+	 height: 100%;
+	 width: 100%;
+	 max-width: 100%;
+	 max-height: 100%;
+	 display: block;
+	 overflow: auto;
+	 background: rgba(0, 0, 0, 0.6);
+}
+
+/* About Me Section */
+.aboutMe-section {
+	background-color: #222222;
+}
+
+.aboutMe-image {
+	width: 50%;
+	height: 75%;
+	margin-top: 200px;
+  margin-bottom: 50px;
+}
+.aboutMe-section h2 {
+	color: #DDDDDD;
+}
+
+.aboutMe-section p {
+	color: #DDDDDD;
+	text-align: justify;
+}
+
+/* Skills & Languages Section */
+
+.section-heading-spacer-skills {
+    float: left;
+    width: 200px;
+    border-top: 3px solid;
+}
+
+div.skills div div div {
+	margin-bottom: 25px;
+	text-align: center;
+}
+
+div.skills div div div i {
+	margin-right: auto;
+	margin-bottom: 25px;
+}
+
+div.skills div div h3 {
+	/*text-align: center;*/
+}
+
+.skills-section {
+	background-color: #60be86;
+}
+
+/* Project Images Grid */
+.image-div {
+	width: 360px;
+	height: 220px;
+}
+
+.project-div h3 {
+	text-align: center;
+	color: #DDDDDD;
+}
+
+.project-img {
+	border: 4px solid #5A5A63;
+	border-radius: 20px;
+	max-width: 100%;
+	max-height: 100%;
+	margin: auto;
+	display: block;
+}
+
+/*div.row div div img:hover {
+  -webkit-filter: sepia(100%) blur(2px);
+}*/
+.tint {
+  position: relative;
+  float: left;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  -webkit-box-shadow: rgba(0,0,0,.2) 3px 5px 5px;
+  -moz-box-shadow: rgba(0,0,0,.2) 3px 5px 5px;
+  box-shadow: rgba(0,0,0,.2) 3px 5px 5px;
+}
+
+.tint:before {
+  border-radius: 20px;
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: none;
+  -moz-transition: all .3s linear;
+  -webkit-transition: all .3s linear;
+  -ms-transition: all .3s linear;
+  -o-transition: all .3s linear;
+  transition: all .3s linear;
+}
+
+.tint:hover:before {
+  background: rgba(0,0,250, 0.5);
+}
+/*
+div {
+	border: 1px solid white;
+}*/
