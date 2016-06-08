@@ -1,234 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="Siddarth's Website">
+		<meta name="author" content="Siddarth Senthilkumar">
+		<meta name="msapplication-TileColor" content="#ffffff">
+		<meta name="msapplication-TileImage" content="images/icons/name-logo.png">
+		<link href="css/custom.css" rel="stylesheet">
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Siddarth's Personal Portfolio Website">
-    <meta name="author" content="Siddarth Senthilkumar">
+		<!--Let browser know website is optimized for mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <title>Sid | Landing Page</title>
+		<!--Import Google Icon Font-->
+		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<!--Import materialize.css-->
+		<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
 
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+	    <title>Sid | Projects</title>
 
-    <!-- Custom CSS -->
-    <link href="css/landing-page.css" rel="stylesheet">
+	</head>
 
-    <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
-
-<body>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
-        <div class="container topnav">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand topnav" href="index.html">Home</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="about.html">About Me</a>
-                    </li>
-                    <li>
-                        <a href="projects.html">Projects</a>
-                    </li>
-                    <li>
-                        <a href="contact.html">Contact</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
+	<body>
+		<!-- Navigation bar -->
+        <div class="center">
+            <ul class="nav-bar">
+                <li class="nav-bar"><a class="nav-bar" href="index.html">Home</a></li>
+                <li class="nav-bar"><a class="nav-bar active" href="projects.html">Projects</a></li>
+                <li class="nav-bar"><a class="nav-bar" href="resources/Sids-Resume.pdf" target="_blank">Resume / CV</a></li>
+                <li style="float:right"><a class="nav-bar" href="greyhat.html">GreyHat</a></li>
+                <li style="float:right"><a class="nav-bar" href="fun.html">Fun</a></li>
+            </ul>
         </div>
-        <!-- /.container -->
-    </nav>
 
+        <!-- Content -->
+		<div class="container project">
+			<h5>Portfolio</h5>
+			<h6>My Latest Projects</h6>
+			<hr>
+<!-- 			<div class="row">
+				<div class="col sm12 m12 l12 project-holder">
+					<a href=""><img class="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png"></a>
+					<img class="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png">
+					<img class="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png">
+					<img class="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png">
+					<img class="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png">
+					<img class="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png">
+				</div>
+			</div> -->
 
-    <!-- Header -->
-    <a name="about"></a>
-    <div class="intro-header">
-        <div class="container">
+			<div class="row">
+				<div class="col s12 m6 l4">
+					<div class="card small">
+						<div class="card-image waves-effect waves-block waves-light">
+							<img class="activator" src="images/pipelined.png">
+						</div>
+						<div class="card-content">
+							<span class="card-title activator grey-text text-darken-4">Pipelined Processor Simulator<i class="material-icons right">more_vert</i></span>
+							<p>A five-staged pipelined processor simulator in Logisim.<br />Source files available upon request.</p>
+						</div>
+						<div class="card-reveal">
+							<span class="card-title grey-text text-darken-4">Pipelined Processor Simulator<i class="material-icons right">close</i></span>
+							<p>A pipelined processor simulator that runs specialized machine code instructions in a MIPS-like language. 5 stages contain Instruction Fetch, Instruction Decode/Register Read, Execute, Memory Access/Write, Write Back.<br /><br />Made in Logisim.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col s12 m6 l4">
+					<div class="card small">
+						<div class="card-image waves-effect waves-block waves-light">
+							<img class="activator" src="images/malloc.png">
+						</div>
+						<div class="card-content">
+							<span class="card-title activator grey-text text-darken-4">Malloc/Free Algorithm Simulator<i class="material-icons right">more_vert</i></span>
+							<p>A simulator of C's malloc and free algorithms in C.<br />Source code available upon request.</p>
+						</div>
+						<div class="card-reveal">
+							<span class="card-title grey-text text-darken-4">Malloc/Free Algorithm Simulator<i class="material-icons right">close</i></span>
+							<p>A simulator of C's malloc and free algorithms for efficiently allocating and freeing memory. Given a chunk of memory, the simulator allocates pieces of it dynamically. Two internal representations of the free-list are used; address ordering and size ordering.<br /><br />Made in C.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col s12 m6 l4">
+					<div class="card small">
+						<div class="card-image waves-effect waves-block waves-light">
+							<img class="activator" src="images/old-site.png">
+						</div>
+						<div class="card-content">
+							<span class="card-title activator grey-text text-darken-4">Portfolio Website<i class="material-icons right">more_vert</i></span>
+							<p>My first attempt at creating a website using Bootstrap.<br /><a href="https://github.com/sidsenkumar11/sidsenkumar11.github.io/tree/master/oldsite" target="_blank">Source</a></p>
+						</div>
+						<div class="card-reveal">
+							<span class="card-title grey-text text-darken-4">Portfolio Website<i class="material-icons right">close</i></span>
+							<p>A portfolio website showcasing skills, projects, and methods to contact me.<br /><br /><a href="http://sidsenkumar11.github.io/oldsite/index.html" target="_blank">View Site</a><br /><br />Made in HTML and CSS. Used JavaScript and jQuery framework for SmoothScroll effects. Used Bootstrap for layout of content.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col s12 m6 l4">
+					<div class="card small">
+						<div class="card-image waves-effect waves-block waves-light">
+							<img class="activator" src="images/matrix-solver.png">
+						</div>
+						<div class="card-content">
+							<span class="card-title activator grey-text text-darken-4">Matrix Calculator<i class="material-icons right">more_vert</i></span>
+							<p>A simple matrix/vector command line utlity in Java.<br /><a href="https://github.com/sidsenkumar11/Matrix-Calculator" target="_blank">Source</a></p>
+						</div>
+						<div class="card-reveal">
+							<span class="card-title grey-text text-darken-4">Matrix Calculator<i class="material-icons right">close</i></span>
+							<p>A simple command line utility that solves basic vector equations like Ax=b given input vectors and matrices. Also approximates eigenvectors using the power method, computes QR and LU factorizations, and computes the special Leslie and Hilbert matrices.<br /><br />To run, download the source files and compile. Then run MCWindow.java.<br /><br />Made in Java.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col s12 m6 l4">
+					<div class="card small">
+						<div class="card-image waves-effect waves-block waves-light">
+							<img class="activator" src="images/rot.gif">
+						</div>
+						<div class="card-content">
+							<span class="card-title activator grey-text text-darken-4">Automated ROT Cipher Decryptor<i class="material-icons right">more_vert</i></span>
+							<p>An automated ROT Cipher decryption tool in Python. <a href="https://github.com/sidsenkumar11/CTF-Toolkit/blob/master/Ciphers%20and%20Encryptions/CaesarCipher.py" target="_blank">Source</a></p>
+						</div>
+						<div class="card-reveal">
+							<span class="card-title grey-text text-darken-4">ROT Cipher Decryptor<i class="material-icons right">close</i></span>
+							<p>A script that takes an ROT-n shifted text and uses a dictionary to brute force the plaintext from the ciphertext.<br /><br />To run, download the file and keep in same directory as "dictionary.txt". Modify first line of Python script to contain the ciphertext. Run python CaesarCipher.py<br /><br />Made in Python</p>
+						</div>
+					</div>
+				</div>
+				<div class="col s12 m6 l4">
+					<div class="card small">
+						<div class="card-image waves-effect waves-block waves-light">
+							<img class="activator" src="images/risk.png">
+						</div>
+						<div class="card-content">
+							<span class="card-title activator grey-text text-darken-4">Risk<i class="material-icons right">more_vert</i></span>
+							<p>A digitized version of a popular board game in Java.<br /><a href="https://github.com/iLNibor/ilnibor-risk" target="_blank">Source</a></p>
+						</div>
+						<div class="card-reveal">
+							<span class="card-title grey-text text-darken-4">Risk<i class="material-icons right">close</i></span>
+							<p>Reinvented version of Hasbro's popular world domination board game Risk.<br /><br />To run, simply download the source files and the resources folder. Compile the source files in the same directory as the resources folder and run "Game.java".<br /><br />Made in Java using the Swing framework.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="intro-message">
-                        <h1>Developer</h1>
-                        <h3>A Template by Start Bootstrap</h3>
-                        <hr class="intro-divider">
-                        <ul class="list-inline intro-social-buttons">
-                            <li>
-                                <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
-                            </li>
-                            <li>
-                                <a href="https://github.com/IronSummitMedia/startbootstrap" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
-                            </li>
-                            <li>
-                                <a href="#" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+		<!-- Contact Me -->
+	    <ul class="center-align contact">
+	        <li><a href="https://github.com/sidsenkumar11" target="_blank">GitHub</a><br /></li>
+	        <li><a href="https://linkedin.com/in/sidsenkumar11" target="_blank">LinkedIn</a><br /></li>
+	        <li><a href="mailto:sidsenkumar11@gmail.com" target="_blank">E-Mail</a><br /></li>
+	        <li><a href="resources/resume" target="_blank">Resume</a><br /></li>
+	    </ul>
 
-        </div>
-        <!-- /.container -->
-
-    </div>
-    <!-- /.intro-header -->
-
-    <!-- Page Content -->
-
-	<a  name="services"></a>
-    <div class="content-section-a">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-5 col-sm-6">
-                    <hr class="section-heading-spacer">
-                    <div class="clearfix"></div>
-                    <h2 class="section-heading">Death to the Stock Photo:<br>Special Thanks</h2>
-                    <p class="lead">A special thanks to <a target="_blank" href="http://join.deathtothestockphoto.com/">Death to the Stock Photo</a> for providing the photographs that you see in this template. Visit their website to become a member.</p>
-                </div>
-                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                    <img class="img-responsive" src="img/ipad.png" alt="">
-                </div>
-            </div>
-
-        </div>
-        <!-- /.container -->
-
-    </div>
-    <!-- /.content-section-a -->
-
-    <div class="content-section-b">
-
-        <div class="container">
-
-            <div class="row">
-                <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
-                    <hr class="section-heading-spacer">
-                    <div class="clearfix"></div>
-                    <h2 class="section-heading">3D Device Mockups<br>by PSDCovers</h2>
-                    <p class="lead">Turn your 2D designs into high quality, 3D product shots in seconds using free Photoshop actions by <a target="_blank" href="http://www.psdcovers.com/">PSDCovers</a>! Visit their website to download some of their awesome, free photoshop actions!</p>
-                </div>
-                <div class="col-lg-5 col-sm-pull-6  col-sm-6">
-                    <img class="img-responsive" src="img/dog.png" alt="">
-                </div>
-            </div>
-
-        </div>
-        <!-- /.container -->
-
-    </div>
-    <!-- /.content-section-b -->
-
-    <div class="content-section-a">
-
-        <div class="container">
-
-            <div class="row">
-                <div class="col-lg-5 col-sm-6">
-                    <hr class="section-heading-spacer">
-                    <div class="clearfix"></div>
-                    <h2 class="section-heading">Google Web Fonts and<br>Font Awesome Icons</h2>
-                    <p class="lead">This template features the 'Lato' font, part of the <a target="_blank" href="http://www.google.com/fonts">Google Web Font library</a>, as well as <a target="_blank" href="http://fontawesome.io">icons from Font Awesome</a>.</p>
-                </div>
-                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                    <img class="img-responsive" src="img/phones.png" alt="">
-                </div>
-            </div>
-
-        </div>
-        <!-- /.container -->
-
-    </div>
-    <!-- /.content-section-a -->
-
-	<a  name="contact"></a>
-    <div class="banner">
-
-        <div class="container">
-
-            <div class="row">
-                <div class="col-lg-6">
-                    <h2>Connect to Start Bootstrap:</h2>
-                </div>
-                <div class="col-lg-6">
-                    <ul class="list-inline banner-social-buttons">
-                        <li>
-                            <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
-                        </li>
-                        <li>
-                            <a href="https://github.com/IronSummitMedia/startbootstrap" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
-                        </li>
-                        <li>
-                            <a href="#" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-        <!-- /.container -->
-
-    </div>
-    <!-- /.banner -->
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <ul class="list-inline">
-                        <li>
-                            <a href="#">Home</a>
-                        </li>
-                        <li class="footer-menu-divider">&sdot;</li>
-                        <li>
-                            <a href="#about">About</a>
-                        </li>
-                        <li class="footer-menu-divider">&sdot;</li>
-                        <li>
-                            <a href="#services">Services</a>
-                        </li>
-                        <li class="footer-menu-divider">&sdot;</li>
-                        <li>
-                            <a href="#contact">Contact</a>
-                        </li>
-                    </ul>
-                    <p class="copyright text-muted small">Copyright &copy; Your Company 2014. All Rights Reserved</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
-</body>
-
+		<!--Import jQuery before materialize.js-->
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="js/materialize.min.js"></script>
+	</body>
 </html>
