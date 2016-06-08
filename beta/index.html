@@ -7,7 +7,15 @@
 		<meta name="author" content="Siddarth Senthilkumar">
 		<meta name="msapplication-TileColor" content="#ffffff">
 		<meta name="msapplication-TileImage" content="images/icons/name-logo.png">
-		<link href="stylesheets/stylesheet.css" rel="stylesheet">
+		<link href="css/custom.css" rel="stylesheet">
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <!--Import Google Icon Font-->
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
 
 	    <title>Sid | Landing Page</title>
 	</head>
@@ -18,38 +26,54 @@
         <div class="center">
             <ul class="nav-bar">
                 <li class="nav-bar"><a class="nav-bar active" href="index.html">Home</a></li>
-                <li class="nav-bar"><a class="nav-bar" href="resources/Sids-Resume.pdf" target="_blank">Resume / CV</a></li>
                 <li class="nav-bar"><a class="nav-bar" href="projects.html">Projects</a></li>
-                <li class="nav-bar"><a class="nav-bar" href="contact.html">Contact</a></li>
+                <li class="nav-bar"><a class="nav-bar" href="resources/Sids-Resume.pdf" target="_blank">Resume / CV</a></li>
                 <li style="float:right"><a class="nav-bar" href="greyhat.html">GreyHat</a></li>
                 <li style="float:right"><a class="nav-bar" href="fun.html">Fun</a></li>
             </ul>
         </div>
 
-
         <!-- Page Content -->
-        <div class="center">
-            <p>
-            	Hi, I'm Sid and you've found my website.<br />
-            </p>
-            	<img src="images/me2.jpg" width="700px" height="400px" alt="Me and my future ride"></img>
-            <p>
-            	<h2>Who am I?</h2>
-            	I'm a 3rd year computer science major studying at the Georgia Institute of Technology.<br />
-                I'm the president of the GreyHat Information Security Club.<br />
-            	I'm a TA for CS 2200 - Computer Systems & Networks.<br /><br />
-            	I'm also an avid <a href="http://www.lolking.net/summoner/na/45190320" target="_blank">League of Legends player</a>.<br />
-            	I'm into solving <a href="#" target="_blank">Rubik's Cubes</a>.<br />
-            	I love chess, chocolate, puzzles, and pretty much anything that involves thinking.<br /><br />
-            	<h2>What do I do?</h2>
-            	I like to make things and break things.<br />
+        <div class="container">
+            <div class="row">
+                <div class="col s12 m12 l7">
+                    <p class="flow-text">
+                        Hi, I'm Sid and you've found my website.<br />
+                    </p>
+                    <img class="responsive-img" src="images/me2.jpg" alt="Me and my future ride"></img>
+                </div>
+                <div class="col s12 m12 l5">
+                    <p class="flow-text">
+                        <h2 class="center-align">Who am I?</h2>
+                        <ul class="center-align">
+                            <li>I'm a 3rd year computer science major studying at Georgia Tech.</li>
+                            <li>I'm the president of the GreyHat Information Security Club.</li>
+                            <li>I'm a TA for CS 2200 - Computer Systems & Networks.<br /></li>
+                        </ul>
 
-                <a href="https://youtu.be/OQSnbeL6qtk" target="_blank">Here is a video</a> of a motor I made for my physics class in 12th grade. This is probably one of the coolest things I've ever made.
-            </p>
-    		<!-- Copyright Logo -->
-            <div class="center">
-    			<p>Copyright &copy; Siddarth Senthilkumar 2016.</p>
-    		</div>
+                        <div class="center-align">
+                            &#9873;<br />
+                            I'm also an avid <a href="http://www.lolking.net/summoner/na/45190320" target="_blank">League of Legends player</a>.<br />
+                            I'm into solving <a href="#" target="_blank">Rubik's Cubes</a>.<br />
+                            I love chess, chocolate, puzzles, and pretty much anything that involves thinking.<br /><br />
+                            &#9873;<br />
+                            I like to make things and break things.<br />
+                            <a href="https://youtu.be/OQSnbeL6qtk" target="_blank">Here is a video</a> of a motor I made for my physics class in 12th grade, probably one of the coolest things I've ever done.
+                        </div>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Contact Me -->
+            <div class="center-align">
+                There are many ways you can contact me. I promise I won't bite.
+                <ul class="center-align contact">
+                    <li><a href="https://github.com/sidsenkumar11" target="_blank">GitHub</a><br /></li>
+                    <li><a href="https://linkedin.com/in/sidsenkumar11" target="_blank">LinkedIn</a><br /></li>
+                    <li><a href="mailto:sidsenkumar11@gmail.com" target="_blank">E-Mail</a><br /></li>
+                    <li><a href="resources/resume" target="_blank">Resume</a><br /></li>
+                </ul>
+            </div>
         </div>
 	</body>
 </html>
