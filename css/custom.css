@@ -1,24 +1,15 @@
+/* For sticky footer */
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
 /* Navigation Bar */
-ul.nav-bar {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
-}
-
-li.nav-bar {
-    float: left;
-}
-
-a.nav-bar {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
 ul.nav-bar li a:hover {
     background-color: #4CAF50;
 }
@@ -30,9 +21,10 @@ ul.nav-bar li a:hover {
 
 /* Contact */
 .contact {
-    display: inline;
-    list-style-type: none;
-    padding-right: 20px;
+    display: block;
+}
+.contact li {
+    display: inline-block;
 }
 
 /* Projects */
@@ -52,28 +44,17 @@ ul.nav-bar li a:hover {
 {
     text-align: center;
     text-transform: uppercase;
-    margin-bottom: 45px;
+    margin-bottom: 30px;
 }
 
 .project hr
 {
     width: 40px;
-    margin-bottom: 45px;
+    margin-bottom: 30px;
 }
 
 .project .project-holder
 {
     clear: both;
     text-align: center;
-}
-
-.project img
-{
-    width: 33%;
-    display: inline-block;
-    float: left;
-}*/
-
-.project img:hover {
-
 }

@@ -18,144 +18,156 @@
 		<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
 
 	    <title>Sid | Projects</title>
-
 	</head>
 
 
 	<body>
-		<!-- Navigation bar -->
-        <div class="center">
-            <ul class="nav-bar">
-                <li class="nav-bar"><a class="nav-bar" href="index.html">Home</a></li>
-                <li class="nav-bar"><a class="nav-bar active" href="projects.html">Projects</a></li>
-                <li class="nav-bar"><a class="nav-bar" href="resources/Sids-Resume.pdf" target="_blank">Resume / CV</a></li>
-                <li style="float:right"><a class="nav-bar" href="greyhat.html">GreyHat</a></li>
-                <li style="float:right"><a class="nav-bar" href="fun.html">Fun</a></li>
-            </ul>
-        </div>
+		<main>
+    		<!-- Navigation bar -->
+            <nav>
+                <div class="nav-wrapper grey darken-4">
+                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                    <ul class="right hide-on-med-and-down nav-bar">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="projects.html" class="active">Projects</a></li>
+                        <li><a href="greyhat.html">GreyHat</a></li>
+                        <li><a href="resources/Sids-Resume.pdf" target="_blank">Resume / CV</a></li>
+                        <li><a href="fun.html">Fun</a></li>
+                    </ul>
+                    <ul class="side-nav nav-bar" id="mobile-demo">
+                        <li><a href="home.html">Home</a></li>
+                        <li><a href="projects.html" class="active">Projects</a></li>
+                        <li><a href="greyhat.html">GreyHat</a></li>
+                        <li><a href="resources/Sids-Resume.pdf">Resume / CV</a></li>
+                        <li><a href="fun.html">Fun</a></li>
+                    </ul>
+                </div>
+            </nav>
 
-        <!-- Content -->
-		<div class="container project">
-			<h5>Portfolio</h5>
-			<h6>My Latest Projects</h6>
-			<hr>
-<!-- 			<div class="row">
-				<div class="col sm12 m12 l12 project-holder">
-					<a href=""><img class="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png"></a>
-					<img class="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png">
-					<img class="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png">
-					<img class="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png">
-					<img class="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png">
-					<img class="materialboxed" src="http://labs.qnimate.com/portfolio-materialize/images/project.png">
-				</div>
-			</div> -->
-
-			<div class="row">
-				<div class="col s12 m6 l4">
-					<div class="card small">
-						<div class="card-image waves-effect waves-block waves-light">
-							<img class="activator" src="images/pipelined.png">
+	        <!-- Content -->
+			<div class="container project">
+				<h5>Portfolio</h5>
+				<h6>My Latest Projects</h6>
+				<hr>
+				<div class="row">
+					<div class="col s12 m6 l4">
+						<div class="card small">
+							<div class="card-image waves-effect waves-block waves-light">
+								<img class="activator" src="images/pipelined.png">
+							</div>
+							<div class="card-content">
+								<span class="card-title activator grey-text text-darken-4">Pipelined Processor Simulator<i class="material-icons right">more_vert</i></span>
+								<p>A five-staged pipelined processor simulator in Logisim.<br />Source files available upon request.</p>
+							</div>
+							<div class="card-reveal">
+								<span class="card-title grey-text text-darken-4">Pipelined Processor Simulator<i class="material-icons right">close</i></span>
+								<p>A pipelined processor simulator that runs specialized machine code instructions in a MIPS-like language. 5 stages contain Instruction Fetch, Instruction Decode/Register Read, Execute, Memory Access/Write, Write Back.<br /><br />Made in Logisim.</p>
+							</div>
 						</div>
-						<div class="card-content">
-							<span class="card-title activator grey-text text-darken-4">Pipelined Processor Simulator<i class="material-icons right">more_vert</i></span>
-							<p>A five-staged pipelined processor simulator in Logisim.<br />Source files available upon request.</p>
+					</div>
+					<div class="col s12 m6 l4">
+						<div class="card small">
+							<div class="card-image waves-effect waves-block waves-light">
+								<img class="activator" src="images/malloc.png">
+							</div>
+							<div class="card-content">
+								<span class="card-title activator grey-text text-darken-4">Malloc/Free Algorithm Simulator<i class="material-icons right">more_vert</i></span>
+								<p>A simulator of C's malloc and free algorithms in C.<br />Source code available upon request.</p>
+							</div>
+							<div class="card-reveal">
+								<span class="card-title grey-text text-darken-4">Malloc/Free Algorithm Simulator<i class="material-icons right">close</i></span>
+								<p>A simulator of C's malloc and free algorithms for efficiently allocating and freeing memory. Given a chunk of memory, the simulator allocates pieces of it dynamically. Two internal representations of the free-list are used; address ordering and size ordering.<br /><br />Made in C.</p>
+							</div>
 						</div>
-						<div class="card-reveal">
-							<span class="card-title grey-text text-darken-4">Pipelined Processor Simulator<i class="material-icons right">close</i></span>
-							<p>A pipelined processor simulator that runs specialized machine code instructions in a MIPS-like language. 5 stages contain Instruction Fetch, Instruction Decode/Register Read, Execute, Memory Access/Write, Write Back.<br /><br />Made in Logisim.</p>
+					</div>
+					<div class="col s12 m6 l4">
+						<div class="card small">
+							<div class="card-image waves-effect waves-block waves-light">
+								<img class="activator" src="images/old-site.png">
+							</div>
+							<div class="card-content">
+								<span class="card-title activator grey-text text-darken-4">Portfolio Website<i class="material-icons right">more_vert</i></span>
+								<p>My first attempt at creating a website using Bootstrap.<br /><a href="https://github.com/sidsenkumar11/sidsenkumar11.github.io/tree/master/oldsite" target="_blank">Source</a></p>
+							</div>
+							<div class="card-reveal">
+								<span class="card-title grey-text text-darken-4">Portfolio Website<i class="material-icons right">close</i></span>
+								<p>A portfolio website showcasing skills, projects, and methods to contact me.<br /><br /><a href="http://sidsenkumar11.github.io/oldsite/index.html" target="_blank">View Site</a><br /><br />Made in HTML and CSS. Used JavaScript and jQuery framework for SmoothScroll effects. Used Bootstrap for layout of content.</p>
+							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col s12 m6 l4">
-					<div class="card small">
-						<div class="card-image waves-effect waves-block waves-light">
-							<img class="activator" src="images/malloc.png">
-						</div>
-						<div class="card-content">
-							<span class="card-title activator grey-text text-darken-4">Malloc/Free Algorithm Simulator<i class="material-icons right">more_vert</i></span>
-							<p>A simulator of C's malloc and free algorithms in C.<br />Source code available upon request.</p>
-						</div>
-						<div class="card-reveal">
-							<span class="card-title grey-text text-darken-4">Malloc/Free Algorithm Simulator<i class="material-icons right">close</i></span>
-							<p>A simulator of C's malloc and free algorithms for efficiently allocating and freeing memory. Given a chunk of memory, the simulator allocates pieces of it dynamically. Two internal representations of the free-list are used; address ordering and size ordering.<br /><br />Made in C.</p>
+				<div class="row">
+					<div class="col s12 m6 l4">
+						<div class="card small">
+							<div class="card-image waves-effect waves-block waves-light">
+								<img class="activator" src="images/matrix-solver.png">
+							</div>
+							<div class="card-content">
+								<span class="card-title activator grey-text text-darken-4">Matrix Calculator<i class="material-icons right">more_vert</i></span>
+								<p>A simple matrix/vector command line utlity in Java.<br /><a href="https://github.com/sidsenkumar11/Matrix-Calculator" target="_blank">Source</a></p>
+							</div>
+							<div class="card-reveal">
+								<span class="card-title grey-text text-darken-4">Matrix Calculator<i class="material-icons right">close</i></span>
+								<p>A simple command line utility that solves basic vector equations like Ax=b given input vectors and matrices. Also approximates eigenvectors using the power method, computes QR and LU factorizations, and computes the special Leslie and Hilbert matrices.<br /><br />To run, download the source files and compile. Then run MCWindow.java.<br /><br />Made in Java.</p>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col s12 m6 l4">
-					<div class="card small">
-						<div class="card-image waves-effect waves-block waves-light">
-							<img class="activator" src="images/old-site.png">
+					<div class="col s12 m6 l4">
+						<div class="card small">
+							<div class="card-image waves-effect waves-block waves-light">
+								<img class="activator" src="images/rot.gif">
+							</div>
+							<div class="card-content">
+								<span class="card-title activator grey-text text-darken-4">Automated ROT Cipher Decryptor<i class="material-icons right">more_vert</i></span>
+								<p>An automated ROT Cipher decryption tool in Python. <a href="https://github.com/sidsenkumar11/CTF-Toolkit/blob/master/Ciphers%20and%20Encryptions/CaesarCipher.py" target="_blank">Source</a></p>
+							</div>
+							<div class="card-reveal">
+								<span class="card-title grey-text text-darken-4">ROT Cipher Decryptor<i class="material-icons right">close</i></span>
+								<p>A script that takes an ROT-n shifted text and uses a dictionary to brute force the plaintext from the ciphertext.<br /><br />To run, download the file and keep in same directory as "dictionary.txt". Modify first line of Python script to contain the ciphertext. Run python CaesarCipher.py<br /><br />Made in Python</p>
+							</div>
 						</div>
-						<div class="card-content">
-							<span class="card-title activator grey-text text-darken-4">Portfolio Website<i class="material-icons right">more_vert</i></span>
-							<p>My first attempt at creating a website using Bootstrap.<br /><a href="https://github.com/sidsenkumar11/sidsenkumar11.github.io/tree/master/oldsite" target="_blank">Source</a></p>
-						</div>
-						<div class="card-reveal">
-							<span class="card-title grey-text text-darken-4">Portfolio Website<i class="material-icons right">close</i></span>
-							<p>A portfolio website showcasing skills, projects, and methods to contact me.<br /><br /><a href="http://sidsenkumar11.github.io/oldsite/index.html" target="_blank">View Site</a><br /><br />Made in HTML and CSS. Used JavaScript and jQuery framework for SmoothScroll effects. Used Bootstrap for layout of content.</p>
+					</div>
+					<div class="col s12 m6 l4">
+						<div class="card small">
+							<div class="card-image waves-effect waves-block waves-light">
+								<img class="activator" src="images/risk.png">
+							</div>
+							<div class="card-content">
+								<span class="card-title activator grey-text text-darken-4">Risk<i class="material-icons right">more_vert</i></span>
+								<p>A digitized version of a popular board game in Java.<br /><a href="https://github.com/iLNibor/ilnibor-risk" target="_blank">Source</a></p>
+							</div>
+							<div class="card-reveal">
+								<span class="card-title grey-text text-darken-4">Risk<i class="material-icons right">close</i></span>
+								<p>Reinvented version of Hasbro's popular world domination board game Risk.<br /><br />To run, simply download the source files and the resources folder. Compile the source files in the same directory as the resources folder and run "Game.java".<br /><br />Made in Java using the Swing framework.</p>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col s12 m6 l4">
-					<div class="card small">
-						<div class="card-image waves-effect waves-block waves-light">
-							<img class="activator" src="images/matrix-solver.png">
-						</div>
-						<div class="card-content">
-							<span class="card-title activator grey-text text-darken-4">Matrix Calculator<i class="material-icons right">more_vert</i></span>
-							<p>A simple matrix/vector command line utlity in Java.<br /><a href="https://github.com/sidsenkumar11/Matrix-Calculator" target="_blank">Source</a></p>
-						</div>
-						<div class="card-reveal">
-							<span class="card-title grey-text text-darken-4">Matrix Calculator<i class="material-icons right">close</i></span>
-							<p>A simple command line utility that solves basic vector equations like Ax=b given input vectors and matrices. Also approximates eigenvectors using the power method, computes QR and LU factorizations, and computes the special Leslie and Hilbert matrices.<br /><br />To run, download the source files and compile. Then run MCWindow.java.<br /><br />Made in Java.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col s12 m6 l4">
-					<div class="card small">
-						<div class="card-image waves-effect waves-block waves-light">
-							<img class="activator" src="images/rot.gif">
-						</div>
-						<div class="card-content">
-							<span class="card-title activator grey-text text-darken-4">Automated ROT Cipher Decryptor<i class="material-icons right">more_vert</i></span>
-							<p>An automated ROT Cipher decryption tool in Python. <a href="https://github.com/sidsenkumar11/CTF-Toolkit/blob/master/Ciphers%20and%20Encryptions/CaesarCipher.py" target="_blank">Source</a></p>
-						</div>
-						<div class="card-reveal">
-							<span class="card-title grey-text text-darken-4">ROT Cipher Decryptor<i class="material-icons right">close</i></span>
-							<p>A script that takes an ROT-n shifted text and uses a dictionary to brute force the plaintext from the ciphertext.<br /><br />To run, download the file and keep in same directory as "dictionary.txt". Modify first line of Python script to contain the ciphertext. Run python CaesarCipher.py<br /><br />Made in Python</p>
-						</div>
-					</div>
-				</div>
-				<div class="col s12 m6 l4">
-					<div class="card small">
-						<div class="card-image waves-effect waves-block waves-light">
-							<img class="activator" src="images/risk.png">
-						</div>
-						<div class="card-content">
-							<span class="card-title activator grey-text text-darken-4">Risk<i class="material-icons right">more_vert</i></span>
-							<p>A digitized version of a popular board game in Java.<br /><a href="https://github.com/iLNibor/ilnibor-risk" target="_blank">Source</a></p>
-						</div>
-						<div class="card-reveal">
-							<span class="card-title grey-text text-darken-4">Risk<i class="material-icons right">close</i></span>
-							<p>Reinvented version of Hasbro's popular world domination board game Risk.<br /><br />To run, simply download the source files and the resources folder. Compile the source files in the same directory as the resources folder and run "Game.java".<br /><br />Made in Java using the Swing framework.</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+        </main>
 
-		<!-- Contact Me -->
-	    <ul class="center-align contact">
-	        <li><a href="https://github.com/sidsenkumar11" target="_blank">GitHub</a><br /></li>
-	        <li><a href="https://linkedin.com/in/sidsenkumar11" target="_blank">LinkedIn</a><br /></li>
-	        <li><a href="mailto:sidsenkumar11@gmail.com" target="_blank">E-Mail</a><br /></li>
-	        <li><a href="resources/resume" target="_blank">Resume</a><br /></li>
-	    </ul>
+        <!-- Contact Me -->
+        <footer class="page-footer grey darken-4">
+            <div class="container">
+                <div class="center-align row">
+                    <div class="col s12 m12 l12">
+                        <div style="color: white;">
+                            There are many ways you can contact me. I promise I won't bite.
+                        </div>
+                        <ul class="contact">
+                            <li><a class="waves-effect waves-light btn light-blue" href="https://github.com/sidsenkumar11" target="_blank">GitHub</a></li>
+                            <li><a class="waves-effect waves-light btn light-blue" href="https://linkedin.com/in/sidsenkumar11" target="_blank">LinkedIn</a></li>
+                            <li><a class="waves-effect waves-light btn light-blue" href="mailto:sidsenkumar11@gmail.com" target="_blank">E-Mail</a></li>
+                            <li><a class="waves-effect waves-light btn light-blue" href="resources/resume" target="_blank">Resume</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
 
-		<!--Import jQuery before materialize.js-->
-		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-		<script type="text/javascript" src="js/materialize.min.js"></script>
+        <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="js/materialize.min.js"></script>
+        <script type="text/javascript" src="js/custom.js"></script>
 	</body>
 </html>
