@@ -1,9 +1,6 @@
 # Personal-Website
-My first attempt at creating a portfolio website
+My attempt at creating a static portfolio website.<br  />
 
-Created using HTML, CSS, and JavaScript
-Responsive design with BootStrap
-
-Currently includes scripts for:
--SmoothScroll on mouse wheel turn
--SmoothScroll on clicking same-page links
+## History
+V2.0 - Redesigned and created from scratch using the Materialize CSS framework for responsiveness. Now contains a separate page for GreyHat and GreyHat CTF. <br /><br />
+V1.0 - Created using a heavily modified BootStrap template. Can be viewed [here](sidsenkumar11.github.io/oldsite/).
