@@ -53,8 +53,55 @@
 				<h6>My Latest Projects</h6>
 				<hr>
 				<div class="row">
-					<div class="col s12 m6 l4">
-						<div class="card small">
+					<div class="col s12 m12 l4">
+						<div class="card medium">
+							<div class="card-image waves-effect waves-block waves-light">
+								<img class="activator" src="images/travel-planner.png">
+							</div>
+							<div class="card-content">
+								<span class="card-title activator grey-text text-darken-4">Travel Planner<i class="material-icons right">more_vert</i></span>
+								<p>A web application that allows users to plan and pay for trips.<br /><a href="https://github.com/sidsenkumar11/Travel-Planner" target="_blank">Source</a></p>
+							</div>
+							<div class="card-reveal">
+								<span class="card-title grey-text text-darken-4">Travel Planner<i class="material-icons right">close</i></span>
+								<p>A database application that keeps track of users and allows them to plan and pay for attractions in Europe.<br /><br />Made using MySQL, Python/Flask Framework, and Materialize Front-end</p>
+							</div>
+						</div>
+					</div>
+					<div class="col s12 m12 l4">
+						<div class="card medium">
+							<div class="card-image waves-effect waves-block waves-light">
+								<img class="activator" src="images/mp3-tagger.png">
+							</div>
+							<div class="card-content">
+								<span class="card-title activator grey-text text-darken-4">MP3 Metadata Tagger<i class="material-icons right">more_vert</i></span>
+								<p>A Python GUI application that automatically retrieves relevant song metadata and inserts it into the file.<br /><a href="https://github.com/sidsenkumar11/MP3-Tagger" target="_blank">Source</a></p>
+							</div>
+							<div class="card-reveal">
+								<span class="card-title grey-text text-darken-4">MP3 Tagger<i class="material-icons right">close</i></span>
+								<p>A Python utlity that automatically tags MP3 files with the proper metadata by querying the GraceNote database for album name, artist name, album art, genre, and release date and inserting them into the file in IDv3 format.<br /><br />Uses the PyQT GUI framework and pygn API to query the GraceNote database.<br /><br />Made in Python</p>
+							</div>
+						</div>
+					</div>
+					<div class="col s12 m12 l4">
+						<div class="card medium">
+							<div class="card-image waves-effect waves-block waves-light">
+								<img class="activator" src="images/in-progress.jpg">
+							</div>
+							<div class="card-content">
+								<span class="card-title activator grey-text text-darken-4">URL Shortener<i class="material-icons right">more_vert</i></span>
+								<p>A URL shortener web application written in Scala.<br /><a href="https://github.com/sidsenkumar11/URL-Shortener" target="_blank">Source</a></p>
+							</div>
+							<div class="card-reveal">
+								<span class="card-title grey-text text-darken-4">URL Shortener<i class="material-icons right">close</i></span>
+								<p>A website that shortens URLs using the algorithm proposed <a href="http://stackoverflow.com/questions/742013/how-to-code-a-url-shortener" target="_blank">here</a>.<br /><br />Made in Scala.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12 m12 l4">
+						<div class="card medium">
 							<div class="card-image waves-effect waves-block waves-light">
 								<img class="activator" src="images/pipelined.png">
 							</div>
@@ -64,74 +111,36 @@
 							</div>
 							<div class="card-reveal">
 								<span class="card-title grey-text text-darken-4">Pipelined Processor Simulator<i class="material-icons right">close</i></span>
-								<p>A pipelined processor simulator that runs specialized machine code instructions in a MIPS-like language. 5 stages contain Instruction Fetch, Instruction Decode/Register Read, Execute, Memory Access/Write, Write Back.<br /><br />Made in Logisim.</p>
+								<p>A pipelined processor simulator that runs LC-2200 machine code instructions. LC-2200 is a MIPS-like language used in CS2200 at Georgia Tech.<br /><br />
+									The 5 stages are:
+									<ol>
+										<li>Instruction Fetch</li>
+										<li>Instruction Decode/Register Read</li>
+										<li>Execute</li>
+										<li>Memory Access/Write</li>
+										<li>Write Back</li>
+									</ol>
+									<br />Made in Logisim.</p>
 							</div>
 						</div>
 					</div>
-					<div class="col s12 m6 l4">
-						<div class="card small">
+					<div class="col s12 m12 l4">
+						<div class="card medium">
 							<div class="card-image waves-effect waves-block waves-light">
 								<img class="activator" src="images/malloc.png">
 							</div>
 							<div class="card-content">
 								<span class="card-title activator grey-text text-darken-4">Malloc/Free Algorithm Simulator<i class="material-icons right">more_vert</i></span>
-								<p>A simulator of C's malloc and free algorithms in C.<br />Source code available upon request.</p>
+								<p>A simulator of C's malloc and free algorithms.<br />Source code available upon request.</p>
 							</div>
 							<div class="card-reveal">
 								<span class="card-title grey-text text-darken-4">Malloc/Free Algorithm Simulator<i class="material-icons right">close</i></span>
-								<p>A simulator of C's malloc and free algorithms for efficiently allocating and freeing memory. Given a chunk of memory, the simulator allocates pieces of it dynamically. Two internal representations of the free-list are used; address ordering and size ordering.<br /><br />Made in C.</p>
+								<p>A simulator of C's malloc and free algorithms for efficiently allocating and freeing memory. Given a chunk of memory and a request for n bytes, the simulator allocates pieces of it dynamically by maintaining an internal free list. Two internal representations of the free-list are simulated; address ordering and size ordering.<br /><br />Made in C.</p>
 							</div>
 						</div>
 					</div>
-					<div class="col s12 m6 l4">
-						<div class="card small">
-							<div class="card-image waves-effect waves-block waves-light">
-								<img class="activator" src="images/old-site.png">
-							</div>
-							<div class="card-content">
-								<span class="card-title activator grey-text text-darken-4">Portfolio Website<i class="material-icons right">more_vert</i></span>
-								<p>My first attempt at creating a website using Bootstrap.<br /><a href="https://github.com/sidsenkumar11/sidsenkumar11.github.io/tree/master/oldsite" target="_blank">Source</a></p>
-							</div>
-							<div class="card-reveal">
-								<span class="card-title grey-text text-darken-4">Portfolio Website<i class="material-icons right">close</i></span>
-								<p>A portfolio website showcasing skills and projects.<br /><br /><a href="http://sidsenkumar11.github.io/oldsite/index.html" target="_blank">View Site</a><br /><br />Made in HTML and CSS. Used JavaScript and jQuery framework for SmoothScroll effects. Used Bootstrap for layout of content.</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col s12 m6 l4">
-						<div class="card small">
-							<div class="card-image waves-effect waves-block waves-light">
-								<img class="activator" src="images/matrix-solver.png">
-							</div>
-							<div class="card-content">
-								<span class="card-title activator grey-text text-darken-4">Matrix Calculator<i class="material-icons right">more_vert</i></span>
-								<p>A simple matrix/vector command line utlity in Java.<br /><a href="https://github.com/sidsenkumar11/Matrix-Calculator" target="_blank">Source</a></p>
-							</div>
-							<div class="card-reveal">
-								<span class="card-title grey-text text-darken-4">Matrix Calculator<i class="material-icons right">close</i></span>
-								<p>A simple command line utility that solves basic vector equations like Ax=b given input vectors and matrices. Also approximates eigenvectors using the power method, computes QR and LU factorizations, and computes the special Leslie and Hilbert matrices.<br /><br />To run, download the source files and compile. Then run MCWindow.java.<br /><br />Made in Java.</p>
-							</div>
-						</div>
-					</div>
-					<div class="col s12 m6 l4">
-						<div class="card small">
-							<div class="card-image waves-effect waves-block waves-light">
-								<img class="activator" src="images/rot.gif">
-							</div>
-							<div class="card-content">
-								<span class="card-title activator grey-text text-darken-4">Automated ROT Cipher Decryptor<i class="material-icons right">more_vert</i></span>
-								<p>An automated ROT Cipher decryption tool in Python. <a href="https://github.com/sidsenkumar11/CTF-Toolkit/blob/master/Ciphers%20and%20Encryptions/CaesarCipher.py" target="_blank">Source</a></p>
-							</div>
-							<div class="card-reveal">
-								<span class="card-title grey-text text-darken-4">ROT Cipher Decryptor<i class="material-icons right">close</i></span>
-								<p>A script that takes an ROT-n shifted text and uses a dictionary to brute force the plaintext from the ciphertext.<br /><br />To run, download the file and keep in same directory as "dictionary.txt". Modify first line of Python script to contain the ciphertext. Run python CaesarCipher.py<br /><br />Made in Python</p>
-							</div>
-						</div>
-					</div>
-					<div class="col s12 m6 l4">
-						<div class="card small">
+					<div class="col s12 m12 l4">
+						<div class="card medium">
 							<div class="card-image waves-effect waves-block waves-light">
 								<img class="activator" src="images/risk.png">
 							</div>
@@ -142,6 +151,55 @@
 							<div class="card-reveal">
 								<span class="card-title grey-text text-darken-4">Risk<i class="material-icons right">close</i></span>
 								<p>Reinvented version of Hasbro's popular world domination board game Risk.<br /><br />To run, download the source files and the resources folder. Compile the source files in the same directory as the resources folder and run "Game.java".<br /><br />Made in Java using the Swing framework.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12 m12 l4">
+						<div class="card medium">
+							<div class="card-image waves-effect waves-block waves-light">
+								<img class="activator" src="images/matrix-solver.png">
+							</div>
+							<div class="card-content">
+								<span class="card-title activator grey-text text-darken-4">Matrix Calculator<i class="material-icons right">more_vert</i></span>
+								<p>A simple matrix/vector command line utility in Java.<br /><a href="https://github.com/sidsenkumar11/Matrix-Calculator" target="_blank">Source</a></p>
+							</div>
+							<div class="card-reveal">
+								<span class="card-title grey-text text-darken-4">Matrix Calculator<i class="material-icons right">close</i></span>
+								<p>A command line utility that solves basic vector equations like Ax=b given input vectors and matrices.<br /><br />Also approximates eigenvectors using the power method, computes QR and LU factorizations, and computes the Leslie and Hilbert matrices.<br /><br />Made in Java.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col s12 m12 l4">
+						<div class="card medium">
+							<div class="card-image waves-effect waves-block waves-light">
+								<img class="activator" src="images/rot.gif">
+							</div>
+							<div class="card-content">
+								<span class="card-title activator grey-text text-darken-4">Automated ROT Cipher Decryptor<i class="material-icons right">more_vert</i></span>
+								<p>An automated ROT Cipher decryption tool in Python.<br /><a href="https://github.com/sidsenkumar11/CTF-Toolkit/blob/master/Ciphers%20and%20Encryptions/CaesarCipher.py" target="_blank">Source</a></p>
+							</div>
+							<div class="card-reveal">
+								<span class="card-title grey-text text-darken-4">ROT Cipher Decryptor<i class="material-icons right">close</i></span>
+								<p>A script that takes an ROT-n shifted text and uses a dictionary to brute force the plaintext from the ciphertext.<br /><br />To run, download the file and keep in same directory as "dictionary.txt". Modify the first line of Python script to contain the ciphertext. Run python CaesarCipher.py<br /><br />Made in Python</p>
+							</div>
+						</div>
+					</div>
+					<div class="col s12 m12 l4">
+						<div class="card medium">
+							<div class="card-image waves-effect waves-block waves-light">
+								<img class="activator" src="images/old-site.png">
+							</div>
+							<div class="card-content">
+								<span class="card-title activator grey-text text-darken-4">Portfolio Website v1<i class="material-icons right">more_vert</i></span>
+								<p>My first attempt at creating a static porfolio website.<br /><a href="https://github.com/sidsenkumar11/sidsenkumar11.github.io/tree/master/oldsite" target="_blank">Source</a></p>
+							</div>
+							<div class="card-reveal">
+								<span class="card-title grey-text text-darken-4">Portfolio Website<i class="material-icons right">close</i></span>
+								<p>A portfolio website showcasing skills and projects.<br /><br />Made with HTML and CSS. Used JavaScript and jQuery framework for SmoothScroll script. Used Bootstrap for responsive content layout.
+									<br /><br /><a href="http://sidsenkumar11.github.io/oldsite/index.html" target="_blank">View Site</a>
+								</p>
 							</div>
 						</div>
 					</div>
