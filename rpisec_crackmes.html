@@ -51,6 +51,7 @@
             <!-- Page Body -->
             <div class="container">
                 <h3>RPISEC MBE Crackmes</h3>
+                <hr>
                 <div class="row">
                     <div class="col s12 m12 l12">
                         RPI has generously published their Modern Binary Exploitation course on GitHub for all to use for free (<a href="https://github.com/RPISEC/MBE" target="_blank">here</a>). This class was created to be
@@ -67,6 +68,7 @@
                             <li><a href="#crackme0x02">crackme0x02</a></li>
                             <li><a href="#crackme0x03">crackme0x03</a></li>
                             <li><a href="#crackme0x04">crackme0x04</a></li>
+                            <li><a href="#crackme0x05">crackme0x05</a></li>
                         </ol>
 
                         <h5>Setup</h5>
@@ -149,9 +151,19 @@ echo "source ~/peda/peda.py" >> ~/.gdbinit</code></pre>
                         <a name="#crackme0x04"></a>
                         <h5>crackme0x04</h5>
                         <hr>
-                        This binary runs the same as the previous binary. Opening it in IDA, we see very similar computations as the previous binary, but we seem to be missing the text that says "Invalid Password!" and "Congrats!". Examining the assembly reveals that the binary calls a function called "test" which we can reach by double-clicking on the word "test".<br /><br />
-                        <img src="images/writeups/rpisec/crackme_03_ida.png" class="resize-image" alt="crackme0x03 ida" style="width: 600px; height: 400px;"></img><br /><br />
-                        It looks like there's some arguments being checked before printing some text, but the text appears jumbled. That text is passed as a parameter to another function called "shift". So, one can guess that after the input is checked, the shifted text is printed, which indicates success or failure. So, like before, just set a breakpoint on the value being checked before the cmp instruction and print it out. It turns out that the value is the same as in the previous challenge, which is 338724.<br /><br />
+                        This binary runs the same as the previous binary. Opening it in IDA, we see that the input string is sent as an argument to a function called "check". Inside the test function, we see a few different variables and basic blocks. The first block of code that branches checks the length of the input string against some variable. At the bottom, this variable gets incremented and then the code executes at the top again. That variable is likely a counter, so we can rename the variable as such by pressing the "n" button in IDA. On the success path basic block, we can determine that the code reads one character from the input string, scans it as an integer, and adds the value to some kind of running total. When the total hits the value "15", we get the "Password OK!" message. So, as long as we enter a number whose digits can sum to 15, then the program should accept the password. Much of this behavior can be observed by running the program through a debugger and observing register values, but here is a commented IDA screenshot anyway.<br /><br />
+                        <img src="images/writeups/rpisec/crackme_04_ida.png" class="resize-image" alt="crackme0x04 ida" style="width: 900px; height: 600px;"></img><br /><br />
+                        Inputting the number 12345 does the trick, and we are granted access!<br /><br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <a name="#crackme0x05"></a>
+                        <h5>crackme0x05</h5>
+                        <hr>
+                        This binary runs the same as the previous binary. Opening it in IDA, we see that the input string is sent as an argument to a function called "check". Inside the test function, we see a few different variables and basic blocks. The first block of code that branches checks the length of the input string against some variable. At the bottom, this variable gets incremented and then the code executes at the top again. That variable is likely a counter, so we can rename the variable as such by pressing the "n" button in IDA. On the success path basic block, we can determine that the code reads one character from the input string, scans it as an integer, and adds the value to some kind of running total. When the total hits the value "15", we get the "Password OK!" message. So, as long as we enter a number whose digits can sum to 15, then the program should accept the password. Much of this behavior can be observed by running the program through a debugger and observing register values, but here is a commented IDA screenshot anyway.<br /><br />
+                        <img src="images/writeups/rpisec/crackme_05_ida.png" class="resize-image" alt="crackme0x04 ida" style="width: 900px; height: 600px;"></img><br /><br />
+                        Inputting the number 12345 does the trick, and we are granted access!<br /><br />
                     </div>
                 </div>
                 <!--
