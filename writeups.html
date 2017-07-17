@@ -18,7 +18,7 @@
         <!--Import materialize.css-->
         <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
 
-	    <title>Sid | Cookbook</title>
+	    <title>Sid | CTF Writeups</title>
 	</head>
 
 	<body>
@@ -30,61 +30,59 @@
                     <ul class="left hide-on-med-and-down nav-bar">
                         <li><a href="index.html">Home</a></li>
                         <li><a href="projects.html">Projects</a></li>
-                        <li><a href="writeups.html">CTF Writeups</a></li>
+                        <li><a href="writeups.html" class="active">CTF Writeups</a></li>
                         <li><a href="courses.html">Coursework</a></li>
                         <li><a href="resources/Sids-Resume.pdf" target="_blank">Résumé / CV</a></li>
                     </ul>
                     <ul class="right hide-on-med-and-down nav-bar">
-                        <li><a href="cookbook.html" class="active">Cookbook</a></li>
                         <li><a href="greyhat.html">GreyHat</a></li>
                     </ul>
                     <ul class="side-nav nav-bar" id="mobile-demo">
                         <li><a href="index.html">Home</a></li>
                         <li><a href="projects.html">Projects</a></li>
-                        <li><a href="writeups.html">CTF Writeups</a></li>
+                        <li><a href="writeups.html" class="active">CTF Writeups</a></li>
                         <li><a href="courses.html">Coursework</a></li>
                         <li><a href="greyhat.html">GreyHat</a></li>
                         <li><a href="resources/Sids-Resume.pdf">Résumé / CV</a></li>
-                        <li><a href="cookbook.html" class="active">Cookbook</a></li>
                     </ul>
                 </div>
             </nav>
 
             <!-- Page Body -->
             <div class="container">
-                <h3>Cookbook</h3>
+                <h3>CTF Writeups</h3>
                 <div class="row">
                     <div class="col s12 m12 l12">
-                        This page contains recipes for food that I learned throughout college!<br />
-                        <ol>
-                            <li><a href="#cereal" />Cereal</a></li>
-                        </ol>
+                        CTF competitions are the "hackathons" of computer security enthusiasts.
+                        Solving problems in CTFs is the best way to keep your knowledge relevant and sharp.<br />
+                        Einstein once said that "If you can't explain [something] simply, you don't understand it well enough." To that end,
+                        I will attempt to amalgamate my various CTF experiences here and delineate the exact steps taken to arrive at solutions.
+                        They not only serves as a great reference for myself in the future but also will help others learn.
+                        I love teaching others about what I know, and am always searching for the best solutions.
+                        If you notice anything that is incorrect or could be improved, please don't hesitate to let me know!<br />
                     </div>
                 </div>
-
                 <div class="row">
-                    <h4><a name="Cereal">Cereal</a></h4>
                     <div class="col s12 m12 l12">
-                        Ingredients:<br />
-                        <ul class="collection">
-                            <li class="collection-item">Skim Milk</li>
-                            <li class="collection-item">Cereal</li>
-                        </ul>
+                        Sample RSA Python Script
+                        <pre><code class="python"># This information was given to us by the problem:
+c = 0x58ae101736022f486216e290d39e839e7d02a124f725865ed1b5eea7144a4c40828bd4d14dcea967561477a516ce338f293ca86efc72a272c332c5468ef43ed5d8062152aae9484a50051d71943cf4c3249d8c4b2f6c39680cc75e58125359edd2544e89f54d2e5cbed06bb3ed61e5ca7643ebb7fa04638aa0a0f23955e5b5d9
 
-                        Recipe:<br />
-                        <ol>
-                            <li>Pour desired amount of cereal from bag into bowl.</li>
-                            <li>Pour milk until cereal is covered. All surface area of every piece of cereal must have contacted the milk.</li>
-                            <li>Set for 5-10 minutes.</li>
-                            <li>Enjoy!</li>
-                        </ol>
-                    </div>
-                </div>
+N = 0xb197d3afe713816582ee988b276f635800f728f118f5125de1c7c1e57f2738351de8ac643c118a5480f867b6d8756021911818e470952bd0a5262ed86b4fc4c2b7962cd197a8bd8d8ae3f821ad712a42285db67c85983581c4c39f80dbb21bf700dbd2ae9709f7e307769b5c0e624b661441c1ddb62ef1fe7684bbe61d8a19e7
 
+d = 0x496747c7dceae300e22d5c3fa7fd1242bda36af8bc280f7f5e630271a92cbcbeb7ae04132a00d5fc379274cbce8c353faa891b40d087d7a4559e829e513c97467345adca3aa66550a68889cf930ecdfde706445b3f110c0cb4a81ca66f8630ed003feea59a51dc1d18a7f6301f2817cb53b1fb58b2a5ad163e9f1f9fe463b901
 
-                <div class="row">
-                    <a name=""></a>
-                    <div class="col s12 m12 l12">
+# To find the plaintext, just do c^d mod n.
+plaintext = pow(c, d, N)
+
+# Convert to hex and remove the "0x" from the beginning as well as the "L" from the end
+plaintext = hex(plaintext)[2:len(hex(plaintext)) - 1]
+
+# Decode to ASCII
+plaintext = plaintext.decode('hex')
+# Print result
+print(plaintext)
+</code></pre>
                     </div>
                 </div>
             </div>
@@ -110,5 +108,8 @@
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="js/materialize.min.js"></script>
         <script type="text/javascript" src="js/custom.js"></script>
+        <link rel="stylesheet" href="highlight/styles/vs2015.css">
+        <script src="highlight/highlight.pack.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
 	</body>
 </html>
