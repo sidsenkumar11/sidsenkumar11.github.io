@@ -6,9 +6,9 @@
 		<meta name="description" content="Siddarth's Website">
 		<meta name="author" content="Siddarth Senthilkumar">
 		<meta name="msapplication-TileColor" content="#ffffff">
-		<meta name="msapplication-TileImage" content="images/icons/name-logo.png">
-		<link href="css/custom.css" rel="stylesheet">
-        <link rel="icon" href="images/icons/name-logo.png">
+		<meta name="msapplication-TileImage" content="../images/icons/name-logo.png">
+		<link href="../css/custom.css" rel="stylesheet">
+        <link rel="icon" href="../images/icons/name-logo.png">
 
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -16,7 +16,7 @@
         <!--Import Google Icon Font-->
         <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!--Import materialize.css-->
-        <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="../css/materialize.min.css"  media="screen,projection"/>
 
 	    <title>Sid | RPISEC Crackmes</title>
 	</head>
@@ -28,22 +28,22 @@
                 <div class="nav-wrapper grey darken-4">
                     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                     <ul class="left hide-on-med-and-down nav-bar">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="projects.html">Projects</a></li>
-                        <li><a href="writeups.html" class="active">CTF Writeups</a></li>
-                        <li><a href="courses.html">Coursework</a></li>
-                        <li><a href="resources/Sids-Resume.pdf" target="_blank">Résumé / CV</a></li>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../projects.html">Projects</a></li>
+                        <li><a href="../writeups.html" class="active">CTF Writeups</a></li>
+                        <li><a href="../courses.html">Coursework</a></li>
+                        <li><a href="../resources/Sids-Resume.pdf" target="_blank">Résumé / CV</a></li>
                     </ul>
                     <ul class="right hide-on-med-and-down nav-bar">
-                        <li><a href="greyhat.html">GreyHat</a></li>
+                        <li><a href="../greyhat.html">GreyHat</a></li>
                     </ul>
                     <ul class="side-nav nav-bar" id="mobile-demo">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="projects.html">Projects</a></li>
-                        <li><a href="writeups.html" class="active">CTF Writeups</a></li>
-                        <li><a href="courses.html">Coursework</a></li>
-                        <li><a href="greyhat.html">GreyHat</a></li>
-                        <li><a href="resources/Sids-Resume.pdf">Résumé / CV</a></li>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../projects.html">Projects</a></li>
+                        <li><a href="../writeups.html" class="active">CTF Writeups</a></li>
+                        <li><a href="../courses.html">Coursework</a></li>
+                        <li><a href="../greyhat.html">GreyHat</a></li>
+                        <li><a href="../resources/Sids-Resume.pdf">Résumé / CV</a></li>
                     </ul>
                 </div>
             </nav>
@@ -84,96 +84,97 @@ echo "source ~/peda/peda.py" >> ~/.gdbinit</code></pre>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12">
-                        <a name="#crackme0x00a"></a>
+                        <a name="crackme0x00a"></a>
                         <h5>crackme0x00a</h5>
                         <hr>
                         We start by looking at the first crackme. When we run the file, we are given a password prompt. When we input an incorrect password, the program returns by saying "Wrong!" and asks again, presumably until the user enters the right password.<br /><br />
-                        <img src="images/writeups/rpisec/crackme_00a.png" class="resize-image" alt="crackme0x00a runtime screenshot"></img><br /><br />
+                        <img src="../images/writeups/rpisec/crackme_00a.png" class="resize-image" alt="crackme0x00a runtime screenshot"></img><br /><br />
                         Opening the binary in IDA gives the following:<br /><br />
-                        <img src="images/writeups/rpisec/crackme_00a_ida.png" class="resize-image" alt="crackme0x00a ida" style="width: 600px; height: 400px;"></img><br /><br />
+                        <img src="../images/writeups/rpisec/crackme_00a_ida.png" class="resize-image" alt="crackme0x00a ida" style="width: 600px; height: 400px;"></img><br /><br />
                         We can clearly see that there is a call to scanf, which reads in a string from stdin. The inputted string is compared against another string, pass_1685, by the function strcmp. If the comparison passes, we are met with a text that says "Congrats!". Else, we are met with a text that says "Wrong!". After the incorrect comparison, there is a loop back to the password prompt. What is the value of pass_1685? IDA has automatically printed the value for us to see, which is the text "g00dJ0B!". Entering this as the password grant us access!<br /><br />
-                        <img src="images/writeups/rpisec/crackme_00a_success.png" class="resize-image" alt="crackme0x00a success"></img><br /><br />
+                        <img src="../images/writeups/rpisec/crackme_00a_success.png" class="resize-image" alt="crackme0x00a success"></img><br /><br />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12">
-                        <a name="#crackme0x00b"></a>
+                        <a name="crackme0x00b"></a>
                         <h5>crackme0x00b</h5>
                         <hr>
                         Running the binary results in identical behavior to the last one. When we open it in IDA, we see nearly the same binary except that instead of using the strcmp function, this binary uses wcscmp. A quick lookup at the man page for this function shows that this function is almost identical to strcmp except that it operates on wide character strings instead of normal character strings. Double clicking on the name of the string being checked against, "pass_1964" this time, shows us the password string in memory as wide-characters.<br /><br />
-                        <img src="images/writeups/rpisec/crackme_00b_ida.png" class="resize-image" alt="crackme0x00b ida" style="width: 600px; height: 400px;"></img><br /><br />
+                        <img src="../images/writeups/rpisec/crackme_00b_ida.png" class="resize-image" alt="crackme0x00b ida" style="width: 600px; height: 400px;"></img><br /><br />
                         Note that one of the characters is a little hidden - at address 0804A040, we see the value 77h but IDA didn't detect the character. The complete password, therefore, is chr(0x77) + "0wgreat". chr(0x77) is the letter "w", so the complete password is "w0wgreat". Entering this string as the password grant us access!<br /><br />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12">
-                        <a name="#crackme0x01"></a>
+                        <a name="crackme0x01"></a>
                         <h5>crackme0x01</h5>
                         <hr>
                         This binary asks for a password, but quits after receiving an incorrect password instead of repeatedly asking for it. Opening it in IDA, we see the following.<br /><br />
-                        <img src="images/writeups/rpisec/crackme_01_ida.png" class="resize-image" alt="crackme0x01 ida" style="width: 600px; height: 200px;"></img><br /><br />
+                        <img src="../images/writeups/rpisec/crackme_01_ida.png" class="resize-image" alt="crackme0x01 ida" style="width: 600px; height: 200px;"></img><br /><br />
                         This time, the inputted value is being read by scanf as an integer (the "%d" format string tells us this). What integer is our input being compared against? In the call to cmp, we see the value 149Ah. This is the same as 0x149A, or 5274 in base 10. Entering this as the password grants us access!<br /><br />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12">
-                        <a name="#crackme0x02"></a>
+                        <a name="crackme0x02"></a>
                         <h5>crackme0x02</h5>
                         <hr>
                         This binary is the same format as the previous binaries. Opening it in IDA, we see that it also takes an integer as input. However, a series of operations are performed on some other value before being compared to the input. I have annotated the operations in comments here.<br /><br />
-                        <img src="images/writeups/rpisec/crackme_02_ida.png" class="resize-image" alt="crackme0x02 ida annotated" style="width: 800px; height: 400px;"></img><br /><br />
+                        <img src="../images/writeups/rpisec/crackme_02_ida.png" class="resize-image" alt="crackme0x02 ida annotated" style="width: 800px; height: 400px;"></img><br /><br />
                         Inputting the final value being checked against, 338724, grants us access. Note that we can arrive at the value even more quickly by using a debugger like gdb. We know that the value being compared against the input is var_C, so we just need to set a breakpoint on the cmp instruction and print the value of var_C. Let us see how this is done:<br /><br />
                         Open GDB by typing: <pre><code class="bash">gdb crackme0x02</code></pre>
                         Once open, type the following to set a breakpoint on the cmp instruction.<pre><code class="bash">b *0x0804844E</code></pre>
                         The above is the syntax to set a breakpoint on a specific instruction's memory address in GDB. To know what the address is, you can see it in IDA by clicking on the instruction and viewing the address here.<br /><br />
-                        <img src="images/writeups/rpisec/crackme_02_ida_address.png" class="resize-image" alt="crackme0x02 ida annotated" style="width: 800px; height: 200px;"></img><br /><br />
+                        <img src="../images/writeups/rpisec/crackme_02_ida_address.png" class="resize-image" alt="crackme0x02 ida annotated" style="width: 800px; height: 200px;"></img><br /><br />
                         Now, type "run" to run the program in GDB. It will prompt you the password as it did before. Type in anything and press enter. GDB will resume execution until it hits the breakpoint, then peda will display the contents of several useful pieces of information, such as stack contents and register contents. We know that we want to see the value at [ebp+var_C], but var_C is just a name given for an offset by IDA. In GDB, we see the value of var_C is actually -0xC. To print the value at this location, type the following. <pre><code>x/1dw $ebp-0xC</code></pre> This will:
                         <ul>
                             <li>- Examine the contents of memory, reading 1 word as a decimal.</li>
                             <li>- Look at the memory address defined by the computation $ebp-0xC</li>
                         </ul>
-                        <img src="images/writeups/rpisec/crackme_02_gdb_address.png" class="resize-image" alt="crackme0x02 gdb"></img><br /><br />
+                        <img src="../images/writeups/rpisec/crackme_02_gdb_address.png" class="resize-image" alt="crackme0x02 gdb"></img><br /><br />
                         As you can see, we get the same value as we got in IDA! Using a debugger can be a lot easier and take a lot less time than going through instructions in IDA manually, so use this to your advantage!
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12">
-                        <a name="#crackme0x03"></a>
+                        <a name="crackme0x03"></a>
                         <h5>crackme0x03</h5>
                         <hr>
                         This binary runs the same as the previous binary. Opening it in IDA, we see very similar computations as the previous binary, but we seem to be missing the text that says "Invalid Password!" and "Congrats!". Examining the assembly reveals that the binary calls a function called "test" which we can reach by double-clicking on the word "test".<br /><br />
-                        <img src="images/writeups/rpisec/crackme_03_ida.png" class="resize-image" alt="crackme0x03 ida" style="width: 600px; height: 400px;"></img><br /><br />
+                        <img src="../images/writeups/rpisec/crackme_03_ida.png" class="resize-image" alt="crackme0x03 ida" style="width: 600px; height: 400px;"></img><br /><br />
                         It looks like there's some arguments being checked before printing some text, but the text appears jumbled. That text is passed as a parameter to another function called "shift". So, one can guess that after the input is checked, the shifted text is printed, which indicates success or failure. So, like before, just set a breakpoint on the value being checked before the cmp instruction and print it out. It turns out that the value is the same as in the previous challenge, which is 338724.<br /><br />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12">
-                        <a name="#crackme0x04"></a>
+                        <a name="crackme0x04"></a>
                         <h5>crackme0x04</h5>
                         <hr>
                         This binary runs the same as the previous binary. Opening it in IDA, we see that the input string is sent as an argument to a function called "check". Inside the test function, we see a few different variables and basic blocks. The first block of code that branches checks the length of the input string against some variable. At the bottom, this variable gets incremented and then the code executes at the top again. That variable is likely a counter, so we can rename the variable as such by pressing the "n" button in IDA. On the success path basic block, we can determine that the code reads one character from the input string, scans it as an integer, and adds the value to some kind of running total. When the total hits the value "15", we get the "Password OK!" message. So, as long as we enter a number whose digits can sum to 15, then the program should accept the password. Much of this behavior can be observed by running the program through a debugger and observing register values, but here is a commented IDA screenshot anyway.<br /><br />
-                        <img src="images/writeups/rpisec/crackme_04_ida.png" class="resize-image" alt="crackme0x04 ida" style="width: 900px; height: 600px;"></img><br /><br />
+                        <img src="../images/writeups/rpisec/crackme_04_ida.png" class="resize-image" alt="crackme0x04 ida" style="width: 900px; height: 600px;"></img><br /><br />
                         Inputting the number 12345 does the trick, and we are granted access!<br /><br />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12">
-                        <a name="#crackme0x05"></a>
+                        <a name="crackme0x05"></a>
                         <h5>crackme0x05</h5>
                         <hr>
-                        This binary runs the same as the previous binary. Opening it in IDA, we see that the input string is sent as an argument to a function called "check". Inside the test function, we see a few different variables and basic blocks. The first block of code that branches checks the length of the input string against some variable. At the bottom, this variable gets incremented and then the code executes at the top again. That variable is likely a counter, so we can rename the variable as such by pressing the "n" button in IDA. On the success path basic block, we can determine that the code reads one character from the input string, scans it as an integer, and adds the value to some kind of running total. When the total hits the value "15", we get the "Password OK!" message. So, as long as we enter a number whose digits can sum to 15, then the program should accept the password. Much of this behavior can be observed by running the program through a debugger and observing register values, but here is a commented IDA screenshot anyway.<br /><br />
-                        <img src="images/writeups/rpisec/crackme_05_ida.png" class="resize-image" alt="crackme0x04 ida" style="width: 900px; height: 600px;"></img><br /><br />
-                        Inputting the number 12345 does the trick, and we are granted access!<br /><br />
+                        This binary runs the same as the previous binary. Opening it in IDA, we see that the input string is sent as an argument to a function called "check". Similar to the last problem, this binary reads in a number and sums the digits one at a time. If at any point the sum hits the value 16, a function called "parell" is called.<br /><br />
+                        Inside the parell function, the number is bitwise-anded with 1, and then the test instruction is called. This is just x86's way of checking if the number is even or odd. If the number was odd, then the bitwise-and with 1 would result in the value of 1, and calling the test instruction would not set the zero flag. If it was even, then the bitwise-and would result in 0, and a test instruction would set the zero flag. To get access to the path with the "Password OK!" string, we need the test instruction result to be 0 - in other words, the number must be even.<br /><br />
+                        <img src="../images/writeups/rpisec/crackme_05_ida.png" class="resize-image" alt="crackme0x05 ida" style="width: 500px; height: 400px;"></img><br /><br />
+                         In summary, to gain access, we need to enter an integer whose digits sum to 16 at some point and is even. I chose the number 55510, and it worked!<br /><br />
                     </div>
                 </div>
                 <!--
                 <div class="row">
                     <div class="col s12 m12 l12">
-                        <a name="#crackme0x01"></a>
+                        <a name="crackme0x01"></a>
                         <h5>crackme0x01</h5>
                         <hr>
                         This binary asks for a password, but quits after receiving an incorrect password instead of repeatedly asking for it. Opening it in IDA, we see the following.<br /><br />
-                        <img src="images/writeups/rpisec/crackme_01_ida.png" class="resize-image" alt="crackme0x01 ida" style="width: 600px; height: 200px;"></img><br /><br />
+                        <img src="../images/writeups/rpisec/crackme_01_ida.png" class="resize-image" alt="crackme0x01 ida" style="width: 600px; height: 200px;"></img><br /><br />
                         This time, the inputted value is being read by scanf as an integer (the "%d" format string tells us this). What integer is our input being compared against? In the call to cmp, we see the value 149Ah. This is the same as 0x149A, or 5274 in base 10. Entering this as the password grants us access!<br /><br />
                     </div>
                 </div>
@@ -199,10 +200,10 @@ echo "source ~/peda/peda.py" >> ~/.gdbinit</code></pre>
 
         <!--Import jQuery before materialize.js-->
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script type="text/javascript" src="js/materialize.min.js"></script>
-        <script type="text/javascript" src="js/custom.js"></script>
-        <link rel="stylesheet" href="highlight/styles/vs2015.css">
-        <script src="highlight/highlight.pack.js"></script>
+        <script type="text/javascript" src="../js/materialize.min.js"></script>
+        <script type="text/javascript" src="../js/custom.js"></script>
+        <link rel="stylesheet" href="../highlight/styles/vs2015.css">
+        <script src="../highlight/highlight.pack.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
 	</body>
 </html>
