@@ -62,6 +62,7 @@
                         <h5>Table of Contents</h5>
                         <hr>
                         <ol type="I">
+                            <li><a href="#setup">Setup</a></li>
                             <li><a href="#crackme0x00a">crackme0x00a</a></li>
                             <li><a href="#crackme0x00b">crackme0x00b</a></li>
                             <li><a href="#crackme0x01">crackme0x01</a></li>
@@ -69,17 +70,37 @@
                             <li><a href="#crackme0x03">crackme0x03</a></li>
                             <li><a href="#crackme0x04">crackme0x04</a></li>
                             <li><a href="#crackme0x05">crackme0x05</a></li>
+                            <li><a href="#crackme0x06">crackme0x06</a></li>
                         </ol>
 
+                        <a name="setup"></a>
                         <h5>Setup</h5>
                         <hr>
+                        <b>Peda Installation</b><br />
                         My first step in this process was to install <a href="https://github.com/longld/peda" target="_blank">peda</a>.
-                        Peda is a Python framework for GDB, which is a code debugger. GDB is an invaluable tool for reverse engineering,
-                        but it requires a lot of manual work to do useful things, like displaying the contents of registers and the stack.
-                        Peda is an extension that gets added to the .gdbinit script that adds these functionalities for you, saving you a good amount of time and effort. Another tool that you may find extremely useful is a debugger, like IDA.<br /><br />
-                        <b>Installation (from the peda documentation):</b>
-                        <pre><code class="bash">git clone https://github.com/longld/peda.git ~/peda
+                        Peda is a Python framework for the code debugging tool GDB. GDB is an invaluable tool for reverse engineering,
+                        but it requires a lot of manual work to do useful things like displaying the contents of registers and the stack.
+                        Peda is an extension that gets added to the .gdbinit script that simplifies these functions for you, saving both time and effort.
+<pre><code class="bash">git clone https://github.com/longld/peda.git ~/peda
 echo "source ~/peda/peda.py" >> ~/.gdbinit</code></pre>
+
+                        <b>r2 Installation</b><br />
+                        Another tool you will need is a disassembler. A disassembler will attempt to take the machine code from the binary and display it in a more human-readable format - assembly. Some disassemblers even come packaged with a decompiler, which goes a step further and can reproduce source code! A few options available are IDA Pro, Binary Ninja, and radare2. I will be using radare2 since it is cross platform, powerful, and most importantly, free.
+<pre><code class="bash">git clone https://github.com/radare/radare2.git ~/radare2
+cd ~/radare2
+sys/install.sh</code></pre>
+
+                        <b>Common Error</b><br />
+                        Once you have the problems downloaded, first make sure that you can run the binaries.
+                        <pre><code class="bash">./crackme0x01</code></pre>
+                        If you get an error that says "No such file or directory", then you are likely running a 64-bit OS but are trying to execute a 32-bit binary. To circumvent this error, you can try the following. See <a href="https://askubuntu.com/questions/454253/how-to-run-32-bit-app-in-ubuntu-64-bit" target="_blank">here</a> for more details.
+<pre><code class="bash">sudo dpkg --add-architecture i386
+sudo apt-get update
+sudo apt-get install libc6:i386
+sudo apt-get install libncurses5:i386
+sudo apt-get install libstdc++6:i386
+</code></pre>
+                        If the file still does not execute or shows an error like "cannot execute binary file: Exec format error", then you may just have to get a 32-bit OS to run the binaries natively.
                     </div>
                 </div>
                 <div class="row">
@@ -87,12 +108,52 @@ echo "source ~/peda/peda.py" >> ~/.gdbinit</code></pre>
                         <a name="crackme0x00a"></a>
                         <h5>crackme0x00a</h5>
                         <hr>
-                        We start by looking at the first crackme. When we run the file, we are given a password prompt. When we input an incorrect password, the program returns by saying "Wrong!" and asks again, presumably until the user enters the right password.<br /><br />
-                        <img src="../images/writeups/rpisec/crackme_00a.png" class="resize-image" alt="crackme0x00a runtime screenshot"></img><br /><br />
-                        Opening the binary in IDA gives the following:<br /><br />
-                        <img src="../images/writeups/rpisec/crackme_00a_ida.png" class="resize-image" alt="crackme0x00a ida" style="width: 600px; height: 400px;"></img><br /><br />
-                        We can clearly see that there is a call to scanf, which reads in a string from stdin. The inputted string is compared against another string, pass_1685, by the function strcmp. If the comparison passes, we are met with a text that says "Congrats!". Else, we are met with a text that says "Wrong!". After the incorrect comparison, there is a loop back to the password prompt. What is the value of pass_1685? IDA has automatically printed the value for us to see, which is the text "g00dJ0B!". Entering this as the password grant us access!<br /><br />
-                        <img src="../images/writeups/rpisec/crackme_00a_success.png" class="resize-image" alt="crackme0x00a success"></img><br /><br />
+                        We start by looking at the first crackme. When we run the file, we are given a password prompt. When we input an incorrect password, the program returns by saying "Wrong!" and asks again, presumably until the user enters the right password.
+<pre><code class="bash">$ ./crackme0x00a
+Enter password: banana
+Wrong!
+Enter password: apple
+Wrong!
+Enter password:
+</code></pre>           
+                        Let's open the binary in r2. The <code>-AAA</code> option indicates that we want the binary to be analyzed completely for things like symbols. This isn't a default option in r2 since analyzing larger binaries can take very long, but for us it should be fine.
+<pre><code class="bash">$ r2 crackme0x00a -AAA
+[x] Analyze all flags starting with sym. and entry0 (aa)
+[x] Analyze len bytes of instructions for references (aar)
+[x] Analyze function calls (aac)
+[x] Emulate code to find computed references (aae)
+[x] Analyze consecutive function (aat)
+[x] Type matching analysis for all functions (afta))unc.* functions (aan)
+[x] Type matching analysis for all functions (afta)
+ -- Bindiff two files with '$ radiff2 /bin/true /bin/false'
+[0x08048430]>
+</code></pre>
+
+                        Next, let's search for the main function. We will use the <code>is</code> command in r2 to list all the symbols that it found in its analysis, and then grep for the word "main". In r2, you can grep in the terminal by typing <code>~</code>.
+<pre><code class="bash">[0x08048430]> is~main
+vaddr=0x080484e4 paddr=0x000004e4 ord=066 fwd=NONE sz=133 bind=GLOBAL type=FUNC name=main
+vaddr=0x08048410 paddr=0x00000410 ord=006 fwd=NONE sz=16 bind=GLOBAL type=FUNC name=imp.__libc_start_main
+[0x08048430]>
+</code></pre>
+
+                        Awesome! We can see that the main function starts at address 0x080484e4. You may have noticed that the shell prompt has an address in it - that is our current location in the file. To seek to somewhere else to begin analyzing that location, we will use the <code>seek</code> command.
+<pre><code class="bash">[0x08048430]> s 0x080484e4
+[0x080484e4]>
+</code></pre>
+
+                        Notice that the current location has changed in the shell prompt. Now, we can begin analyzing the function. r2 is a very powerful tool that contains many different views of the binary. In this challenge, I will show you how to use graph mode. Enter <code>VV</code> and you will see a graphical view displaying different basic blocks separated by calls or jump instructions. You can navigate the graph in the terminal by using Vim movement keys (hjkl). Of interest to us is the following:<br /><br />
+                        <img src="../images/writeups/rpisec/crackme_00a_r2.png" class="resize-image" alt="crackme0x00a r2"></img><br /><br />
+
+                        We can clearly see that there is a call to scanf, which reads in a string from stdin. The inputted string is compared against another string, str.g00dJ0B_, by the function strcmp. If the comparison passes, the jump evaluates to false and "Congrats!" is printed. Else, we are met with a text that says "Wrong!". After the incorrect comparison, there is a loop back to the password prompt. What is the value of str.g00dJ0B_? Press q two or three times to quit graphical mode and enter iz~g00dJ0B to find that string:
+<pre><code>[0x080484e4]> iz~g00dJ0B
+vaddr=0x0804a024 paddr=0x00001024 ordinal=000 sz=9 len=8 section=.data type=ascii string=g00dJ0B!
+</pre></code>
+                        It's "g00dJ0B!". Let's try this as the password for the crackme. Quit out of r2 and run the crackme again.
+<pre><code class="bash">$ ./crackme0x00a
+Enter password: g00dJ0B!
+Congrats!
+</pre></code>
+                        Awesome, we solved our first crackme! I know this problem could have been very easily solved if we had just run <code>strings crackme0x00a</code>, but hopefully this writeup gave you an idea for how to use r2.
                     </div>
                 </div>
                 <div class="row">
@@ -100,9 +161,18 @@ echo "source ~/peda/peda.py" >> ~/.gdbinit</code></pre>
                         <a name="crackme0x00b"></a>
                         <h5>crackme0x00b</h5>
                         <hr>
-                        Running the binary results in identical behavior to the last one. When we open it in IDA, we see nearly the same binary except that instead of using the strcmp function, this binary uses wcscmp. A quick lookup at the man page for this function shows that this function is almost identical to strcmp except that it operates on wide character strings instead of normal character strings. Double clicking on the name of the string being checked against, "pass_1964" this time, shows us the password string in memory as wide-characters.<br /><br />
-                        <img src="../images/writeups/rpisec/crackme_00b_ida.png" class="resize-image" alt="crackme0x00b ida" style="width: 600px; height: 400px;"></img><br /><br />
-                        Note that one of the characters is a little hidden - at address 0804A040, we see the value 77h but IDA didn't detect the character. The complete password, therefore, is chr(0x77) + "0wgreat". chr(0x77) is the letter "w", so the complete password is "w0wgreat". Entering this string as the password grant us access!<br /><br />
+                        Running the binary results in identical behavior to the last one. This time, I open it in r2 and print the disassembly of main instead of browsing graphical mode by typing <code>pdf @sym.main</code>.<br /><br />
+                        <img src="../images/writeups/rpisec/crackme_00b_r2.png" class="resize-image" alt="crackme0x00b r2"></img><br />
+                        We see nearly the same binary except that instead of using the strcmp function to compare two strings, this binary uses wcscmp. A quick lookup at the man page for this function shows that this function is just like strcmp except that it operates on wide character strings instead of normal character strings. The string that the input is being compared against is str.w0wgreat. Searching for that string results in the string "w0wgreat". In this case, r2 was even able to detect and accurately display wide-character strings! In IDA Pro, I had to manually do this, so this was amazing.
+<pre><code class="bash">[0x080483e0]> iz~w0wgreat
+vaddr=0x0804a040 paddr=0x00001040 ordinal=000 sz=36 len=8 section=.data type=wide32 string=w0wgreat
+[0x080483e0]> q
+
+$ ./crackme0x00b
+Enter password: w0wgreat
+Congrats!
+</code></pre>
+                        Running the code, we see that the password works. Awesome!
                     </div>
                 </div>
                 <div class="row">
@@ -110,9 +180,14 @@ echo "source ~/peda/peda.py" >> ~/.gdbinit</code></pre>
                         <a name="crackme0x01"></a>
                         <h5>crackme0x01</h5>
                         <hr>
-                        This binary asks for a password, but quits after receiving an incorrect password instead of repeatedly asking for it. Opening it in IDA, we see the following.<br /><br />
-                        <img src="../images/writeups/rpisec/crackme_01_ida.png" class="resize-image" alt="crackme0x01 ida" style="width: 600px; height: 200px;"></img><br /><br />
-                        This time, the inputted value is being read by scanf as an integer (the "%d" format string tells us this). What integer is our input being compared against? In the call to cmp, we see the value 149Ah. This is the same as 0x149A, or 5274 in base 10. Entering this as the password grants us access!<br /><br />
+                        Now that we know the drill, let's get right into it.<br /><br />
+                        <img src="../images/writeups/rpisec/crackme_01_r2.png" class="resize-image" alt="crackme0x01 r2"></img><br /><br />
+                        This time, the inputted value is being read by scanf as an integer (the "%d" format string tells us this). What integer is our input being compared against? In the call to cmp, we see the value 149Ah. This is the same as 0x149A, or 5274 in base 10. Entering this as the password grants us access!
+<pre><code>$ ./crackme0x01
+IOLI Crackme Level 0x01
+Password: 5274
+Password OK :)
+</code></pre>
                     </div>
                 </div>
                 <div class="row">
@@ -120,20 +195,20 @@ echo "source ~/peda/peda.py" >> ~/.gdbinit</code></pre>
                         <a name="crackme0x02"></a>
                         <h5>crackme0x02</h5>
                         <hr>
-                        This binary is the same format as the previous binaries. Opening it in IDA, we see that it also takes an integer as input. However, a series of operations are performed on some other value before being compared to the input. I have annotated the operations in comments here.<br /><br />
-                        <img src="../images/writeups/rpisec/crackme_02_ida.png" class="resize-image" alt="crackme0x02 ida annotated" style="width: 800px; height: 400px;"></img><br /><br />
-                        Inputting the final value being checked against, 338724, grants us access. Note that we can arrive at the value even more quickly by using a debugger like gdb. We know that the value being compared against the input is var_C, so we just need to set a breakpoint on the cmp instruction and print the value of var_C. Let us see how this is done:<br /><br />
-                        Open GDB by typing: <pre><code class="bash">gdb crackme0x02</code></pre>
-                        Once open, type the following to set a breakpoint on the cmp instruction.<pre><code class="bash">b *0x0804844E</code></pre>
-                        The above is the syntax to set a breakpoint on a specific instruction's memory address in GDB. To know what the address is, you can see it in IDA by clicking on the instruction and viewing the address here.<br /><br />
-                        <img src="../images/writeups/rpisec/crackme_02_ida_address.png" class="resize-image" alt="crackme0x02 ida annotated" style="width: 800px; height: 200px;"></img><br /><br />
-                        Now, type "run" to run the program in GDB. It will prompt you the password as it did before. Type in anything and press enter. GDB will resume execution until it hits the breakpoint, then peda will display the contents of several useful pieces of information, such as stack contents and register contents. We know that we want to see the value at [ebp+var_C], but var_C is just a name given for an offset by IDA. In GDB, we see the value of var_C is actually -0xC. To print the value at this location, type the following. <pre><code>x/1dw $ebp-0xC</code></pre> This will:
+                        Similar to last time, this binary takes an integer as input. However, instead of being compared against another value directly, a series of operations is performed on the other value first. We need to figure out what the final value is that's being compared against our input.<br /><br />
+                        <img src="../images/writeups/rpisec/crackme_02_r2.png" class="resize-image" alt="crackme0x02 r2"></img><br />
+                         There are two ways to solve this problem - to walk through the instructions by hand to see what the operations are and compute the value manually, or to use a debugger. In our case, we will use a debugger. Using a debugger, we can just "pause" the execution of the program after the value is computed and print it out - without having to do any of the hard work of manual calculations :)<br /><br />
+                        Open GDB by typing:
+<pre><code class="bash">gdb crackme0x02</code></pre>
+                        Once open, type the following to set a breakpoint on the cmp instruction.
+<pre><code class="bash">b *0x0804844E</code></pre>
+                        The above is the syntax to set a breakpoint on a specific instruction's memory address in GDB. Now, type "run" to run the program in GDB and enter any password when prompted. GDB will resume execution until it hits the breakpoint, then peda will display the contents of several useful pieces of information, such as stack contents and register contents. We know that we want to see the value at [local_ch], but local_ch is just a variable name given by r2. In GDB, we see the value of local_ch is actually -0xC. To print the value at this location, type the following. <pre><code>x/1dw $ebp-0xC</code></pre> This will:
                         <ul>
-                            <li>- Examine the contents of memory, reading 1 word as a decimal.</li>
-                            <li>- Look at the memory address defined by the computation $ebp-0xC</li>
+                            <li>- Examine the contents of memory, reading 1 decimal word.</li>
+                            <li>- Use the memory address defined by the computation $ebp-0xC</li>
                         </ul>
                         <img src="../images/writeups/rpisec/crackme_02_gdb_address.png" class="resize-image" alt="crackme0x02 gdb"></img><br /><br />
-                        As you can see, we get the same value as we got in IDA! Using a debugger can be a lot easier and take a lot less time than going through instructions in IDA manually, so use this to your advantage!
+                        The value we get is 338724. Running the program again, we see that we are granted access! Using a debugger can be a lot easier and take a lot less time than going through instructions manually, so use this to your advantage!
                     </div>
                 </div>
                 <div class="row">
@@ -141,9 +216,11 @@ echo "source ~/peda/peda.py" >> ~/.gdbinit</code></pre>
                         <a name="crackme0x03"></a>
                         <h5>crackme0x03</h5>
                         <hr>
-                        This binary runs the same as the previous binary. Opening it in IDA, we see very similar computations as the previous binary, but we seem to be missing the text that says "Invalid Password!" and "Congrats!". Examining the assembly reveals that the binary calls a function called "test" which we can reach by double-clicking on the word "test".<br /><br />
-                        <img src="../images/writeups/rpisec/crackme_03_ida.png" class="resize-image" alt="crackme0x03 ida" style="width: 600px; height: 400px;"></img><br /><br />
-                        It looks like there's some arguments being checked before printing some text, but the text appears jumbled. That text is passed as a parameter to another function called "shift". So, one can guess that after the input is checked, the shifted text is printed, which indicates success or failure. So, like before, just set a breakpoint on the value being checked before the cmp instruction and print it out. It turns out that the value is the same as in the previous challenge, which is 338724.<br /><br />
+                        This time, the main function reads in our input and performs calculations, but it doesn't seem to do the actual checking to see if our input was correct - this seems to be done in a function call named test. To view this function, we can type pdf @sym.test in the shell prompt.<br /><br />
+                        <img src="../images/writeups/rpisec/crackme_03_r2.png" class="resize-image" alt="crackme0x03 r2"></img><br />
+                        It looks like there's some arguments being checked before printing some text, but the text appears jumbled. That text is passed as a parameter to another function called "shift". So, we could guess that the function arguments are our input and the actual password. After the input is checked, one of the two shifted texts is printed, indicating success or failure. So, like before, let's just set a breakpoint on the cmp instruction in GDB and print out the memory location containing our mystery value.<br /><br />
+                        <img src="../images/writeups/rpisec/crackme_03_gdb.png" class="resize-image" alt="crackme0x03 gdb"></img><br />
+                        It turns out that the value is the same as in the previous challenge, which is 338724. Using this as the password works!
                     </div>
                 </div>
                 <div class="row">
@@ -151,9 +228,9 @@ echo "source ~/peda/peda.py" >> ~/.gdbinit</code></pre>
                         <a name="crackme0x04"></a>
                         <h5>crackme0x04</h5>
                         <hr>
-                        This binary runs the same as the previous binary. Opening it in IDA, we see that the input string is sent as an argument to a function called "check". Inside the test function, we see a few different variables and basic blocks. The first block of code that branches checks the length of the input string against some variable. At the bottom, this variable gets incremented and then the code executes at the top again. That variable is likely a counter, so we can rename the variable as such by pressing the "n" button in IDA. On the success path basic block, we can determine that the code reads one character from the input string, scans it as an integer, and adds the value to some kind of running total. When the total hits the value "15", we get the "Password OK!" message. So, as long as we enter a number whose digits can sum to 15, then the program should accept the password. Much of this behavior can be observed by running the program through a debugger and observing register values, but here is a commented IDA screenshot anyway.<br /><br />
-                        <img src="../images/writeups/rpisec/crackme_04_ida.png" class="resize-image" alt="crackme0x04 ida" style="width: 900px; height: 600px;"></img><br /><br />
-                        Inputting the number 12345 does the trick, and we are granted access!<br /><br />
+                        Opening the binary in r2, we see that the input string is sent as an argument to a function called "check". Inside the test function, we see a few different variables and basic blocks. To get a better idea of what's happening visually, I used graphical mode to see the control flow.<br /><br />
+                        <img src="../images/writeups/rpisec/crackme_04_r2.png" class="resize-image" alt="crackme0x04 r2"></img><br />
+                         The first block of code that branches checks the length of the input string against some variable. At the bottom, this variable gets incremented and then the code executes at the top again. That variable is likely some kind of index, and we are probably running some kind of for-loop to execute some code as long as our index is less than the length of the string. I renamed the variable, originally "local_ch", to "index" to remember this. This can be done by typing ":" in graphical mode to bring up an integrated shell prompt, then typing <pre><code>afvn local_ch index</code></pre> On the success path basic block, the first few lines read one character from the input string, at the index of our "index" variable. Then, this number is scanned as an integer, and finally added to some kind of running total. When the total hits the value 0xf (15), we get the "Password OK!" message. So, as long as we enter a number whose digits can sum to 15 when summed from left to right, then the program should accept the password. Inputting the number 12345 does the trick, and we are granted access!
                     </div>
                 </div>
                 <div class="row">
@@ -161,24 +238,31 @@ echo "source ~/peda/peda.py" >> ~/.gdbinit</code></pre>
                         <a name="crackme0x05"></a>
                         <h5>crackme0x05</h5>
                         <hr>
-                        This binary runs the same as the previous binary. Opening it in IDA, we see that the input string is sent as an argument to a function called "check". Similar to the last problem, this binary reads in a number and sums the digits one at a time. If at any point the sum hits the value 16, a function called "parell" is called.<br /><br />
-                        Inside the parell function, the number is bitwise-anded with 1, and then the test instruction is called. This is just x86's way of checking if the number is even or odd. If the number was odd, then the bitwise-and with 1 would result in the value of 1, and calling the test instruction would not set the zero flag. If it was even, then the bitwise-and would result in 0, and a test instruction would set the zero flag. To get access to the path with the "Password OK!" string, we need the test instruction result to be 0 - in other words, the number must be even.<br /><br />
-                        <img src="../images/writeups/rpisec/crackme_05_ida.png" class="resize-image" alt="crackme0x05 ida" style="width: 500px; height: 400px;"></img><br /><br />
-                         In summary, to gain access, we need to enter an integer whose digits sum to 16 at some point and is even. I chose the number 55510, and it worked!<br /><br />
+                        Similar to the last problem, this binary reads in a number and sums the digits one at a time. However, there is a little more that happens - if at any point the sum hits the value 16, a function called "parell" is called.<br /><br />
+                        <img src="../images/writeups/rpisec/crackme_05_r2.png" class="resize-image" alt="crackme0x05 r2"></img><br />
+                        Inside the parell function, our inputted number is read as a decimal again then bitwise-anded with 1. After this, the test instruction is called. This is just x86's way of checking if the number is even or odd. If the number was odd, then the bitwise-and with 1 would result in the value of 1, and calling the test instruction would not set the zero flag. If it was even, then the bitwise-and would result in 0, and a test instruction would set the zero flag. To get access to the path with the "Password OK!" string, we need the test instruction result to be 0 - in other words, the number must be even. So to gain access, we need to enter an integer whose digits sum to 16 at some point and is even. I chose the number 55510, and it worked!
                     </div>
                 </div>
-                <!--
                 <div class="row">
                     <div class="col s12 m12 l12">
-                        <a name="crackme0x01"></a>
-                        <h5>crackme0x01</h5>
+                        <a name="crackme0x06"></a>
+                        <h5>crackme0x06</h5>
                         <hr>
-                        This binary asks for a password, but quits after receiving an incorrect password instead of repeatedly asking for it. Opening it in IDA, we see the following.<br /><br />
-                        <img src="../images/writeups/rpisec/crackme_01_ida.png" class="resize-image" alt="crackme0x01 ida" style="width: 600px; height: 200px;"></img><br /><br />
-                        This time, the inputted value is being read by scanf as an integer (the "%d" format string tells us this). What integer is our input being compared against? In the call to cmp, we see the value 149Ah. This is the same as 0x149A, or 5274 in base 10. Entering this as the password grants us access!<br /><br />
+                        Similar to the last problem, this binary reads in a number and sums the digits one at a time. If the digits sum to 16, the function parell is called. Inside parell, we see the same code that checks to see if the input number was even, but before we get to these checks, another function called "dummy" is called. If this function returns zero, then we never get to the even number checks and the program prints "Incorrect password". So, let's check out this new function!<br /><br />
+                        <img src="../images/writeups/rpisec/crackme_06_r2.png" class="resize-image" alt="crackme0x06 r2"></img><br />
+                        Inside the dummy function, a few interesting things are happening. We see a variable being incremented in the left basic block, and being checked against on the top. This seems like a loop index! So, we will rename this variable.<br /><br />
+
+                        If the top-most basic block cmp ever results in a zero, then we simply return 0, which means we failed. So, we want to take the left path from here. But what is happening in the left path? It looks like there's some string, "LOLO". The left path seems to check if another string's first 3 bytes are the same as "LOLO". In other words, the other string's first 3 letters must be "LOL". But what is this other string? We never passed the input string to this function. Let's fire up GDB and set a breakpoint on the strcmp instruction to find out!<br /><br />
+                        <img src="../images/writeups/rpisec/crackme_06_gdb.png" class="resize-image" alt="crackme0x06 gdb"></img><br />
+                        Looking at the string, we see something that says "LANG=en_US.UTF-8" (this string may be different for you). This is an environment variable! Could the program be looking through all the environment variables? Let's press "c" in GDB to continue executing the program to find out. The breakpoint hits again, and this time my $eax register points to a string that says "USER=vagrant" (again this may be different for you). So, we are fairly certain that the binary is iterating through the environment variables. A safe assumption at this point would be that the program is looking for an environment variable that begins with "LOL". Let's try running the binary with an environment variable like this.
+<pre><code>$ env LOL=1 ./crackme0x06
+IOLI Crackme Level 0x06
+Password: 55510
+Password OK!
+</code></pre>
+                        Awesome, it worked!           
                     </div>
                 </div>
-                -->
             </div>
         </main>
 
