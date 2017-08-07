@@ -18,7 +18,7 @@
         <!--Import materialize.css-->
         <link type="text/css" rel="stylesheet" href="../css/materialize.min.css"  media="screen,projection"/>
 
-	    <title>Sid | RPISEC Crackmes</title>
+	    <title>Sid | IOLI Crackmes</title>
 	</head>
 
 	<body>
@@ -30,7 +30,7 @@
                     <ul class="left hide-on-med-and-down nav-bar">
                         <li><a href="../index.html">Home</a></li>
                         <li><a href="../projects.html">Projects</a></li>
-                        <li><a href="../writeups.html" class="active">CTF Writeups</a></li>
+                        <li><a href="../writeups.html" class="active">Writeups</a></li>
                         <li><a href="../courses.html">Coursework</a></li>
                         <li><a href="../resources/Sids-Resume.pdf" target="_blank">Résumé / CV</a></li>
                     </ul>
@@ -40,7 +40,7 @@
                     <ul class="side-nav nav-bar" id="mobile-demo">
                         <li><a href="../index.html">Home</a></li>
                         <li><a href="../projects.html">Projects</a></li>
-                        <li><a href="../writeups.html" class="active">CTF Writeups</a></li>
+                        <li><a href="../writeups.html" class="active">Writeups</a></li>
                         <li><a href="../courses.html">Coursework</a></li>
                         <li><a href="../greyhat.html">GreyHat</a></li>
                         <li><a href="../resources/Sids-Resume.pdf">Résumé / CV</a></li>
@@ -50,14 +50,11 @@
 
             <!-- Page Body -->
             <div class="container">
-                <h3>RPISEC MBE Crackmes</h3>
+                <h3>IOLI Crackmes</h3>
                 <hr>
                 <div class="row">
                     <div class="col s12 m12 l12">
-                        RPI has generously published their Modern Binary Exploitation course on GitHub for all to use for free (<a href="https://github.com/RPISEC/MBE" target="_blank">here</a>). This class was created to be
-                        an introduction to reverse engineering for complete beginners, and so this is where I start my reversing
-                        journey. The problems below can be found <a href="http://security.cs.rpi.edu/courses/binexp-spring2015/lectures/2/challenges.zip">here</a>.<br /><br />
-                        A crackme is a challenge where you are given a compiled program that requires certain input to give access to a user. In order to discover what the input is, you will need to reverse engineer the application and trace what happens to the input.<br /><br />
+                        The problems below can be found <a href="http://security.cs.rpi.edu/courses/binexp-spring2015/lectures/2/challenges.zip">here</a>. A crackme is a challenge where you are given a compiled program that requires certain input to give access to a user. In order to discover what the input is, you will need to reverse engineer the application and trace what happens to the input.
 
                         <h5>Table of Contents</h5>
                         <hr>
@@ -71,6 +68,9 @@
                             <li><a href="#crackme0x04">crackme0x04</a></li>
                             <li><a href="#crackme0x05">crackme0x05</a></li>
                             <li><a href="#crackme0x06">crackme0x06</a></li>
+                            <li><a href="#crackme0x07">crackme0x07</a></li>
+                            <li><a href="#crackme0x08">crackme0x08</a></li>
+                            <li><a href="#summary">Summary</a></li>
                         </ol>
 
                         <a name="setup"></a>
@@ -82,23 +82,23 @@
                         but it requires a lot of manual work to do useful things like displaying the contents of registers and the stack.
                         Peda is an extension that gets added to the .gdbinit script that simplifies these functions for you, saving both time and effort.
 <pre><code class="bash">git clone https://github.com/longld/peda.git ~/peda
-echo "source ~/peda/peda.py" >> ~/.gdbinit</code></pre>
+echo "source ~/peda/peda.py" >> ~/.gdbinit
+</code></pre>
 
                         <b>r2 Installation</b><br />
                         Another tool you will need is a disassembler. A disassembler will attempt to take the machine code from the binary and display it in a more human-readable format - assembly. Some disassemblers even come packaged with a decompiler, which goes a step further and can reproduce source code! A few options available are IDA Pro, Binary Ninja, and radare2. I will be using radare2 since it is cross platform, powerful, and most importantly, free.
 <pre><code class="bash">git clone https://github.com/radare/radare2.git ~/radare2
 cd ~/radare2
-sys/install.sh</code></pre>
+sys/install.sh
+</code></pre>
 
-                        <b>Common Error</b><br />
+                        <b>Common Errors</b><br />
                         Once you have the problems downloaded, first make sure that you can run the binaries.
                         <pre><code class="bash">./crackme0x01</code></pre>
                         If you get an error that says "No such file or directory", then you are likely running a 64-bit OS but are trying to execute a 32-bit binary. To circumvent this error, you can try the following. See <a href="https://askubuntu.com/questions/454253/how-to-run-32-bit-app-in-ubuntu-64-bit" target="_blank">here</a> for more details.
 <pre><code class="bash">sudo dpkg --add-architecture i386
 sudo apt-get update
-sudo apt-get install libc6:i386
-sudo apt-get install libncurses5:i386
-sudo apt-get install libstdc++6:i386
+sudo apt-get -y install libc6:i386 libncurses5:i386 libstdc++6:i386
 </code></pre>
                         If the file still does not execute or shows an error like "cannot execute binary file: Exec format error", then you may just have to get a 32-bit OS to run the binaries natively.
                     </div>
@@ -147,12 +147,12 @@ vaddr=0x08048410 paddr=0x00000410 ord=006 fwd=NONE sz=16 bind=GLOBAL type=FUNC n
                         We can clearly see that there is a call to scanf, which reads in a string from stdin. The inputted string is compared against another string, str.g00dJ0B_, by the function strcmp. If the comparison passes, the jump evaluates to false and "Congrats!" is printed. Else, we are met with a text that says "Wrong!". After the incorrect comparison, there is a loop back to the password prompt. What is the value of str.g00dJ0B_? Press q two or three times to quit graphical mode and enter iz~g00dJ0B to find that string:
 <pre><code>[0x080484e4]> iz~g00dJ0B
 vaddr=0x0804a024 paddr=0x00001024 ordinal=000 sz=9 len=8 section=.data type=ascii string=g00dJ0B!
-</pre></code>
+</code></pre>
                         It's "g00dJ0B!". Let's try this as the password for the crackme. Quit out of r2 and run the crackme again.
 <pre><code class="bash">$ ./crackme0x00a
 Enter password: g00dJ0B!
 Congrats!
-</pre></code>
+</code></pre>
                         Awesome, we solved our first crackme! I know this problem could have been very easily solved if we had just run <code>strings crackme0x00a</code>, but hopefully this writeup gave you an idea for how to use r2.
                     </div>
                 </div>
@@ -199,9 +199,11 @@ Password OK :)
                         <img src="../images/writeups/rpisec/crackme_02_r2.png" class="resize-image" alt="crackme0x02 r2"></img><br />
                          There are two ways to solve this problem - to walk through the instructions by hand to see what the operations are and compute the value manually, or to use a debugger. In our case, we will use a debugger. Using a debugger, we can just "pause" the execution of the program after the value is computed and print it out - without having to do any of the hard work of manual calculations :)<br /><br />
                         Open GDB by typing:
-<pre><code class="bash">gdb crackme0x02</code></pre>
+<pre><code class="bash">gdb crackme0x02
+</code></pre>
                         Once open, type the following to set a breakpoint on the cmp instruction.
-<pre><code class="bash">b *0x0804844E</code></pre>
+<pre><code class="bash">b *0x0804844E
+</code></pre>
                         The above is the syntax to set a breakpoint on a specific instruction's memory address in GDB. Now, type "run" to run the program in GDB and enter any password when prompted. GDB will resume execution until it hits the breakpoint, then peda will display the contents of several useful pieces of information, such as stack contents and register contents. We know that we want to see the value at [local_ch], but local_ch is just a variable name given by r2. In GDB, we see the value of local_ch is actually -0xC. To print the value at this location, type the following. <pre><code>x/1dw $ebp-0xC</code></pre> This will:
                         <ul>
                             <li>- Examine the contents of memory, reading 1 decimal word.</li>
@@ -261,6 +263,90 @@ Password: 55510
 Password OK!
 </code></pre>
                         Awesome, it worked!           
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <a name="crackme0x07"></a>
+                        <h5>crackme0x07</h5>
+                        <hr>
+                        As usual, we open and analyze the binary using r2. But this time, when we call <code>pdf @sym.main</code>, we get an error!
+<pre><code>[0x08048400]> pdf @sym.main
+Invalid address (sym.main)
+|ERROR| Invalid command 'pdf @sym.main' (0x70)
+</code></pre>
+                        This indicates to us that this binary is stripped of its symbols. The symbols are put in by a compiler like gcc when compiling the source. The symbols are what allowed us and developers to easily debug using commands like pdf @sym.main and pdf @sym.check. However, developers should typically strip these symbols when exporting their code for production since they increase the memory footprint and make reverse engineering easier. Fortunately for us, however, we can still perform our analysis even without symbols.
+
+
+                        We can first observe program behavior by executing it. It appears pretty much identical to the previous problems; it asks us for a password and tells us we are incorrect. Now where do we go?
+
+                        r2's automatically seeks to the entry point of the program. Even without symbols, r2's analysis is very helpful. If you just type "pdf", r2 will attempt to disassemble and print the instructions from the entry point of the program. Notice these lines:
+<pre><code>|           0x08048415      51             push ecx
+|           0x08048416      56             push esi                    ; void * stack_end
+|           0x08048417      687d860408     push main                   ; 0x804867d ; "U\x89\xe5\x81\xec\x88" ; int argc
+\           0x0804841c      e867ffffff     call sym.imp.__libc_start_main ; int __libc_start_main(func main, int argc, char **ubp_av, func init, func fini, func rtld_fini, void *stack_end)
+</code></pre>
+                        r2 actually found the the main function for us! It's located at 0x804867d. So what function are we in right now? The C runtime has to do some initialization before calling the actual main function. This initialization is done in the function called "__libc_start_main". Before this function is called, its arguments have to be pushed onto the stack - and that is where we are right now. Let's seek to the actual main function that we care about.
+<pre><code>[0x08048400]> s 0x804867d
+[0x0804867d]> pdf
+/ (fcn) main 99
+|   main (int arg_10h);
+|           ; var int local_78h @ ebp-0x78
+|           ; arg int arg_10h @ ebp+0x10
+|           ; var int local_4h @ esp+0x4
+|              ; DATA XREF from 0x08048417 (entry0)
+|           0x0804867d      55             push ebp
+|           0x0804867e      89e5           mov ebp, esp
+|           0x08048680      81ec88000000   sub esp, 0x88
+|           0x08048686      83e4f0         and esp, 0xfffffff0
+|           0x08048689      b800000000     mov eax, 0
+|           0x0804868e      83c00f         add eax, 0xf
+|           0x08048691      83c00f         add eax, 0xf
+|           0x08048694      c1e804         shr eax, 4
+|           0x08048697      c1e004         shl eax, 4
+|           0x0804869a      29c4           sub esp, eax
+|           0x0804869c      c70424d98704.  mov dword [esp], str.IOLI_Crackme_Level_0x07_n ; [0x80487d9:4]=0x494c4f49 ; "IOLI Crackme Level 0x07\n" ; const char * format
+|           0x080486a3      e810fdffff     call sym.imp.printf         ; int printf(const char *format)
+|           0x080486a8      c70424f28704.  mov dword [esp], str.Password: ; [0x80487f2:4]=0x73736150 ; "Password: " ; const char * format
+|           0x080486af      e804fdffff     call sym.imp.printf         ; int printf(const char *format)
+|           0x080486b4      8d4588         lea eax, [local_78h]
+|           0x080486b7      89442404       mov dword [local_4h], eax
+|           0x080486bb      c70424fd8704.  mov dword [esp], 0x80487fd  ; [0x80487fd:4]=0x7325 ; "%s" ; const char * format
+|           0x080486c2      e8d1fcffff     call sym.imp.scanf          ; int scanf(const char *format)
+|           0x080486c7      8b4510         mov eax, dword [arg_10h]    ; [0x10:4]=0x30002
+|           0x080486ca      89442404       mov dword [local_4h], eax
+|           0x080486ce      8d4588         lea eax, [local_78h]
+|           0x080486d1      890424         mov dword [esp], eax        ; const char * s
+|           0x080486d4      e8e0feffff     call sub.strlen_5b9         ; size_t strlen(const char *s)
+|           0x080486d9      b800000000     mov eax, 0
+|           0x080486de      c9             leave
+\           0x080486df      c3             ret
+[0x0804867d]>
+</code></pre>
+                        Wow! Even without symbols, we were able to locate main and get a really nice looking disassembly - thanks r2! From this, we can easily reverse and figure out what is happening - and most of it should look familiar. One thing that may catch you off gurad is the call to "sub.strlen_5b9". This is not actually a call to strlen; it is a call to a function that uses strlen. We can tell this because it's calling sub.strlen instead of sym.imp.strlen like the previous system calls. Once you go into the function, you can rename it by typing <code>d new_function_name</code>.<br /><br />
+                        We'll quickly notice that most of this binary is the same as the previous binary. The only difference is that in this binary, there is a counter inside "parell". If the counter gets greater than 9, the binary fails. So, as long as our password is less than 10 digits, and follows the same rules as the previous problem, we should be good to go.
+<pre><code>$ env LOL=1 ./crackme0x07
+IOLI Crackme Level 0x07
+Password: 55510
+Password OK!
+</code></pre>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <a name="crackme0x08"></a>
+                        <h5>crackme0x08</h5>
+                        <hr>
+                        I won't go into much detail about this problem because it is literally the exact same algorithm as the previous problem. Why is it a separate challenge then? This binary is even more stripped! We can't use function names at all; instead we're greeted with esoteric functions like <code>fcn.080485b9</code>.
+                        But if you can look past this and work your way as before, then you should be all good to go.
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <a name="summary"></a>
+                        <h5>Summary</h5>
+                        <hr>
+                        Thanks for following along! We've finished the IOLI Crackmes. If you think I've messed up somewhere or you have a better way to solve some of these, please let me know! Hopefully, this has been a good introduction to x86, reverse engineering, and using GDB and r2.
                     </div>
                 </div>
             </div>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="Siddarth's Website">
+		<meta name="author" content="Siddarth Senthilkumar">
+		<meta name="msapplication-TileColor" content="#ffffff">
+		<meta name="msapplication-TileImage" content="../images/icons/name-logo.png">
+		<link href="../css/custom.css" rel="stylesheet">
+        <link rel="icon" href="../images/icons/name-logo.png">
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <!--Import Google Icon Font-->
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="../css/materialize.min.css"  media="screen,projection"/>
+
+	    <title>Sid | RSA</title>
+	</head>
+
+	<body>
+        <main>
+            <!-- Navigation bar -->
+            <nav>
+                <div class="nav-wrapper grey darken-4">
+                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                    <ul class="left hide-on-med-and-down nav-bar">
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../projects.html">Projects</a></li>
+                        <li><a href="../writeups.html" class="active">Writeups</a></li>
+                        <li><a href="../courses.html">Coursework</a></li>
+                        <li><a href="../resources/Sids-Resume.pdf" target="_blank">Résumé / CV</a></li>
+                    </ul>
+                    <ul class="right hide-on-med-and-down nav-bar">
+                        <li><a href="../greyhat.html">GreyHat</a></li>
+                    </ul>
+                    <ul class="side-nav nav-bar" id="mobile-demo">
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../projects.html">Projects</a></li>
+                        <li><a href="../writeups.html" class="active">Writeups</a></li>
+                        <li><a href="../courses.html">Coursework</a></li>
+                        <li><a href="../greyhat.html">GreyHat</a></li>
+                        <li><a href="../resources/Sids-Resume.pdf">Résumé / CV</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Page Body -->
+            <div class="container">
+                <h3>RSA Scripts and Tools</h3>
+                <hr>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        RSA is an asymmetric encryption system. Here are some handy tools and scripts for solving related CTF problems.
+                        <h5>Table of Contents</h5>
+                        <hr>
+                        <ol type="I">
+                            <li><a href="#setup">Setup</a></li>
+                            <li><a href="#attacks">RSA Attacks</a></li>
+                            <li><a href="#Basic Decryption">Basic RSA</a></li>
+                            <li><a href="#openssl">OpenSSL Commands</a></li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <a name="setup"></a>
+                        <h5>Setup</h5>
+                        <hr>
+                        Here, we will install RSA CTF tool and rsatool. You will need git, python, pip, and virtualenv already installed on your system.
+<pre><code>sudo apt-get -y install libgmp3-dev
+cd ~
+mkdir rsa
+cd rsa
+virtualenv venv
+source venv/bin/activate
+git clone https://github.com/Ganapati/RsaCtfTool.git
+cd RsaCtfTool
+git clone https://github.com/hellman/libnum.git
+cd libnum
+python setup.py install
+cd ..
+pip install -r requirements.txt
+cd ..
+git clone https://github.com/ius/rsatool.git
+cd rsatool
+python setup.py install
+cd ..
+pip install sympy
+deactivate
+</code></pre>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <a name="attacks"></a>
+                        <h5>General RSA Attack Notes</h5>
+                        <hr>
+                        <ol>
+                            <li>Small public modulus n - use <a href="https://factordb.com/index.php" target="_blank">https://factordb.com/index.php</a> to find p and q.</li>
+                            <li>Given multiple keys - see if any of the keys have common factors using the Euclidean Algorithm.
+<pre><code class="python">import fractions
+print(fractions.gcd(a, b))
+</code></pre>
+</li>
+                            <li>p and q are close to each other - use <a href="https://www.alpertron.com.ar/ECM.HTM" target="_blank">https://www.alpertron.com.ar/ECM.HTM</a></li>
+                            <li>Two ciphertexts use the same modulus n but different exponents e - use the following:
+<pre><code class="python">#!/usr/bin/python3.4
+   # Written by Anirudh Anand (lucif3r) : email - anirudh@anirudhanand.com   
+   # This program will help to decrypt cipher text to plain text if you have
+   # more than 1 cipher text encrypted with same Modulus (N) but different
+   # exponents. We use extended Euclideangm Algorithm to achieve this.
+   
+   __author__ = 'lucif3r'
+   
+   import gmpy2
+   
+   
+   class RSAModuli:
+       def __init__(self):
+           self.a = 0
+           self.b = 0
+           self.m = 0
+           self.i = 0
+       def gcd(self, num1, num2):
+           """
+           This function os used to find the GCD of 2 numbers.
+           :param num1:
+           :param num2:
+           :return:
+           """
+           if num1 < num2:
+               num1, num2 = num2, num1
+           while num2 != 0:
+               num1, num2 = num2, num1 % num2
+           return num1
+       def extended_euclidean(self, e1, e2):
+           """
+           The value a is the modular multiplicative inverse of e1 and e2.
+           b is calculated from the eqn: (e1*a) + (e2*b) = gcd(e1, e2)
+           :param e1: exponent 1
+           :param e2: exponent 2
+           """
+           self.a = gmpy2.invert(e1, e2)
+           self.b = (float(self.gcd(e1, e2)-(self.a*e1)))/float(e2)
+       def modular_inverse(self, c1, c2, N):
+           """
+           i is the modular multiplicative inverse of c2 and N.
+           i^-b is equal to c2^b. So if the value of b is -ve, we
+           have to find out i and then do i^-b.
+           Final plain text is given by m = (c1^a) * (i^-b) %N
+           :param c1: cipher text 1
+           :param c2: cipher text 2
+           :param N: Modulus
+           """
+           i = gmpy2.invert(c2, N)
+           mx = pow(c1, self.a, N)
+           my = pow(i, int(-self.b), N)
+           self.m= mx * my % N
+          def print_value(self):
+           print("Plain Text: ", self.m)
+   
+   
+   def main():
+       c = RSAModuli()
+       N  =
+       c1 =
+       c2 =
+       e1 =
+       e2 =
+       c.extended_euclidean(e1, e2)
+       c.modular_inverse(c1, c2, N)
+       c.print_value()
+    
+   if __name__ == '__main__':
+       main()
+</code></pre>
+</li>
+                            <li>Small p or q - use <a href="https://www.alpertron.com.ar/ECM.HTM" target="_blank">https://www.alpertron.com.ar/ECM.HTM</a></li>
+                            <li>Large e or d - susceptible to Wiener's attack.</li>
+                            <li>Same m and e for multiple messages. If num_ciphertexts >= e then you can use Chinese Remainder Theorem to calculate the message (but gcd of all n's must be 1 - if the gcd between any two n's is not 1, then you can just find a common factor between them). Hastad's Broadcast Attack - <a href="https://raw.githubusercontent.com/rk700/attackrsa/master/attackrsa/Hastad.py" target="_blank">https://raw.githubusercontent.com/rk700/attackrsa/master/attackrsa/Hastad.py</a></li>
+                        </ol>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <a name="Basic Decryption"></a>
+                        <h5>Basic RSA Decryption</h5>
+                        <hr>
+                        If you can easily find p and q or d, then you can use this script to decrypt a ciphertext to ASCII.
+<pre><code>def egcd(a, b):
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = egcd(b % a, a)
+        return (g, x - (b // a) * y, y)
+
+def modinv(a, m):
+    g, x, y = egcd(a, m)
+    if g != 1:
+        raise Exception('modular inverse does not exist')
+    else:
+        return x % m
+
+def decrypt(c, e, n, d=0, p=0, q=0):
+
+    # If p and q are given, calculate d
+    if d == 0 and p != 0 and q != 0:
+        totientN = (p - 1) * (q - 1)
+        d = modinv(e, totientN)
+
+    plaintext = pow(c, d, n)
+    return plaintext
+
+def display_plain_as_ascii(plaintext):
+    plaintext = hex(plaintext)[2:len(hex(plaintext)) - 1]
+    plaintext = plaintext.decode('hex')
+    return plaintext
+
+if __name__ == "__main__":
+
+    # Given - change these:
+    c = 679293973228377073
+    e = 17
+    n = 944871836856449473
+
+    # Enter either d or (p and q):
+    d = 166742088513926273
+    p = 0
+    q = 0
+
+    # Print result
+    plaintext = decrypt(c, e, n, d, p, q)
+    print(display_plain_as_ascii(plaintext))
+</code></pre>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <a name="openssl"></a>
+                        <h5>OpenSSL Format Commands</h5>
+                        <hr>
+                        Here are some commands to transform keys between PKCS#1 format.<br /><br />
+                        <b>Preparation</b><br />
+                        For the commands that use rsatool.py or RsaCtfTool.py, you will need to do the following:
+<pre><code class="bash">cd ~/rsa
+source venv/bin/activate
+</code></pre>
+                        <b>Given n and d, print e, p, q.</b>
+<pre><code>python rsatool.py -n 13826123222358393307 -d 9793706120266356337
+</code></pre>
+                        <b>Given n and d, print PEM format.</b>
+<pre><code># cd rsatool
+python rsatool.py -f PEM -o key_file.pem -n 13826123222358393307 -d 9793706120266356337
+</code></pre>
+                        <b>Given p and q, print DER format.</b>
+<pre><code># cd rsatool
+python rsatool.py -f DER -o key_file.der -p 4184799299 -q 3303891593
+</code></pre>
+
+                </div>
+            </div>
+        </main>
+
+        <!-- Contact Me -->
+        <footer class="page-footer grey darken-4">
+            <div class="container">
+                <div class="center-align row">
+                    <div class="col s12 m12 l12">
+                        <ul class="contact">
+                            <li><a class="waves-effect waves-light btn light-blue" href="https://github.com/sidsenkumar11" target="_blank">GitHub</a></li>
+                            <li><a class="waves-effect waves-light btn light-blue" href="https://linkedin.com/in/sidsenkumar11" target="_blank">LinkedIn</a></li>
+                            <li><a class="waves-effect waves-light btn light-blue" href="mailto:sidsenkumar11@gmail.com" target="_blank">E-Mail</a></li>
+                            <li><a class="waves-effect waves-light btn light-blue" href="resources/Sids-Resume.pdf" target="_blank">Resume</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="../js/materialize.min.js"></script>
+        <script type="text/javascript" src="../js/custom.js"></script>
+        <link rel="stylesheet" href="../highlight/styles/vs2015.css">
+        <script src="../highlight/highlight.pack.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+	</body>
+</html>
