@@ -18,7 +18,7 @@
         <!--Import materialize.css-->
         <link type="text/css" rel="stylesheet" href="../css/materialize.min.css"  media="screen,projection"/>
 
-	    <title>Sid | RSA</title>
+	    <title>Sid | Pwn Inputs</title>
 	</head>
 
 	<body>
@@ -50,79 +50,27 @@
 
             <!-- Page Body -->
             <div class="container">
-                <h3>RSA Scripts and Tools</h3>
+                <h3>Pwn Inputs</h3>
                 <hr>
                 <div class="row">
                     <div class="col s12 m12 l12">
-                        RSA is an asymmetric encryption system. Here are some handy tools and scripts for solving related CTF problems.
+                        Here are some useful GDB, Radare2, and Python command inputs to help during reversing or exploitation challenges.
                         <h5>Table of Contents</h5>
                         <hr>
                         <ol type="I">
-                            <li><a href="#setup">Setup</a></li>
-                            <li><a href="#attacks">RSA Attacks</a></li>
-                            <li><a href="#Basic Decryption">Basic RSA</a></li>
-                            <li><a href="#commands">Script Commands</a></li>
+                            <li><a href="#r2">Radare2</a></li>
                         </ol>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12">
-                        <a name="setup"></a>
-                        <h5>Setup</h5>
+                        <a name="r2"></a>
+                        <h5>Radare2 Command Notes</h5>
                         <hr>
-                        Use this script to install a few useful utilities for working with RSA problems. You will need git, python, pip, and virtualenv already installed on your system.<br />
-                        <a href="../resources/scripts/install_rsa.sh" target="_blank">install_rsa.sh</a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s12 m12 l12">
-                        <a name="attacks"></a>
-                        <h5>General RSA Attack Notes</h5>
-                        <hr>
-                        <ol>
-                            <li>Small public modulus n - use <a href="https://factordb.com/index.php" target="_blank">https://factordb.com/index.php</a> to find p and q.</li>
-                            <li>Given multiple keys - see if any of the keys have common factors using the Euclidean Algorithm.
-<pre><code class="python">import fractions
-print(fractions.gcd(a, b))
-</code></pre>
-</li>
-                            <li>p and q are close to each other - use YAFU or <a href="https://www.alpertron.com.ar/ECM.HTM" target="_blank">https://www.alpertron.com.ar/ECM.HTM</a></li>
-                            <li>Two ciphertexts use the same modulus n but different exponents e - use: <a href="../resources/scripts/same_modulus.py" target="_blank">same_modulus.py</a></li>
-                            <li>Small p or q - use YAFU or <a href="https://www.alpertron.com.ar/ECM.HTM" target="_blank">https://www.alpertron.com.ar/ECM.HTM</a></li>
-                            <li>Large e or d - Wiener's attack. Use attackrsa tool.</li>
-                            <li>Same m and e for multiple messages - Hastad's Broadcast Attack. Use attackrsa tool.<br /> If num_ciphertexts >= e then you can use Chinese Remainder Theorem to calculate the message (but gcd of all n's must be 1 - if the gcd between any two n's is not 1, then you can just find a common factor between them).</li>
-                        </ol>
-                </div>
-                <div class="row">
-                    <div class="col s12 m12 l12">
-                        <a name="Basic Decryption"></a>
-                        <h5>Basic RSA Decryption</h5>
-                        <hr>
-                        If you can easily find p and q or d, then you can use this script to decrypt a ciphertext to ASCII.<br />
-                        <a href="../resources/scripts/decrypt_rsa.py" target="_blank">decrypt_rsa.py</a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s12 m12 l12">
-                        <a name="commands"></a>
-                        <h5>Commands</h5>
-                        <hr>
-                        Here are some commands to transform and work with keys.<br /><br />
-
-                        <b>Given n and d, print e, p, q.</b>
-<pre><code>python rsatool.py -n 13826123222358393307 -d 9793706120266356337
-</code></pre>
-                        <b>Given n and d, print PEM format.</b>
-<pre><code># cd rsatool
-python rsatool.py -f PEM -o key_file.pem -n 13826123222358393307 -d 9793706120266356337
-</code></pre>
-                        <b>Given p and q, print DER format.</b>
-<pre><code># cd rsatool
-python rsatool.py -f DER -o key_file.der -p 4184799299 -q 3303891593
-</code></pre>
-
-                        <b>Factorize with YAFU.</b>
-<pre><code>./yafu "factor(0xD8E24C12B7B99EFE0A9BC04A6A3DF58A2A944269B492B7376DF129023F2061B9)" -threads 5
+<pre><code class="python"># d = rename function in graphical mode, dr otherwise
+# Can go back by pressing x (for xrefs) and enter
+# _ = search for symbols
+# Don't put semicolons in comments if you want it to appear at another line using CCu
 </code></pre>
                     </div>
                 </div>
