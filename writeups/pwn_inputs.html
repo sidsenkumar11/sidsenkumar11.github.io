@@ -59,6 +59,7 @@
                         <hr>
                         <ol type="I">
                             <li><a href="#r2">Radare2</a></li>
+                            <li><a href="#gdb">GDB</a></li>
                         </ol>
                     </div>
                 </div>
@@ -71,6 +72,21 @@
 # Can go back by pressing x (for xrefs) and enter
 # _ = search for symbols
 # Don't put semicolons in comments if you want it to appear at another line using CCu
+</code></pre>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <a name="gdb"></a>
+                        <h5>GDB Commands</h5>
+                        <hr>Set instruction pointer to address.
+<pre><code>jump *address
+</code></pre>
+                        Create input text pattern in PEDA of size 1035 characters.
+<pre><code>pattern create 1035
+</code></pre>
+                        Get pattern offset in GDB after passing pattern string, checking registers, $EIP, and stack for pattern values.
+<pre><code>pattern search
 </code></pre>
                     </div>
                 </div>

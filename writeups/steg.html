@@ -18,7 +18,7 @@
         <!--Import materialize.css-->
         <link type="text/css" rel="stylesheet" href="../css/materialize.min.css"  media="screen,projection"/>
 
-	    <title>Sid | Decryption Tools</title>
+	    <title>Sid | Steganography</title>
 	</head>
 
 	<body>
@@ -50,39 +50,43 @@
 
             <!-- Page Body -->
             <div class="container">
-                <h3>Decrypting Cryptographic Texts</h3>
+                <h3>Steganography</h3>
                 <hr>
                 <div class="row">
                     <div class="col s12 m12 l12">
-                        Here are some useful scripts and tools for cryptography CTF challenges..
+                        Here are some useful scripts and tools for steganography challenges.
                         <h5>Table of Contents</h5>
                         <hr>
                         <ol type="I">
-                            <li><a href="#caesar">Caesar Cipher</a></li>
-                            <li><a href="#substitution">Substitution Cipher</a></li>
+							<li><a href="#steghide">Steghide</a></li>
+							<li><a href="#free_file_camoulage">Free File Camouflage</a></li>
                         </ol>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12">
-                        <a name="caesar"></a>
-                        <h5>Caesar Cipher</h5>
-                        <hr>
-                        Caesar Cipher-encryption just involves shifting each alphabetic letter by some number.<br />
-                        Automatically guess shift number: <a href="https://www.xarg.org/tools/caesar-cipher/" target="_blank">https://www.xarg.org/tools/caesar-cipher/</a><br />
-                        Print all shifts: <a href="../resources/scripts/caesar_all.py" target="_blank">caesar_all.py</a>
+                        <a name="steghide"></a>
+                        <h5>Steghide Notes</h5>
+						<hr>
+						Steghide can be used to hide or send messages in images.
+<pre><code class="bash">sudo apt-get -y install steghide
+</code></pre>
+						If you know data is steghide encrypted but need a password, you can brute force the password using this tool:<br />
+						<a href="https://github.com/Va5c0/Steghide-Brute-Force-Tool" target="_blank">https://github.com/Va5c0/Steghide-Brute-Force-Tool</a>
+<pre><code class="bash">pip install progressbar
+./steg_brute.py -b -d &lt;dictionary&gt; -f &lt;file&gt;
+</code></pre>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col s12 m12 l12">
-                        <a name="substitution"></a>
-                        <h5>Substitution Cipher</h5>
-                        <hr>
-                        Substitution ciphers substitute each letter with another letter. They can be cracked by frequency analysis.<br />
-                        Guess cipher: <a href="http://quipqiup.com/index.php" target="_blank">http://quipqiup.com/index.php</a><br />
-                        View n-grams to help guess letters: <a href="../resources/scripts/subst.py" target="_blank">subst.py</a> and <a href="https://ehsandev.com/pico2014/cryptography/substitution.html" target="_blank">https://ehsandev.com/pico2014/cryptography/substitution.html</a>
-                    </div>
-                </div>
+				</div>
+				<div class="row">
+					<div class="col s12 m12 l12">
+						<a name="free_file_camouflage"></a>
+						<h5>Free File Camouflage</h5>
+						<hr>
+						Free File Camouflage is another tool similar to steghide. It can be downloaded here as an executable.<br />
+						<a href="http://www.myportablesoftware.com/free_file_camouflage.zip" target="_blank">http://www.myportablesoftware.com/free_file_camouflage.zip</a>
+					</div>
+				</div>
             </div>
         </main>
 

