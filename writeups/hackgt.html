@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="Siddarth's Website">
+		<meta name="author" content="Siddarth Senthilkumar">
+		<meta name="msapplication-TileColor" content="#ffffff">
+		<meta name="msapplication-TileImage" content="../images/icons/name-logo.png">
+		<link href="../css/custom.css" rel="stylesheet">
+        <link rel="icon" href="../images/icons/name-logo.png">
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <!--Import Google Icon Font-->
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="../css/materialize.min.css"  media="screen,projection"/>
+
+	    <title>Sid | HackGT Writeups</title>
+	</head>
+
+	<body>
+        <main>
+            <!-- Navigation bar -->
+            <nav>
+                <div class="nav-wrapper grey darken-4">
+                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                    <ul class="left hide-on-med-and-down nav-bar">
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../projects.html">Projects</a></li>
+                        <li><a href="../writeups.html" class="active">Writeups</a></li>
+                        <li><a href="../courses.html">Coursework</a></li>
+                        <li><a href="../resources/senthilkumar_resume.pdf" target="_blank">Résumé / CV</a></li>
+                    </ul>
+                    <ul class="right hide-on-med-and-down nav-bar">
+                        <li><a href="../greyhat.html">GreyHat</a></li>
+                    </ul>
+                    <ul class="side-nav nav-bar" id="mobile-demo">
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../projects.html">Projects</a></li>
+                        <li><a href="../writeups.html" class="active">Writeups</a></li>
+                        <li><a href="../courses.html">Coursework</a></li>
+                        <li><a href="../greyhat.html">GreyHat</a></li>
+                        <li><a href="../resources/senthilkumar_resume.pdf">Résumé / CV</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Page Body -->
+            <div class="container">
+                <h3>HackGT CTF Writeups</h3>
+                <hr>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        These are some writeups to the challenges I did at HackGT, a hackathon hosted by my university. If you think you know a better way to solve a problem, or just need clarification on something, don't hesitate to let me know! I'm always looking to improve and help others learn.
+                        <h5>Table of Contents</h5>
+                        <hr>
+                        <ol type="I">
+                            <li><a href="#forensics">Forensics</a></li>
+                            <li><a href="#cryptography">Cryptography</a></li>
+                            <li><a href="#networks">Networks</a></li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <a name="forensics"></a>
+                        <h5>Forensics</h5>
+                        <hr>
+                        Problems in the forensics category involve searching for the flag in various files, images, and formats. The flag may be encoded in some interesting ways that we would have to recognize and reverse. Let's begin!<br /><br />
+
+						<h6><em>Hidden (15)</em></h6>
+						<hr>
+						This problem gives us an image and tells us that the flag is hidden in "(not) plain sight". The image is stored on the computer as binary data, all 1's and 0's. Those 1's and 0's are formatted in a special way so that the image is interpreted by our operating system as an image file. However, not all the data in the file is completely valuable to understanding the image - it's possible to just overwrite some bytes or insert some bytes into the image and not change the file at all. For an introductory question, this is likely what was done.<br /><br />
+
+						We can run the "strings" Linux utility, which searches the file's binary data for sequences of bytes that are a series of characters. We know the flag will be in the format "hackgt", so we can pipe the output of strings into the "grep" program, which essentially searches the input for a given phrase.
+
+<pre><code class="bash">$ strings hidden.jpg | grep "hackgt"
+hackgt{can_u_lol}
+</code></pre>
+						And that's our flag! input "hackgt{can_u_lol}" for our first points.
+                    </div>
+				</div>
+				<div class="row">
+					<div class="col s12 m12 l12">
+						<h6><em>CrackMePls (50)</em></h6>
+						<hr>
+						This problem gives us an zip archive called "flag.zip" and a YouTube link. When we try to extract the archive, we seem to require a password. The title of the challenge "CrackMe" leads us to believe that we need to crack the password for the archive. This can be done with various tools, and a famous one is called "John the Ripper". This tool is hinted at in the YouTube link, as the link points to a song called "Johnny Boy". I chose to use a different tool called <a href="https://github.com/hyc/fcrackzip" target="_blank">fcrackzip</a> instead of John The Ripper, though you could feasibly use either. The tool simply brute forces the password of the archive until it finds one that works.<br /><br />
+
+						At this point, many people may try to brute force one character at a time ("a", "b", ... "aa", "ab", ... "aaa", "aab", etc.). While this could work, if the password is long then your script might not halt by the end of this century! Brute forcing takes a long time so we want to be smart about how we do it. One way we can reduce the number of keys to check is by using a dictionary. A dictionary of common passwords, such as the one in the famous <a href="http://scrapmaker.com/download/data/wordlists/dictionaries/rockyou.txt" target="_blank">rockyou</a> password list can be used to check the most common passwords that people use.<br /><br />
+
+						Make sure you download and install fcrackzip (can be done simply with "sudo apt-get -y install fcrackzip". To run fcrackzip on the archive using rockyou.txt as the dictionary, I used the instructions found on <a href="http://allanfeid.com/content/cracking-zip-files-fcrackzip" target="_blank">this</a> website.
+<pre><code class="bash">$ fcrackzip -v -D -u -p rockyou.txt flag.zip
+found file 'flag.txt', (size cp/uc     38/    26, flags 9, chk 773b)
+
+
+PASSWORD FOUND!!!!: pw == turkey
+</code></pre>
+
+						Once we have this password, we use it to extract the archive and there should be a file inside with our flag, "hackgt{crack3d_and_dri3d}". Success!
+
+
+					</div>
+				</div>
+            </div>
+        </main>
+
+        <!-- Contact Me -->
+        <footer class="page-footer grey darken-4">
+            <div class="container">
+                <div class="center-align row">
+                    <div class="col s12 m12 l12">
+                        <ul class="contact">
+                            <li><a class="waves-effect waves-light btn light-blue" href="https://github.com/sidsenkumar11" target="_blank">GitHub</a></li>
+                            <li><a class="waves-effect waves-light btn light-blue" href="https://linkedin.com/in/sidsenkumar11" target="_blank">LinkedIn</a></li>
+                            <li><a class="waves-effect waves-light btn light-blue" href="mailto:sidsenkumar11@gmail.com" target="_blank">E-Mail</a></li>
+                            <li><a class="waves-effect waves-light btn light-blue" href="resources/senthilkumar_resume.pdf" target="_blank">Resume</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="../js/materialize.min.js"></script>
+        <script type="text/javascript" src="../js/custom.js"></script>
+        <link rel="stylesheet" href="../highlight/styles/vs2015.css">
+        <script src="../highlight/highlight.pack.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+	</body>
+</html>
