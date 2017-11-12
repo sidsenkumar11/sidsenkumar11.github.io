@@ -94,6 +94,12 @@
 <pre><code>./vuln
 sudo gdb test `pidof vuln`
 </code></pre>
+                        Piping from Python into STDIN in GDB
+<pre><code class="bash">r < <(python -c "print '\x41'*36" | binary)
+or
+r <<< $(python -c "print '\x41'*36")
+</code></pre>
+
                     </div>
                 </div>
                 <div class="row">
