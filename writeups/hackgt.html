@@ -87,11 +87,11 @@ hackgt{can_u_lol}
 					<div class="col s12 m12 l12">
 						<h6><em>CrackMePls (50)</em></h6>
 						<hr>
-						This problem gives us an zip archive called "flag.zip" and a YouTube link. When we try to extract the archive, we seem to require a password. The title of the challenge "CrackMe" leads us to believe that we need to crack the password for the archive. This can be done with various tools, and a famous one is called "John the Ripper". This tool is hinted at in the YouTube link, as the link points to a song called "Johnny Boy". I chose to use a different tool called <a href="https://github.com/hyc/fcrackzip" target="_blank">fcrackzip</a> instead of John The Ripper, though you could feasibly use either. The tool simply brute forces the password of the archive until it finds one that works.<br /><br />
+						This problem gives us a zip archive called "flag.zip" and a YouTube link. When we try to extract the archive, we seem to require a password. The title of the challenge "CrackMe" leads us to believe that we need to crack the password for the archive. This can be done with various tools, and a famous one is called "John the Ripper". This tool is hinted at in the YouTube link, as the link points to a song called "Johnny Boy". I chose to use a different tool called <a href="https://github.com/hyc/fcrackzip" target="_blank">fcrackzip</a> instead of John The Ripper, though you could feasibly use either. The tool simply brute forces the password of the archive until it finds one that works.<br /><br />
 
-						At this point, many people may try to brute force one character at a time ("a", "b", ... "aa", "ab", ... "aaa", "aab", etc.). While this could work, if the password is long then your script might not halt by the end of this century! Brute forcing takes a long time so we want to be smart about how we do it. One way we can reduce the number of keys to check is by using a dictionary. A dictionary of common passwords, such as the one in the famous <a href="http://scrapmaker.com/download/data/wordlists/dictionaries/rockyou.txt" target="_blank">rockyou</a> password list can be used to check the most common passwords that people use.<br /><br />
+						At this point, many people may try to brute force one character at a time ("a", "b", ... "aa", "ab", ... "aaa", "aab", etc.). While this could work, if the password is long then your script might not halt by the end of this century! Brute forcing takes a long time so we want to be smart about how we do it. One way we can reduce the number of keys to check is by using a dictionary. A dictionary of common passwords, such as the famous <a href="http://scrapmaker.com/download/data/wordlists/dictionaries/rockyou.txt" target="_blank">rockyou</a> password list can be used to check the most common passwords that people use.<br /><br />
 
-						Make sure you download and install fcrackzip (can be done simply with "sudo apt-get -y install fcrackzip". To run fcrackzip on the archive using rockyou.txt as the dictionary, I used the instructions found on <a href="http://allanfeid.com/content/cracking-zip-files-fcrackzip" target="_blank">this</a> website.
+						Make sure you download and install fcrackzip (can be done simply with "sudo apt-get -y install fcrackzip"). To run fcrackzip on the archive using rockyou.txt as the dictionary, I used the instructions found on <a href="http://allanfeid.com/content/cracking-zip-files-fcrackzip" target="_blank">this</a> website.
 <pre><code class="bash">$ fcrackzip -v -D -u -p rockyou.txt flag.zip
 found file 'flag.txt', (size cp/uc     38/    26, flags 9, chk 773b)
 
@@ -100,8 +100,20 @@ PASSWORD FOUND!!!!: pw == turkey
 </code></pre>
 
 						Once we have this password, we use it to extract the archive and there should be a file inside with our flag, "hackgt{crack3d_and_dri3d}". Success!
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12 m12 l12">
+						<h6><em>Florida (100)</em></h6>
+						<hr>
+						The problem gives us a file called flo.rida. There is no reasonable file format that uses the .rida extension, we we need to figure out what the file format actually is. One way to do this is to look at the binary data of the file, which I do using a Windows program called <a href="https://mh-nexus.de/en/hxd/" target="_blank">HxD</a>. If we open the file in HxD, we will see something like the following.<br />
+						<img src="../images/writeups/hackgt/florida.png" class="resize-image" alt="flo.rida hex"></img><br />
+						Notice the letters "PDF"? This format of the data in this file is very similar to how a PDF may look like. However, the file seems to be malformed, because if you just rename the file to "florida.pdf", we get an error. How do we fix this?<br /><br />
 
+						Every type of file has something called a file signature, which uniquely tells us what kind of file it is. Usually it is the first few bytes of the file. Searching <a href="http://www.garykessler.net/library/file_sigs.html" target="_blank">here</a> for the PDF file signature, we see that it is the letters "%PDF". If we search for this in the file, we notice that it's all the way near the bottom after the "EOF" instead of being at the top!<br />
+						<img src="../images/writeups/hackgt/florida2.png" class="resize-image" alt="flo.rida PDF signature"><img><br />
 
+						The hex data must have been re-arranged in this file. We can fix this easily using HxD - just cut all the data from "%PDF" until the end of the file, and paste it at the top. Save this file as a PDF, and open it. This time it works and we should see our flag "hackgt{you_spin_me_right_round}".
 					</div>
 				</div>
             </div>

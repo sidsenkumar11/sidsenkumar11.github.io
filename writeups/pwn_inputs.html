@@ -88,6 +88,29 @@
                         Get pattern offset in GDB after passing pattern string, checking registers, $EIP, and stack for pattern values.
 <pre><code>pattern search
 </code></pre>
+
+                        Attaching to a running process.<br>
+                        This is a two-step process: first we run the binary until it hits a point where it pauses (so that the user has time to attach), and then we attach GDB to it.
+<pre><code>./vuln
+sudo gdb test `pidof vuln`
+</code></pre>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <h5>Piping Data to Binaries</h5>
+                        <hr>
+                        Disabling ASLR
+<pre><code class="bash">sudo echo 0 | sudo tee /proc/sys/kernel/randomize_va_space
+</code></pre>
+                        Sending bytes from Python to binary's STDIN for shell<br>
+                        Let's say the address of the shell function is 0x9089453290.
+<pre><code class="bash">(python -c "print('\x90\x32\x45\x89\x90')"; cat) | ./vuln
+</code></pre>
+
+                        Send bytes from Python to Binary STDIN (not trying to get shell)
+<pre><code class="bash">python -c "print('\x90\x32\x45\x89\x90')" | ./vuln
+</code></pre>
                     </div>
                 </div>
             </div>
