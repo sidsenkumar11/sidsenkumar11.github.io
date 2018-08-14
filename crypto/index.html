@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Caesar CipherCaesar Cipher-encryption just involves shifting each alphabetic letter by some number.Automatically guess shift number: https://www.xarg.org/tools/caesar-cipher/Print all shifts: caesar_a">
+<meta name="keywords" content="Information Security Reverse Engineering Binary Exploitation Web Computer Science">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Crypto">
+<meta property="og:url" content="https://sidsenkumar11.github.io/crypto/index.html">
+<meta property="og:site_name" content="Esc:wq">
+<meta property="og:description" content="Caesar CipherCaesar Cipher-encryption just involves shifting each alphabetic letter by some number.Automatically guess shift number: https://www.xarg.org/tools/caesar-cipher/Print all shifts: caesar_a">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-08-14T14:51:30.756Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Crypto">
+<meta name="twitter:description" content="Caesar CipherCaesar Cipher-encryption just involves shifting each alphabetic letter by some number.Automatically guess shift number: https://www.xarg.org/tools/caesar-cipher/Print all shifts: caesar_a">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-144x144.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Crypto</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+    <div class="content index my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/apple-touch-icon.png);"></div>
+    
+  
+    <div id="title">
+      <h1>Esc:wq</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/about/">About</a></li>
+       
+        <li><a href="/archives/">Archive</a></li>
+       
+        <li><a href="/ctfnotes/">CTF Notes</a></li>
+       
+        <li><a href="https://github.com/sidsenkumar11">Projects</a></li>
+       
+        <li><a href="/search/">Search</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Caesar-Cipher"><a href="#Caesar-Cipher" class="headerlink" title="Caesar Cipher"></a>Caesar Cipher</h2><p>Caesar Cipher-encryption just involves shifting each alphabetic letter by some number.<br>Automatically guess shift number: <a href="https://www.xarg.org/tools/caesar-cipher/" target="_blank" rel="noopener">https://www.xarg.org/tools/caesar-cipher/</a><br>Print all shifts: <a href="scripts/caesar_all.py">caesar_all.py</a></p>
+<h2 id="Substitution-Cipher"><a href="#Substitution-Cipher" class="headerlink" title="Substitution Cipher"></a>Substitution Cipher</h2><p>Substitution ciphers substitute each letter with another letter. They can be cracked by frequency analysis.<br>Guess cipher: <a href="http://quipqiup.com/index.php" target="_blank" rel="noopener">http://quipqiup.com/index.php</a><br>View n-grams to help guess letters: subst.py and <a href="https://ehsandev.com/pico2014/cryptography/substitution.html" target="_blank" rel="noopener">https://ehsandev.com/pico2014/cryptography/substitution.html</a></p>
+<h2 id="Block-Ciphers"><a href="#Block-Ciphers" class="headerlink" title="Block Ciphers"></a>Block Ciphers</h2><p>Simple XOR CBC key finding script: <a href="scripts/bricks_of_gold_csaw_2015.py">bricks_of_gold_csaw_2015.py</a></p>
+<h2 id="RSA"><a href="#RSA" class="headerlink" title="RSA"></a>RSA</h2><h3 id="Setup"><a href="#Setup" class="headerlink" title="Setup"></a>Setup</h3><p>Use this script to install a few useful utilities for working with RSA problems. You will need git, python, pip, and virtualenv already installed on your system.<br><a href="scripts/install_rsa.sh">install_rsa.sh</a></p>
+<h3 id="General-RSA-Attack-Notes"><a href="#General-RSA-Attack-Notes" class="headerlink" title="General RSA Attack Notes"></a>General RSA Attack Notes</h3><ol>
+<li>Small public modulus n - use <a href="https://factordb.com/index.php" target="_blank" rel="noopener">https://factordb.com/index.php</a> to find p and q.</li>
+<li>Given multiple keys - see if any of the keys have common factors using the Euclidean Algorithm.</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> fractions</span><br><span class="line">print(fractions.gcd(a, b))</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>p and q are close to each other - use YAFU or <a href="https://www.alpertron.com.ar/ECM.HTM" target="_blank" rel="noopener">https://www.alpertron.com.ar/ECM.HTM</a></li>
+<li>Two ciphertexts use the same modulus n but different exponents e - use: <a href="scripts/same_modulus.py">same_modulus.py</a></li>
+<li>Small p or q - use YAFU or <a href="https://www.alpertron.com.ar/ECM.HTM" target="_blank" rel="noopener">https://www.alpertron.com.ar/ECM.HTM</a></li>
+<li>Large e or d - Wiener’s attack. Use attackrsa tool.</li>
+<li>Same m and e for multiple messages - Hastad’s Broadcast Attack. Use attackrsa tool.</li>
+<li>If num_ciphertexts &gt;= e then you can use Chinese Remainder Theorem to calculate the message (but gcd of all n’s must be 1 - if the gcd between any two n’s is not 1, then you can just find a common factor between them).</li>
+</ol>
+<h3 id="Basic-RSA-Decryption"><a href="#Basic-RSA-Decryption" class="headerlink" title="Basic RSA Decryption"></a>Basic RSA Decryption</h3><p>If you can easily find p and q or d, then you can use this script to decrypt a ciphertext to ASCII.<br><a href="scripts/decrypt_rsa.py">decrypt_rsa.py</a></p>
+<h3 id="Commands"><a href="#Commands" class="headerlink" title="Commands"></a>Commands</h3><p>Here are some commands to transform and work with keys.</p>
+<h4 id="Given-n-and-d-print-e-p-q"><a href="#Given-n-and-d-print-e-p-q" class="headerlink" title="Given n and d, print e, p, q."></a>Given n and d, print e, p, q.</h4><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python rsatool.py -n <span class="number">13826123222358393307</span> -d <span class="number">9793706120266356337</span></span><br></pre></td></tr></table></figure>
+<h4 id="Given-n-and-d-print-PEM-format"><a href="#Given-n-and-d-print-PEM-format" class="headerlink" title="Given n and d, print PEM format."></a>Given n and d, print PEM format.</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">cd</span> rsatool</span></span><br><span class="line">python rsatool.py -f PEM -o key_file.pem -n 13826123222358393307 -d 9793706120266356337</span><br></pre></td></tr></table></figure>
+<h4 id="Given-p-and-q-print-DER-format"><a href="#Given-p-and-q-print-DER-format" class="headerlink" title="Given p and q, print DER format."></a>Given p and q, print DER format.</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">cd</span> rsatool</span></span><br><span class="line">python rsatool.py -f DER -o key_file.der -p 4184799299 -q 3303891593</span><br></pre></td></tr></table></figure>
+<h4 id="Factorize-with-YAFU"><a href="#Factorize-with-YAFU" class="headerlink" title="Factorize with YAFU."></a>Factorize with YAFU.</h4><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">./yafu</span> <span class="string">"factor(0xD8E24C12B7B99EFE0A9BC04A6A3DF58A2A944269B492B7376DF129023F2061B9)"</span> -threads 5</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Siddarth Senthilkumar
+  </div>
+  <div class="footer-right">
+    
+      Find me on
+      
+      
+      
+        
+          <a class="icon" target="_blank" href="https://github.com/sidsenkumar11">
+            <i class="fab fa-github"></i></a>
+        
+        , 
+        
+      
+        
+          <a class="icon" target="_blank" href="https://twitter.com/escape_wq">
+            <i class="fab fa-twitter"></i></a>
+        
+        , 
+        
+      
+        
+          <a class="icon" target="_blank" href="https://www.linkedin.com/in/sidsenkumar11">
+            <i class="fab fa-linkedin"></i></a>
+        
+         and 
+        
+      
+        
+          <a class="icon" target="_blank" href="mailto:sidsenkumar11@gmail.com">
+            <i class="fas fa-envelope"></i></a>
+        
+        .
+        
+      
+    
+  </div>
+</footer>
+
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-99759666-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'escape-wq';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

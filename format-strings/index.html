@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="The best article I’ve found explaining format string attacks via an example is the following website: http://codearcana.com/posts/2013/05/02/introduction-to-format-string-exploits.html Print the Stack">
+<meta name="keywords" content="Information Security Reverse Engineering Binary Exploitation Web Computer Science">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Format-Strings">
+<meta property="og:url" content="https://sidsenkumar11.github.io/format-strings/index.html">
+<meta property="og:site_name" content="Esc:wq">
+<meta property="og:description" content="The best article I’ve found explaining format string attacks via an example is the following website: http://codearcana.com/posts/2013/05/02/introduction-to-format-string-exploits.html Print the Stack">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-08-14T15:01:08.572Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Format-Strings">
+<meta name="twitter:description" content="The best article I’ve found explaining format string attacks via an example is the following website: http://codearcana.com/posts/2013/05/02/introduction-to-format-string-exploits.html Print the Stack">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-144x144.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Format-Strings</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+    <div class="content index my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/apple-touch-icon.png);"></div>
+    
+  
+    <div id="title">
+      <h1>Esc:wq</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/about/">About</a></li>
+       
+        <li><a href="/archives/">Archive</a></li>
+       
+        <li><a href="/ctfnotes/">CTF Notes</a></li>
+       
+        <li><a href="https://github.com/sidsenkumar11">Projects</a></li>
+       
+        <li><a href="/search/">Search</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>The best article I’ve found explaining format string attacks via an example is the following website: <a href="http://codearcana.com/posts/2013/05/02/introduction-to-format-string-exploits.html" target="_blank" rel="noopener">http://codearcana.com/posts/2013/05/02/introduction-to-format-string-exploits.html</a></p>
+<h2 id="Print-the-Stack"><a href="#Print-the-Stack" class="headerlink" title="Print the Stack"></a>Print the Stack</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># prints 8 hex digits to represent each argument to printf.</span></span><br><span class="line"><span class="string">'AAAA'</span> + <span class="string">'%08x '</span> * 9 + <span class="string">'%08x'</span></span><br></pre></td></tr></table></figure>
+<p>You can use this to enumerate values on the stack and eventually find the location of the printf string itself. By continuing until you see ‘41414141’, you will know you’ve found the string holding the input passed to the printf function since ‘41414141’ is the 4 A’s we passed in at the beginning of the printf string.</p>
+<h2 id="Direct-Parameter-Access"><a href="#Direct-Parameter-Access" class="headerlink" title="Direct Parameter Access"></a>Direct Parameter Access</h2><p>Access the nth argument to printf (whether n arguments were actually passed in or not!)<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%&lt;arg n&gt;$&lt;format&gt;</span><br></pre></td></tr></table></figure></p>
+<p>Ex. <code>printf(&quot;%3$d&quot;, 1, 2, 3)</code> prints ‘3’.</p>
+<h2 id="Writing-Data-to-Arbitrary-Memory"><a href="#Writing-Data-to-Arbitrary-Memory" class="headerlink" title="Writing Data to Arbitrary Memory"></a>Writing Data to Arbitrary Memory</h2><p>The “%n” modifier writes the number of bytes printed to a specified address.<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">'Hello!'</span>, &amp;n); <span class="comment"># n will contain 6 after this executes.</span></span><br></pre></td></tr></table></figure></p>
+<p>As shown before, we can locate the beginning of the printf string on the stack. After that, we can swap the last ‘%08x’ with a ‘%n’ and swap the ‘AAAA’ with an address that you want to write to - allowing us to write to arbitrary memory locations.</p>
+<p>However, we still need to control exactly what we write. The only value we can write is how much data has been printed out. Unfortunately, we need to print a lot of characters if we want to write large values like addresses, which seems infeasible at first. Usually the printf buffer won’t be able to handle thousands of characters being thrown at it.</p>
+<p>So, instead of writing the whole address at once, we split our write into two chunks like below. First we write to the upper two bytes of the target address, then we write to the lower two bytes of the target address.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Let's say we want to replace the GOT entry of 'exit' with the address of a</span></span><br><span class="line"><span class="comment"># function called 'printFlag'. &amp;printFlag = 0x804872b</span></span><br><span class="line">got_addr = e.got[<span class="string">'exit'</span>]</span><br><span class="line">payload = p32(got_addr + <span class="number">2</span>) + p32(got_addr)</span><br><span class="line">payload += <span class="string">"%2036x%26$hn"</span></span><br><span class="line">payload += <span class="string">"%32551x%27$hn"</span></span><br></pre></td></tr></table></figure>
+<p>First, we specify the address <code>got_addr + 2</code> and <code>got_addr</code>. When the format string finishes reading its fake arguments (everything on the stack until the format string itself), it will interpret these two arguments as addresses that will be written to by a <code>%n</code>.</p>
+<p>Next, we specify the portion of the format string that will skip past all the arguments to printf (i.e. everything on the stack until the format string itself).</p>
+<p>Dissected:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">%2036x - print 2036 bytes. This (or some offset of it) is the value we want to write to the upper half of got_addr + 2.</span><br><span class="line">%26    - write to the 26th argument of the printf function (this is how we skip all the fake arguments to printf on the stack).</span><br><span class="line">$hn    - write only two bytes.</span><br></pre></td></tr></table></figure></p>
+
+  </div>
+</article>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Siddarth Senthilkumar
+  </div>
+  <div class="footer-right">
+    
+      Find me on
+      
+      
+      
+        
+          <a class="icon" target="_blank" href="https://github.com/sidsenkumar11">
+            <i class="fab fa-github"></i></a>
+        
+        , 
+        
+      
+        
+          <a class="icon" target="_blank" href="https://twitter.com/escape_wq">
+            <i class="fab fa-twitter"></i></a>
+        
+        , 
+        
+      
+        
+          <a class="icon" target="_blank" href="https://www.linkedin.com/in/sidsenkumar11">
+            <i class="fab fa-linkedin"></i></a>
+        
+         and 
+        
+      
+        
+          <a class="icon" target="_blank" href="mailto:sidsenkumar11@gmail.com">
+            <i class="fas fa-envelope"></i></a>
+        
+        .
+        
+      
+    
+  </div>
+</footer>
+
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-99759666-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'escape-wq';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

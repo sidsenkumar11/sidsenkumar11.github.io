@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Integers and floats are interesting creatures in Python. This list of values that can successfully cast to a number may surprise you: 1234567891011121314151617181920212223242526272829303132333435val">
+<meta name="keywords" content="Information Security Reverse Engineering Binary Exploitation Web Computer Science">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Python">
+<meta property="og:url" content="https://sidsenkumar11.github.io/python/index.html">
+<meta property="og:site_name" content="Esc:wq">
+<meta property="og:description" content="Integers and floats are interesting creatures in Python. This list of values that can successfully cast to a number may surprise you: 1234567891011121314151617181920212223242526272829303132333435val">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-08-14T14:51:30.862Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python">
+<meta name="twitter:description" content="Integers and floats are interesting creatures in Python. This list of values that can successfully cast to a number may surprise you: 1234567891011121314151617181920212223242526272829303132333435val">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-144x144.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Python</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+    <div class="content index my4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/apple-touch-icon.png);"></div>
+    
+  
+    <div id="title">
+      <h1>Esc:wq</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+       
+        <li><a href="/">Home</a></li>
+       
+        <li><a href="/about/">About</a></li>
+       
+        <li><a href="/archives/">Archive</a></li>
+       
+        <li><a href="/ctfnotes/">CTF Notes</a></li>
+       
+        <li><a href="https://github.com/sidsenkumar11">Projects</a></li>
+       
+        <li><a href="/search/">Search</a></li>
+      
+    </ul>
+  </div>
+</header>
+
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Integers and floats are interesting creatures in Python. This list of values that can successfully cast to a number may surprise you:</p>
+<figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">val                   isfloat(val) <span class="literal">Note</span></span><br><span class="line"><span class="comment">--------------------  ----------   --------------------------------</span></span><br><span class="line"><span class="string">""</span>                    <span class="literal">False</span>        Blank <span class="built_in">string</span></span><br><span class="line"><span class="string">"127"</span>                 <span class="literal">True</span>         Passed <span class="built_in">string</span></span><br><span class="line"><span class="literal">True</span>                  <span class="literal">True</span>         <span class="keyword">Pure</span> sweet Truth</span><br><span class="line"><span class="string">"True"</span>                <span class="literal">False</span>        Vile contemptible lie</span><br><span class="line"><span class="literal">False</span>                 <span class="literal">True</span>         So <span class="literal">false</span> it becomes <span class="literal">true</span></span><br><span class="line"><span class="string">"123.456"</span>             <span class="literal">True</span>         Decimal</span><br><span class="line"><span class="string">"      -127    "</span>      <span class="literal">True</span>         Spaces trimmed</span><br><span class="line"><span class="string">"\t\n12\r\n"</span>          <span class="literal">True</span>         whitespace ignored</span><br><span class="line"><span class="string">"NaN"</span>                 <span class="literal">True</span>         <span class="keyword">Not</span> a number</span><br><span class="line"><span class="string">"NaNanananaBATMAN"</span>    <span class="literal">False</span>        I am Batman</span><br><span class="line"><span class="string">"-iNF"</span>                <span class="literal">True</span>         Negative infinity</span><br><span class="line"><span class="string">"123.E4"</span>              <span class="literal">True</span>         Exponential notation</span><br><span class="line"><span class="string">".1"</span>                  <span class="literal">True</span>         mantissa only</span><br><span class="line"><span class="string">"1,234"</span>               <span class="literal">False</span>        Commas gtfo</span><br><span class="line">u'\x30'               <span class="literal">True</span>         Unicode <span class="keyword">is</span> fine.</span><br><span class="line"><span class="string">"NULL"</span>                <span class="literal">False</span>        <span class="keyword">Null</span> <span class="keyword">is</span> <span class="keyword">not</span> special</span><br><span class="line"><span class="number">0</span>x3fade               <span class="literal">True</span>         Hexidecimal</span><br><span class="line"><span class="string">"6e7777777777777"</span>     <span class="literal">True</span>         Shrunk <span class="keyword">to</span> infinity</span><br><span class="line"><span class="string">"1.797693e+308"</span>       <span class="literal">True</span>         This <span class="keyword">is</span> max value</span><br><span class="line"><span class="string">"infinity"</span>            <span class="literal">True</span>         Same as inf</span><br><span class="line"><span class="string">"infinityandBEYOND"</span>   <span class="literal">False</span>        Extra characters wreck it</span><br><span class="line"><span class="string">"12.34.56"</span>            <span class="literal">False</span>        Only one dot allowed</span><br><span class="line">u'四'                  <span class="literal">False</span>        Japanese '<span class="number">4</span>' <span class="keyword">is</span> <span class="keyword">not</span> a float.</span><br><span class="line"><span class="string">"#56"</span>                 <span class="literal">False</span>        Pound sign</span><br><span class="line"><span class="string">"56%"</span>                 <span class="literal">False</span>        Percent <span class="keyword">of</span> what?</span><br><span class="line"><span class="string">"0E0"</span>                 <span class="literal">True</span>         Exponential, move dot <span class="number">0</span> places</span><br><span class="line"><span class="number">0</span>**<span class="number">0</span>                  <span class="literal">True</span>         <span class="number">0___0</span>  Exponentiation</span><br><span class="line"><span class="string">"-5e-5"</span>               <span class="literal">True</span>         Raise <span class="keyword">to</span> a negative number</span><br><span class="line"><span class="string">"+1e1"</span>                <span class="literal">True</span>         Plus <span class="keyword">is</span> OK <span class="keyword">with</span> exponent</span><br><span class="line"><span class="string">"+1e1^5"</span>              <span class="literal">False</span>        Fancy exponent <span class="keyword">not</span> interpreted</span><br><span class="line"><span class="string">"+1e1.3"</span>              <span class="literal">False</span>        No decimals <span class="keyword">in</span> exponent</span><br><span class="line"><span class="string">"-+1"</span>                 <span class="literal">False</span>        Make up your mind</span><br><span class="line"><span class="string">"(1)"</span>                 <span class="literal">False</span>        Parenthesis <span class="keyword">is</span> bad</span><br></pre></td></tr></table></figure>
+<p>This list was taken from the following: <a href="https://stackoverflow.com/questions/379906/how-do-i-parse-a-string-to-a-float-or-int-in-python" target="_blank" rel="noopener">https://stackoverflow.com/a/20929983</a></p>
+
+  </div>
+</article>
+
+    </div>
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Siddarth Senthilkumar
+  </div>
+  <div class="footer-right">
+    
+      Find me on
+      
+      
+      
+        
+          <a class="icon" target="_blank" href="https://github.com/sidsenkumar11">
+            <i class="fab fa-github"></i></a>
+        
+        , 
+        
+      
+        
+          <a class="icon" target="_blank" href="https://twitter.com/escape_wq">
+            <i class="fab fa-twitter"></i></a>
+        
+        , 
+        
+      
+        
+          <a class="icon" target="_blank" href="https://www.linkedin.com/in/sidsenkumar11">
+            <i class="fab fa-linkedin"></i></a>
+        
+         and 
+        
+      
+        
+          <a class="icon" target="_blank" href="mailto:sidsenkumar11@gmail.com">
+            <i class="fas fa-envelope"></i></a>
+        
+        .
+        
+      
+    
+  </div>
+</footer>
+
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-99759666-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'escape-wq';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
