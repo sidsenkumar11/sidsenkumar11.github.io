@@ -125,7 +125,7 @@ log.info('Address of puts: ' + hex(leaked_puts))
 libc_base = leaked_puts - libc.symbols['puts']
 ```
 
-In line two, I received 6 bytes from the process - which is the amount of bytes of any address in a 64-bit binary. You might think it should be 8 bytes, but even 64-bit CPUs only use 48-bit addresses today. Before I can unpack the 6 bytes into an integer, I have to pad it with bytes until it is 64-bits long for the `u64` function to decode it.
+In line two, I received 6 bytes from the process - which is the number of bytes of any address in a 64-bit binary. You might think it should be 8 bytes, but even 64-bit CPUs only use 48-bit addresses today. Before I can unpack the 6 bytes into an integer, I have to pad it with bytes until it is 64-bits long for the `u64` function to decode it.
 
 Now that we have the libc base, we can jump to any gadget we want to in the libc file! But wait - we already sent our payload! Where do we send the new addresses in the libc file that we want to jump to? Well, we can send another payload by just running the binary again from `main`. The binary hasn't quit yet, so the offsets and base addresses will all remain the same.
 
