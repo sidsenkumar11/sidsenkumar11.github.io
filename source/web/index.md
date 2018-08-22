@@ -48,3 +48,12 @@ Here is a handy website to deobfuscate JavScript code.
 [https://baivong.github.io/de4js/](https://baivong.github.io/de4js/)
 
 Remember, you can also set breakpoints in JS via Chrome's developer tools console.
+
+## Pull Publicly Exposed Git Repository
+Using this, you can dump a publicly exposed git repository from a website locally.
+[https://github.com/internetwache/GitTools](https://github.com/internetwache/GitTools)
+
+## Proxy
+Sometimes, you want to run a tool like SQLMap on a URL but the URL keeps changing due to some dynamic variables (like maybe the current time). You can use a proxy script to act as the web server, which translates a request into the dynamically generated URL, and set that proxy server to be the target of SQLMap.
+
+Check out this simple Flask proxy server I made [here](proxy.py) where the URL depended on the time.
