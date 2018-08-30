@@ -1,5 +1,5 @@
 ---
-title: Arch Install
+title: Installing Arch Linux - Part 1
 author: Siddarth Senthilkumar
 comments: true
 date: 2018-08-30 10:22:05
