@@ -2,7 +2,7 @@
 title: 10 Simple Steps to Harden Your Docker Containers
 author: Siddarth Senthilkumar
 comments: true
-date: 2019-07-20 07:50:49
+date: 2019-06-20 07:50:49
 tags:
 - Docker
 - Hardening
