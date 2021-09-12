@@ -15,10 +15,5 @@ $ hexo new [layout] <title>
 
 ### Viewing Locally
 ```
-hexo clean && hexo serve
-```
-
-### Deploying to GitHub
-```
-hexo deploy
+npx hexo server
 ```
