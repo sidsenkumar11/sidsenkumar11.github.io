@@ -5,7 +5,11 @@
 # Site
 title: Esc:wq
 subtitle:
-description: Brain dump of various things.
+description: "My name is Sid. Welcome to my website!\n
+
+Perhaps the most elegant aspect of computing is how much of it has been abstracted from the typical user. The thought of piecing together how it all works still excites me to this day. Over the years, I've come across all sorts of fascinating topics, from runtime systems and binary security to web app development and containerization.\n
+
+I believe that the best way to learn something is by teaching it to others. This website represents my attempt to explain some of the things I've learned for work and for fun. I also hope that by documenting some of the things I struggled to learn, I may help someone else learn it for the first time."
 keywords: Information Security Reverse Engineering Binary Exploitation Web Computer Science
 author: Sid Senthilkumar
 language: en
