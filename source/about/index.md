@@ -8,9 +8,9 @@ comments: false
 
 I'm currently a software engineer at Microsoft working in Azure Security. Before that, I did my undergrad at Georgia Tech and masters at UC Santa Barbara.
 
-I love learning about all things computers, but I'm particularly passionate about computer security. I've spent more than a few weekends reverse engineering binaries, exploiting vulnerable services, and messing with SQL injections through hacking competitions called CTFs.
+At work, I make [confidential computing](https://docs.microsoft.com/en-us/azure/confidential-computing/overview) accessible to the world by enabling remote enclave attestation in Azure. At home, I enjoy reverse engineering binaries and exploiting vulnerable services in hacking competitions called CTFs.
 
-When I'm not on a computer, you might find me watching anime, playing board games with friends, or trying to find the best Thai food in town. I love connecting with people so please feel free to reach out, even just to say hello!
+When I'm not on a computer, you might find me playing board games with friends or trying to find the best Thai food in town. I love connecting with people so please feel free to reach out, even just to say hello!
 
 ## Résumé / CV
 
