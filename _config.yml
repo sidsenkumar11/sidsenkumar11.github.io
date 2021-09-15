@@ -5,9 +5,11 @@
 # Site
 title: Esc:wq
 subtitle:
-description: Brain dump of various things.
+description: "My name is Sid. Welcome to my website!\n
+
+Over the years, I've come across all sorts of fascinating topics in computing, from runtime systems and binary security to web app development and containerization. I believe the best way to learn something is to teach it to someone else. This website represents my efforts toward that endeavor. I hope that by documenting some of the things I struggled to learn, I may help someone else learn it for the first time."
 keywords: Information Security Reverse Engineering Binary Exploitation Web Computer Science
-author: Siddarth Senthilkumar
+author: Sid Senthilkumar
 language: en
 timezone: America/New_York
 
@@ -32,7 +34,7 @@ skip_render:
 new_post_name: :title.md # File name of new posts
 default_layout: post
 titlecase: true # Transform title into titlecase
-external_link: true # Open external links in new tab
+external_link.enable: true # Open external links in new tab
 filename_case: 0
 render_drafts: false
 post_asset_folder: true
@@ -49,7 +51,7 @@ highlight:
 # per_page: Posts displayed per page. (0 = disable pagination)
 # order_by: Posts order. (Order by date descending by default)
 index_generator:
-  path: ''
+  path: ""
   per_page: 10
   order_by: -date
 
