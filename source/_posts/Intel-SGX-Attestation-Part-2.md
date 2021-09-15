@@ -32,7 +32,7 @@ Let's say the two enclaves wish to establish a secure channel with each other. T
 
 They can do this using the report's user data section. The user data section is only 256 bits long, so typically an application enclave will just hash the real data they want to pass and provide the hash in the report. Then, the application enclave will send both the report and the session key to the target enclave. The target enclave can verify that the hash of the attached user data matches the hash in the user data section of the report.
 
-### Summary
+## Summary
 
 To summarize, local attestation is performed through the following steps:
 
@@ -46,7 +46,7 @@ To summarize, local attestation is performed through the following steps:
 8. Enclave B transmits its report to A, and A verifies the report + user data.
 9. Now, both enclaves can use their new session key generated from the user data to exchange encrypted information.
 
-### References
+## References
 
 - https://www.blackhat.com/docs/us-17/thursday/us-17-Swami-SGX-Remote-Attestation-Is-Not-Sufficient-wp.pdf
 
