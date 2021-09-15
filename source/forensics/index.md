@@ -20,3 +20,6 @@ Note that foremost will print out the binaries to the console which may crash it
 ```
 foremost image -o
 ```
+
+# Wireshark USB PCAP
+To understand which keys were pressed in a USB Wireshark PCAP, [try](scripts/parse_usb_pcap.py) this script.

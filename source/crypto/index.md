@@ -38,6 +38,7 @@ Use this script to install a few useful utilities for working with RSA problems.
 6. Large e or d - Wiener's attack. Use attackrsa tool.
 7. Same m and e for multiple messages - Hastad's Broadcast Attack. Use attackrsa tool.
 8. If num_ciphertexts >= e then you can use Chinese Remainder Theorem to calculate the message (but gcd of all n's must be 1 - if the gcd between any two n's is not 1, then you can just find a common factor between them).
+9. If c < n, just take the eth root of c to get the plaintext.
 
 ### Basic RSA Decryption
 If you can easily find p and q or d, then you can use this script to decrypt a ciphertext to ASCII.
