@@ -14,30 +14,66 @@ direction: ltr
 # navigation menu. Optionally, you can add translations for the 'Key' in
 # languages/*.yml
 nav:
-  home: /
-  about: /about/
-  Archive: /archives/
-  CTF Notes: /ctfnotes/
-  projects: https://github.com/sidsenkumar11
-  search: /search/
+  Home: /
+  Notes: /notes/
+  Resume: /resources/senthilkumar_resume.pdf
+  Search: /search/
 
 # Links to your social media accounts.
 # The keys should correspond to Fontawesome icon names
 # (see https://fontawesome.com/icons?d=gallery&s=brands);
 # only 'mail' is an exception.
-social_links:
-  github: https://github.com/sidsenkumar11
-  twitter: https://twitter.com/escape_wq
-  linkedin: https://www.linkedin.com/in/sidsenkumar11
-  mail: mailto:sidsenkumar11@gmail.com
+# social_links:
+#   - icon: twitter
+#     link: https://twitter.com/escape_wq
+#   - icon: linkedin
+#     link: https://www.linkedin.com/in/sidsenkumar11
+#   - icon: github
+#     link: https://github.com/sidsenkumar11
+#   - icon: mail
+#     link: mailto:sidsenkumar11@gmail.com
+
+# Customize the overview with displaying a tagcloud on the index page.
+# Options: https://hexo.io/docs/helpers.html#tagcloud
+tags_overview: false
 
 # Customize the overview with the most recent blog posts on the index page.
 # Options:
 #   - show_all_posts: whether to show all available posts.
 #   - post_count: whether to show only the x most recent posts.
+#   - sort_updated: sort posts by last modification date instead of creation date.
 posts_overview:
-  show_all_posts: false
-  post_count: 5
+  show_all_posts: true
+  # post_count: 5
+  sort_updated: false
+
+# Customize the archive view.
+# Options:
+#   - sort_updated: sort posts by last modification date instead of creation date.
+# Note: this does not work together with pagination, since the pagination
+# plugin will sort pages by date of creation.
+archive:
+  sort_updated: false
+
+# Customize the article view.
+# Options:
+#   - show_updated: show the last modification date.
+post:
+  show_updated: false
+
+# Customize the copyright years
+# Note: if start_year/end_year not provided, will use current year.
+copyright:
+  start_year:
+  end_year:
+
+# Customize the 404 page
+# Options:
+#   - enabled: whether to enable the 404 page (404.html).
+error_404:
+  enabled: true
+  title: "404 Page Not Found"
+  description: "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable."
 
 ##############################################################################
 # Look and Feel
@@ -50,12 +86,14 @@ posts_overview:
 #   - height: height of the logo in pixel units
 #   - url: where the logo can be found
 #   - gravatar: whether to use your Gravatar as the logo
+#   - grayout: whether to enable a hover effect on the logo
 logo:
   enabled: true
   width: 50
   height: 50
   url: /images/apple-touch-icon.png
   gravatar: false
+  grayout: false
 
 # Customize the favicons.
 # Cactus supports a limited set of the three most important icons:
@@ -110,15 +148,24 @@ open_graph:
 # Enable MathJax support for Latex
 mathjax:
   enabled: false
+
 # Fill in your Disqus Comments Shortname to enable Disqus comments.
 disqus:
   enabled: true
   shortname: escape-wq
 
+# Fill in your Utterances data to enable Utterances comments
+utterances:
+  enabled: false
+  repo: owner/githubrepo
+  issue_term: pathname
+  label: Comment
+  theme: github-dark
+
 # Fill in your Google Analytics tracking ID to enable Google Analytics.
 google_analytics:
   enabled: true
-  id: UA-99759666-1
+  id: 365529229
 
 # Fill in your Baidu Analytics tracking ID to enable Baidu Analytics.
 baidu_analytics:
@@ -135,6 +182,7 @@ umami_analytics:
   enabled: false
   id: e77e68be-f6e4-4br3-9365-2b76b57cd571
   host: https://analytics.domain.com
+  script_name: umami.js
 
 # Fill in you Gravatar email or hash if you want to use your gravatar as the
 # logo and/or favicons of you website.
@@ -148,6 +196,6 @@ cdn:
   enable: true
   jquery: https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js
   clipboard: https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js
-  font_awesome: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css
+  font_awesome: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css
   justified_gallery_css: https://cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.8.1/css/justifiedGallery.min.css
   justified_gallery_js: https://cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js

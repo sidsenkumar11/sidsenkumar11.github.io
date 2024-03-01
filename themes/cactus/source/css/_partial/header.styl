@@ -1,5 +1,5 @@
 #header
-  margin: 0 auto 3rem
+  margin: 0 auto 2rem
   width: 100%
 
   h1, .h1
@@ -26,10 +26,11 @@
     width: $logo-width
     height: $logo-height
     border-radius: 5px
-    filter: grayscale(100%)
     background-size: $logo-width $logo-height
     background-repeat: no-repeat
-    -webkit-filter: grayscale(100%)
+    if $logo-grayout
+      filter: grayscale(100%)
+      -webkit-filter: grayscale(100%)
 
   #nav
     color: $color-accent-1
@@ -46,7 +47,7 @@
 
       a
         margin-right: 15px
-        color: color-accent-1
+        color: $color-accent-1
 
       a:hover
         underline(5px, $color-accent-1)
@@ -54,7 +55,8 @@
       li
         display: inline-block
         margin-right: 15px
-        border-right: 1px dotted $color-accent-1
+        border-right: 1px dotted
+        border-color: $color-accent-1
         vertical-align: middle
 
       .icon
@@ -67,10 +69,11 @@
         a
           margin-right: 0
 
-#header:hover
-  #logo
-    filter: none
-    -webkit-filter: none
+if $logo-grayout
+  #header:hover
+    #logo
+      filter: none
+      -webkit-filter: none
 
 @media screen and (max-width: 480px)
   #header #title
@@ -92,13 +95,20 @@
 
       li.icon
         position: absolute
-        top: 55px
+        top: 77px
         right: 1rem
         display: inline-block
+        text-align: center
 
     ul.responsive
       li
         display: block
+    
+    ul 
+      a[aria-label="Menu"]
+        display: inline-block
+        min-width: 48px
+        min-height: 48px
 
     li:not(:first-child)
       padding-top: 1rem

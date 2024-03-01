@@ -33,7 +33,8 @@ article
       font-weight: bold
       font-size: 1.2rem
 
-    img, video
+    img
+    video
       display: block
       margin: auto
       max-width: 100%
@@ -76,7 +77,7 @@ article
       footer
         margin: line-height 0
         color: $color-meta
-        font-size: 11px
+        font-size: 12px
 
         a
           background-image: linear-gradient(transparent, transparent 5px, $color-meta 5px, $color-meta)
@@ -108,7 +109,7 @@ article
       position: relative
       display: block
       margin-top: .5em
-      color: color-grey
+      color: $color-meta
       text-align: center
       font-size: .9em
 
@@ -121,11 +122,15 @@ article
   .tag-link
     &:before
       content: "#"
+    underline(10px, $color-link)
 
+.article-category
+  .category-link
     underline(10px, $color-link)
 
 @media (min-width: 480px)
-  .article-tag
+  .article-tag,
+  .article-category
     display: inline
 
     &:before
