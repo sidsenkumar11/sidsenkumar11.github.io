@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="The best article I’ve found explaining format string attacks via an example is the following website: http:&#x2F;&#x2F;codearcana.com&#x2F;posts&#x2F;2013&#x2F;05&#x2F;02&#x2F;introduction-to-format-string-exploits.html Print the Stack">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Format-Strings">
+<meta property="og:url" content="https://sidsbits.com/format-strings/index.html">
+<meta property="og:site_name" content="escape_wq">
+<meta property="og:description" content="The best article I’ve found explaining format string attacks via an example is the following website: http:&#x2F;&#x2F;codearcana.com&#x2F;posts&#x2F;2013&#x2F;05&#x2F;02&#x2F;introduction-to-format-string-exploits.html Print the Stack">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-05-05T20:16:45.000Z">
+<meta property="article:modified_time" content="2025-03-01T01:58:13.910Z">
+<meta property="article:author" content="Sid Senthilkumar">
+<meta property="article:tag" content="Cyber Security Reverse Engineer Binary Exploit Web Software Cloud GCP AWS Detection Response InfraSec AppSec CTF">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-144x144.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Format-Strings</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=365529229"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '365529229');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+    <div class="content index py4 ">
+        
+          <header id="header">
+  <a class="u-url u-uid" href="/">
+  
+    
+      <img id="logo" alt class="u-logo" src="/images/apple-touch-icon.png" />
+    
+  
+    <div id="title">
+      <h1 class="p-name">escape_wq</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-2x"></i></a>
+      </li>
+      <!--
+     --><li><a href="/">Home</a></li><!--
+   --><!--
+     --><li><a href="/notes/">Notes</a></li><!--
+   --><!--
+     --><li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li><!--
+   --><!--
+     --><li><a href="/search/">Search</a></li><!--
+   -->
+    </ul>
+  </div>
+</header>
+
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+
+  <div class="content" itemprop="articleBody">
+      
+          <p>The best article I’ve found explaining format string attacks via an example is the following website: <a target="_blank" rel="noopener" href="http://codearcana.com/posts/2013/05/02/introduction-to-format-string-exploits.html">http://codearcana.com/posts/2013/05/02/introduction-to-format-string-exploits.html</a></p>
+<h2 id="Print-the-Stack"><a href="#Print-the-Stack" class="headerlink" title="Print the Stack"></a>Print the Stack</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># prints 8 hex digits to represent each argument to printf.</span></span><br><span class="line"><span class="string">&#x27;AAAA&#x27;</span> + <span class="string">&#x27;%08x &#x27;</span> * 9 + <span class="string">&#x27;%08x&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>You can use this to enumerate values on the stack and eventually find the location of the printf string itself. By continuing until you see ‘41414141’, you will know you’ve found the string holding the input passed to the printf function since ‘41414141’ is the 4 A’s we passed in at the beginning of the printf string.</p>
+<h2 id="Direct-Parameter-Access"><a href="#Direct-Parameter-Access" class="headerlink" title="Direct Parameter Access"></a>Direct Parameter Access</h2><p>Access the nth argument to printf (whether n arguments were actually passed in or not!)</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%&lt;arg n&gt;$&lt;format&gt;</span><br></pre></td></tr></table></figure>
+<p>Ex. <code>printf(&quot;%3$d&quot;, 1, 2, 3)</code> prints ‘3’.</p>
+<h2 id="Writing-Data-to-Arbitrary-Memory"><a href="#Writing-Data-to-Arbitrary-Memory" class="headerlink" title="Writing Data to Arbitrary Memory"></a>Writing Data to Arbitrary Memory</h2><p>The “%n” modifier writes the number of bytes printed to a specified address.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&#x27;Hello!&#x27;</span>, &amp;n); <span class="comment"># n will contain 6 after this executes.</span></span><br></pre></td></tr></table></figure>
+<p>As shown before, we can locate the beginning of the printf string on the stack. After that, we can swap the last ‘%08x’ with a ‘%n’ and swap the ‘AAAA’ with an address that you want to write to - allowing us to write to arbitrary memory locations.</p>
+<p>However, we still need to control exactly what we write. The only value we can write is how much data has been printed out. Unfortunately, we need to print a lot of characters if we want to write large values like addresses, which seems infeasible at first. Usually the printf buffer won’t be able to handle thousands of characters being thrown at it.</p>
+<p>So, instead of writing the whole address at once, we split our write into two chunks like below. First we write to the upper two bytes of the target address, then we write to the lower two bytes of the target address.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Let&#x27;s say we want to replace the GOT entry of &#x27;exit&#x27; with the address of a</span></span><br><span class="line"><span class="comment"># function called &#x27;printFlag&#x27;. &amp;printFlag = 0x804872b</span></span><br><span class="line">got_addr = e.got[<span class="string">&#x27;exit&#x27;</span>]</span><br><span class="line">payload = p32(got_addr + <span class="number">2</span>) + p32(got_addr)</span><br><span class="line">payload += <span class="string">&quot;%2036x%26$hn&quot;</span></span><br><span class="line">payload += <span class="string">&quot;%32551x%27$hn&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>First, we specify the address <code>got_addr + 2</code> and <code>got_addr</code>. When the format string finishes reading its fake arguments (everything on the stack until the format string itself), it will interpret these two arguments as addresses that will be written to by a <code>%n</code>.</p>
+<p>Next, we specify the portion of the format string that will skip past all the arguments to printf (i.e. everything on the stack until the format string itself).</p>
+<p>Dissected:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">%2036x - print 2036 bytes. This (or some offset of it) is the value we want to write to the upper half of got_addr + 2.</span><br><span class="line">%26    - write to the 26th argument of the printf function (this is how we skip all the fake arguments to printf on the stack).</span><br><span class="line">$hn    - write only two bytes.</span><br></pre></td></tr></table></figure>
+
+        
+  </div>
+</article>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2025
+    Sid Senthilkumar
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'escape-wq';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

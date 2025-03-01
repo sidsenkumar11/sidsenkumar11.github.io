@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Sometime during my undergrad, I wrote a simple Flask app that had tons of intentional security vulnerabilities. I served the app from my laptop at a security club meeting as a challenge to see who cou">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Serving a Flask Application">
+<meta property="og:url" content="https://sidsbits.com/Serving-Flask/index.html">
+<meta property="og:site_name" content="escape_wq">
+<meta property="og:description" content="Sometime during my undergrad, I wrote a simple Flask app that had tons of intentional security vulnerabilities. I served the app from my laptop at a security club meeting as a challenge to see who cou">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://sidsbits.com/Serving-Flask/WSGI.png">
+<meta property="og:image" content="https://sidsbits.com/Serving-Flask/gunicorn_logo.png">
+<meta property="og:image" content="https://sidsbits.com/Serving-Flask/nginx_logo.png">
+<meta property="og:image" content="https://sidsbits.com/Serving-Flask/architecture.gif">
+<meta property="article:published_time" content="2019-06-20T11:56:20.000Z">
+<meta property="article:modified_time" content="2025-03-01T01:58:13.908Z">
+<meta property="article:author" content="Sid Senthilkumar">
+<meta property="article:tag" content="Flask">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="gunicorn">
+<meta property="article:tag" content="Werkzeug">
+<meta property="article:tag" content="WSGI">
+<meta property="article:tag" content="uWSGI">
+<meta property="article:tag" content="nginx">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sidsbits.com/Serving-Flask/WSGI.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-144x144.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Serving a Flask Application</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=365529229"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '365529229');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/10-Simple-Steps-to-Harden-Docker-Containers/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/Arch-Install/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sidsbits.com/Serving-Flask/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sidsbits.com/Serving-Flask/&text=Serving a Flask Application"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sidsbits.com/Serving-Flask/&title=Serving a Flask Application"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sidsbits.com/Serving-Flask/&is_video=false&description=Serving a Flask Application"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Serving a Flask Application&body=Check out this article: https://sidsbits.com/Serving-Flask/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sidsbits.com/Serving-Flask/&title=Serving a Flask Application"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sidsbits.com/Serving-Flask/&title=Serving a Flask Application"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sidsbits.com/Serving-Flask/&title=Serving a Flask Application"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sidsbits.com/Serving-Flask/&title=Serving a Flask Application"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sidsbits.com/Serving-Flask/&name=Serving a Flask Application&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sidsbits.com/Serving-Flask/&t=Serving a Flask Application"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Flask-Application"><span class="toc-number">1.</span> <span class="toc-text">Flask Application</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Application-Server"><span class="toc-number">2.</span> <span class="toc-text">Application Server</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Werkzeug-Flask%E2%80%99s-Debug-Server"><span class="toc-number">3.</span> <span class="toc-text">Werkzeug - Flask’s Debug Server</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WSGI-Web-Server-Gateway-Interface"><span class="toc-number">4.</span> <span class="toc-text">WSGI - Web Server Gateway Interface</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Problem"><span class="toc-number">4.1.</span> <span class="toc-text">Problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Solution"><span class="toc-number">4.2.</span> <span class="toc-text">Solution</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Flask%E2%80%99s-Callable"><span class="toc-number">4.3.</span> <span class="toc-text">Flask’s Callable</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Werkzeug"><span class="toc-number">5.</span> <span class="toc-text">Werkzeug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#uWSGI"><span class="toc-number">6.</span> <span class="toc-text">uWSGI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gunicorn-%E2%80%9CGreen-Unicorn%E2%80%9D"><span class="toc-number">7.</span> <span class="toc-text">Gunicorn (“Green Unicorn”)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx"><span class="toc-number">8.</span> <span class="toc-text">nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-number">9.</span> <span class="toc-text">Conclusion</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Serving a Flask Application
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Siddarth Senthilkumar</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-06-20T11:56:20.000Z" class="dt-published" itemprop="datePublished">2019-06-20</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Flask/" rel="tag">Flask</a>, <a class="p-category" href="/tags/Python/" rel="tag">Python</a>, <a class="p-category" href="/tags/WSGI/" rel="tag">WSGI</a>, <a class="p-category" href="/tags/Werkzeug/" rel="tag">Werkzeug</a>, <a class="p-category" href="/tags/gunicorn/" rel="tag">gunicorn</a>, <a class="p-category" href="/tags/nginx/" rel="tag">nginx</a>, <a class="p-category" href="/tags/uWSGI/" rel="tag">uWSGI</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>Sometime during my undergrad, I wrote a simple Flask app that had tons of intentional security vulnerabilities. I served the app from my laptop at a security club meeting as a challenge to see who could find all the vulns first. Students connected to my laptop, interacted with login forms, and played around with my website. About 10 minutes in, everyone started reporting that the server was taking too long to respond. I visited the homepage of the app and confirmed that it was taking around ~3 minutes to load. At the time, I thought maybe my laptop couldn’t handle the 20-40 people in the room connecting simultaneously, and that I should have gotten a dedicated server. Thinking back, though, that couldn’t have been the case. My laptop had an above average 8-core Intel i7 CPU, 16GB of RAM, and an SSD. It also wasn’t running much software other than the web server. So what was the issue?</p>
+<p>There are plenty of <a target="_blank" rel="noopener" href="https://www.freecodecamp.org/news/how-to-build-a-web-application-using-flask-and-deploy-it-to-the-cloud-3551c985e492/">tutorials</a> on how to build basic web apps using Flask. However, most of them stop short at letting you use Flask’s debug web server to serve your application. In a production environment, like my security club room, you’d never want to serve an app this way. Today, I’ll introduce some of the software used to serve a Flask application and how they fit together. Using this information, you can create an app that serves thousands of clients from just your laptop!</p>
+<h2 id="Flask-Application"><a href="#Flask-Application" class="headerlink" title="Flask Application"></a>Flask Application</h2><p>Very briefly, I’ll introduce the basics of a Flask application. First, we start by creating an application object.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app = Flask(__name__)</span><br></pre></td></tr></table></figure>
+
+<p>Then, we register different URIs and define the corresponding functions to call when they get hit.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">root</span>():</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Hello World!&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/secret&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">secret</span>():</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;You found me!&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>And that’s really all there is to a web application!</p>
+<p>Think of the app as an API. The app object doesn’t “do” anything; it just defines requests and how to respond to these requests.</p>
+<h2 id="Application-Server"><a href="#Application-Server" class="headerlink" title="Application Server"></a>Application Server</h2><p>The Flask application object defines the different URIs and appropriate responses. However, it’s not capable of actually “serving” the application - it’s just a definition. We need a separate piece of software to serve the app, and we call it an application server. A server handles details about:</p>
+<ul>
+<li>Network connections (sockets, hosts, ports, etc)</li>
+<li>Receiving requests over the network</li>
+<li>Sending responses over the network</li>
+<li>Multiplexing users</li>
+</ul>
+<p>How does it do this? It starts by listening for incoming connections on a host and port. When it receives a request, it parses the request and current environment for information like:</p>
+<ul>
+<li>HTTP headers</li>
+<li>Input form data</li>
+<li>Environment Variables</li>
+</ul>
+<p>Then, it sends the request information to the application (the <code>app</code> object we defined previously). The app object constructs the HTML content and returns it to the server, which then puts the content together with headers and other information. Finally, the server sends the response to the requester over the network.</p>
+<p>The server might use threads and buffers to deal with multiple simultaneous connections, where each thread sends request information to its own <code>app</code> object and responds to its request with the returned content. There are several different application servers out there, each with its own advantages and disadvantages.</p>
+<h2 id="Werkzeug-Flask’s-Debug-Server"><a href="#Werkzeug-Flask’s-Debug-Server" class="headerlink" title="Werkzeug - Flask’s Debug Server"></a>Werkzeug - Flask’s Debug Server</h2><p>So how do we find a server program to serve our Flask application? Well, it turns out that Flask comes with one!</p>
+<p>Flask comes with a built-in library called “Werkzeug”, and that library contains a server to serve your app. The Werkzeug server is instantiated and run if you call <code>app.run()</code>, where <code>app</code> is the object you got from <code>app = Flask(__name__)</code>. Now, you can serve real requests to and from your app! The <code>run()</code> function takes some arguments like what IP address you want to serve from, what port to serve from, and whether debug messages should be printed on error.</p>
+<pre><code>Q: Can I just write a web application with Flask and NOT start the built-in server?
+</code></pre>
+<p>YES! You’re not forced to run Werkzeug’s server.<br>The <code>app</code> object represents just the application and doesn’t start a server until <code>app.run()</code>.<br>The <code>app</code> object won’t actively handle real requests; it just defines the API for requests.<br>You could use another server other than Werkzeug’s server to mediate requests to the <code>app</code> object.</p>
+<pre><code>Q: Why would I even want to use another server if Flask already gives us one?
+</code></pre>
+<p>Werkzeug’s server isn’t designed to be efficient, stable, or secure. It doesn’t scale well when multiple users access the website (which is why my website was so slow!). Werkzeug’s server is purely something for quick testing during development of your application, without having to search for and install another server program. There are much better server programs that can efficiently support hundreds or even thousands of connections at the same time!</p>
+<h2 id="WSGI-Web-Server-Gateway-Interface"><a href="#WSGI-Web-Server-Gateway-Interface" class="headerlink" title="WSGI - Web Server Gateway Interface"></a>WSGI - Web Server Gateway Interface</h2><p>The servers that exist today are complex software that handle multiple parts of the server stack. To understand why, it’s important to first understand what the WSGI protocol is and why it came to be.</p>
+<h3 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h3><p>There are many competing web servers to choose from (Werkzeug, Apache, nginx, Lighttpd, etc).<br>There are also many Python webapp frameworks (Flask, Django, Tornado, Pyramid, etc).</p>
+<p>In the past, each server expected response content from the webapp in different formats. Similarly, each webapp framework expected request content from the server in different formats. If you got tired of using Flask and wanted to switch to Django, you might’ve had to find a different server that supported the request&#x2F;response format that Django used. It would be great if each framework could work with any of the server programs and vice-versa. That way, you could keep your existing server configurations even if you wanted to switch webapp frameworks.</p>
+<h3 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h3><p>Eventually, some smart people decided to make a standardized protocol for requests and responses between servers and apps. The Python community introduced WSGI (pronounced “whiz-gee”) as this protocol. WSGI standardizes the way servers talk to Python webapps and vice-versa. Today, all servers and Python webapps implement WSGI.</p>
+<img src="/Serving-Flask/WSGI.png" class="">
+<center>Image from [https://ruslanspivak.com/lsbaws-part2/](https://ruslanspivak.com/lsbaws-part2/)</center>
+
+<p>In our examples from before, Flask was the webapp and Werkzeug was the web server. Both of these are WSGI compliant!</p>
+<p>For a webapp framework to be WSGI compliant, it just needs to define a function with 2 parameters.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">app</span>(<span class="params">environment, start_fn</span>):</span><br><span class="line">    <span class="comment"># environment : a dict with all the incoming request information (filled in by the server)</span></span><br><span class="line">    <span class="comment"># start_fn         : a callback function defined by the server</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&lt;html&gt;Here&#x27;s your response page!&lt;/html&gt;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>We call this function the “callable”. What should the callable do?</p>
+<ol>
+<li><p>Understand the request. What are the incoming HTTP headers? Cookies? What is the URI being requested? All of this information comes from the <code>environment</code> dictionary.</p>
+</li>
+<li><p>Based on the URI being requested, construct an appropriate response. We already saw how Flask lets you define functions to implement this. The callable simply needs to call the right function for this URI.</p>
+</li>
+<li><p>Call <code>start_fn()</code>, which was provided by the server. There are 2 parameters to <code>start_fn()</code>; an HTTP response code and a list of response headers expressed as 2-tuples.</p>
+<p> Ex: <code>start_fn(&#39;200 OK&#39;, [(&#39;Content-Type&#39;, &#39;text/plain&#39;)])</code></p>
+</li>
+<li><p>Return the actual bytes of the response as an iterable.</p>
+<p> Ex: <code>[&quot;Hello World!\n&quot;]</code><br> Ex:</p>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">app</span>(<span class="params">env, start_fun</span>):</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">double</span>(<span class="params">L</span>):</span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> L:</span><br><span class="line">            <span class="keyword">yield</span> <span class="built_in">str</span>(x**<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">return</span> double([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]) <span class="comment"># returns a generator, which is iterable</span></span><br></pre></td></tr></table></figure>
+
+<p>That’s it! That’s all it takes to build a WSGI compliant webapp. You could even create your own WSGI Python webapp without Flask or Django  using just this knowledge.</p>
+<h3 id="Flask’s-Callable"><a href="#Flask’s-Callable" class="headerlink" title="Flask’s Callable"></a>Flask’s Callable</h3><p>To be WSGI compliant, the webapp has to define a callable function (shown above as <code>app</code>) with two parameters. But the “function” can actually be an object too! As long as the object implements <code>__call__</code>, it’s callable like a function is. In Flask, the object returned by the <code>Flask()</code> constructor is the WSGI callable. So when you write <code>app = Flask(__name__)</code>, you’re creating a callable called <code>app</code>. Looking at the <a target="_blank" rel="noopener" href="https://github.com/pallets/flask/blob/master/src/flask/app.py#L2448">source</a> for the Flask class, you can see it implements <code>__call__</code>. As expected, it takes 2 arguments:</p>
+<ul>
+<li>environ        - A WSGI environment (A dict with the request information)</li>
+<li>start_response - A function that accepts a status code and list of headers for the response</li>
+</ul>
+<p>Any server that is WSGI compliant will require a reference to the <code>app</code> callable. The server communicates with your callable using the WSGI process we defined above, passing along request information and receiving response information. For more information about building a WSGI application, check out <a target="_blank" rel="noopener" href="https://www.sitepoint.com/python-web-applications-the-basics-of-wsgi/">this page</a> where I learned most of this information from.</p>
+<h2 id="Werkzeug"><a href="#Werkzeug" class="headerlink" title="Werkzeug"></a>Werkzeug</h2><p>Since every web application needs to provide callable functions and handle specific params it receives in WSGI form, it would be great if a library handled this “callable” interface. Well, it turns out that Werkzeug is this library! It provides utilities for developing WSGI-compliant webapps, like:</p>
+<ul>
+<li>Parsing headers</li>
+<li>Sending and receiving cookies</li>
+<li>Providing access to form data</li>
+<li>Generating redirects</li>
+<li>Generating error pages when there’s an exception</li>
+<li>Providing an interactive debugger that works in the browser</li>
+</ul>
+<p>As we discussed before, it even includes a simple web server. Running a whole server like nginx is probably overkill for just testing on your own box. You can use the Werkzeug server to do your testing instead in a matter of seconds by just entering <code>app.run()</code>.</p>
+<p>Flask uses the Werkzeug library, so Flask comes with the Werkzeug server. You pass the Flask <code>app</code> as the WSGI callable. As we mentioned before, the problem with this server is that isn’t meant to be efficient, scalable, or secure. So what are our other options?</p>
+<h2 id="uWSGI"><a href="#uWSGI" class="headerlink" title="uWSGI"></a>uWSGI</h2><p>uWSGI is a full-fledged HTTP server. It takes in an HTTP request and converts it to a “WSGI request”. Then, it passes that along to the callable and waits for the response.</p>
+<h2 id="Gunicorn-“Green-Unicorn”"><a href="#Gunicorn-“Green-Unicorn”" class="headerlink" title="Gunicorn (“Green Unicorn”)"></a>Gunicorn (“Green Unicorn”)</h2><img src="/Serving-Flask/gunicorn_logo.png" class="">
+
+<p>gunicorn is a web server modeled after Ruby’s “Unicorn” web server. It’s similar to uWSGI in that it takes in HTTP requests and translates them into WSGI requests for the callable. The main allure of gunicorn is that it’s very easy to setup. It also:</p>
+<ul>
+<li>Easily scales Flask apps to dynamically serve hundreds of users</li>
+<li>Supports HTTP “Keep-Alive” through synchronous&#x2F;asynchronous workers</li>
+<li>Supports SSL</li>
+<li>Allows specifying number of worker processes</li>
+<li>Incorporates asynchronous I&#x2F;O</li>
+</ul>
+<p>gunicorn uses a “pre-fork worker model”, which essentially means that a master process forks many other worker processes. Each worker process is ready to handle an incoming request and contains a reference to its own callable. Upon receiving a request, a worker will translate it to WSGI, send it to its callable, and wait for the response. Scaling a gunicorn server is easy since you just need to configure gunicorn to spawn more workers!</p>
+<p>Pre-forking systems are great for low latency communication. They have no cost in spinning up a process to handle each request since the processes are already spun up and just sit around waiting. However, they’re not so great at handling slow clients and traffic surges since each worker thread is occupied with its request until it finishes. In those cases, you may be better off using nginx.</p>
+<h2 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h2><img src="/Serving-Flask/nginx_logo.png" class="">
+
+<p>nginx is a reverse proxy that can also be used as a web server. nginx especially excels at:</p>
+<ul>
+<li>Handling large numbers of connections with little CPU&#x2F;memory cost (tens of thousands of connections at once!)</li>
+<li>Serving static content (it can even redirect to a CDN or a separate bucket)</li>
+<li>Handling gzip compression</li>
+<li>Adding SSL&#x2F;TLS</li>
+<li>Caching common requests</li>
+</ul>
+<p>nginx is more reslient in the face of slow clients as well since it only sends requests to the backend webapp as fast as the backend can handle. When the webapp returns a result, nginx buffers the response to feed it to slow clients at their own pace. The backend can move on to handling another request even as the slow client is still receiving the result.</p>
+<p>Another use case for nginx is as a reverse proxy. Let’s say you’re serving multiple web apps from the same box, but perhaps on different IP addresses or ports. You can use nginx to route requests for any of the apps to the appropriate backend webapps. You could also use nginx similarly for load balancing.</p>
+<p>Most commonly, you’ll see nginx used in conjunction with another web server like uWSGI or gunicorn sitting behind it, like the following:</p>
+<img src="/Serving-Flask/architecture.gif" class="">
+<center>Image from [https://blog.paradisetechsoft.com/django-deployment-on-nginx-and-gunicorn/](https://blog.paradisetechsoft.com/django-deployment-on-nginx-and-gunicorn/)</center>
+
+<p>You’d use nginx to:</p>
+<ul>
+<li><p>Route requests to multiple different web apps. If website A and website B both get routed to the machine that nginx is running on, nginx can reverse proxy the requests to the appropriate uWSGI&#x2F;gunicorn servers for each website.</p>
+</li>
+<li><p>Serve static content. The webapp itself is slow (Python interpreters are a bottleneck!). Serving off easy static content without invoking the interpreter significantly reduces the load on the backend webapp. Ideally, you’d only use the webapp to respond to dynamic content.</p>
+</li>
+<li><p>Handle thousands of connections at once with little memory&#x2F;CPU cost (it’s even better than gunicorn and uWSGI at this).</p>
+</li>
+<li><p>If one of your apps didn’t use WSGI and instead used something like CGI, you could use another nginx behind the muxing nginx to act as the HTTP request handler that translates and passes on the request to the web app using CGI.</p>
+</li>
+</ul>
+<p>You’d use uWSGI&#x2F;gunicorn to:</p>
+<ul>
+<li><p>Translate the incoming HTTP request to WSGI.</p>
+</li>
+<li><p>Pass on the WSGI request info to the Flask callable.</p>
+</li>
+<li><p>Handle multiple requests sent from nginx to the web app.</p>
+<p>  Q: Why doesn’t nginx translate HTTP requests to WSGI?<br> Why do you need uWSGI&#x2F;gunicorn to do it?</p>
+</li>
+</ul>
+<p>This is about to get tricky, but bear with me. The TLDR is that nginx just doesn’t support that feature.</p>
+<p>nginx can’t translate to WSGI, but it does have a module that can translate HTTP requests to something called <code>uwsgi</code>. Just enter <code>uwsgi_pass &lt;your_uWSGI_server&gt;</code> in your nginx configuration to enable this.</p>
+<p>But, confusingly, uwsgi !&#x3D; WSGI !&#x3D; uWSGI.</p>
+<ul>
+<li>WSGI is a protocol for Python web servers that specifies the callable interface.</li>
+<li>uWSGI is a server program that can receive requests and translate them into WSGI for the callable.</li>
+<li>uwsgi is a binary protocol that nginx can send the request as and uWSGI can receive. It’s faster than having nginx send an HTTP request to uWSGI.</li>
+</ul>
+<p>Note: gunicorn doesn’t support receiving a request in the binary uwsgi protocol, so when nginx is used with gunicorn, you have to just send the HTTP request directly over to gunicorn (use <code>proxy_pass</code> instead of <code>uwsgi_pass</code>). This is probably the biggest real difference between gunicorn and uWSGI since uWSGI supports both HTTP and uwsgi.</p>
+<p>So, nginx can’t directly send information to the Python callable because it doesn’t support the WSGI callable interface; it only supports directly forwarding the HTTP request or translating it to the uwsgi binary interface. WSGI callables will expect information to be passed to them via WSGI format, so nginx can’t call the callable directly. Why doesn’t nginx support the callable interface? I’m not sure. Maybe the devs are lazy? There would be marginal gain since there are already tons of projects like uWSGI and gunicorn that already implement this, so maybe there’s no reason to include it in nginx.</p>
+<p>In conclusion, most commonly we would have nginx receiving the request. It would respond to static content requests immediately. For dynamic requests, it would forward the request over uwsgi or over HTTP to the uWSGI&#x2F;gunicorn server. Then, the uWSGI&#x2F;gunicorn server translates the request to WSGI protocol to make use of the Python app’s callable. The callable generates the response, which gets sent back up the chain to nginx to serve out to the requester.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>Flask seems like a simple webapp framework and yet the details of efficiently serving it can get very complicated. I’ve tried to distill my admittedly cursory knowledge of the subject into this post but I’m sure there are still gaps to be filled. If you spot any inaccuracies or have different ways of serving your apps, I’d love to hear from you in the comments!</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/notes/">Notes</a></li>
+        
+          <li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Flask-Application"><span class="toc-number">1.</span> <span class="toc-text">Flask Application</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Application-Server"><span class="toc-number">2.</span> <span class="toc-text">Application Server</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Werkzeug-Flask%E2%80%99s-Debug-Server"><span class="toc-number">3.</span> <span class="toc-text">Werkzeug - Flask’s Debug Server</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WSGI-Web-Server-Gateway-Interface"><span class="toc-number">4.</span> <span class="toc-text">WSGI - Web Server Gateway Interface</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Problem"><span class="toc-number">4.1.</span> <span class="toc-text">Problem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Solution"><span class="toc-number">4.2.</span> <span class="toc-text">Solution</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Flask%E2%80%99s-Callable"><span class="toc-number">4.3.</span> <span class="toc-text">Flask’s Callable</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Werkzeug"><span class="toc-number">5.</span> <span class="toc-text">Werkzeug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#uWSGI"><span class="toc-number">6.</span> <span class="toc-text">uWSGI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gunicorn-%E2%80%9CGreen-Unicorn%E2%80%9D"><span class="toc-number">7.</span> <span class="toc-text">Gunicorn (“Green Unicorn”)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx"><span class="toc-number">8.</span> <span class="toc-text">nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-number">9.</span> <span class="toc-text">Conclusion</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sidsbits.com/Serving-Flask/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sidsbits.com/Serving-Flask/&text=Serving a Flask Application"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sidsbits.com/Serving-Flask/&title=Serving a Flask Application"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sidsbits.com/Serving-Flask/&is_video=false&description=Serving a Flask Application"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Serving a Flask Application&body=Check out this article: https://sidsbits.com/Serving-Flask/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sidsbits.com/Serving-Flask/&title=Serving a Flask Application"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sidsbits.com/Serving-Flask/&title=Serving a Flask Application"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sidsbits.com/Serving-Flask/&title=Serving a Flask Application"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sidsbits.com/Serving-Flask/&title=Serving a Flask Application"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sidsbits.com/Serving-Flask/&name=Serving a Flask Application&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sidsbits.com/Serving-Flask/&t=Serving a Flask Application"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2025
+    Sid Senthilkumar
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'escape-wq';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

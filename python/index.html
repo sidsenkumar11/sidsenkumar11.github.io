@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Integers and floats are interesting creatures in Python. This list of values that can successfully cast to a number may surprise you: 1234567891011121314151617181920212223242526272829303132333435val">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Python">
+<meta property="og:url" content="https://sidsbits.com/python/index.html">
+<meta property="og:site_name" content="escape_wq">
+<meta property="og:description" content="Integers and floats are interesting creatures in Python. This list of values that can successfully cast to a number may surprise you: 1234567891011121314151617181920212223242526272829303132333435val">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-05-05T20:11:01.000Z">
+<meta property="article:modified_time" content="2025-03-01T01:58:13.910Z">
+<meta property="article:author" content="Sid Senthilkumar">
+<meta property="article:tag" content="Cyber Security Reverse Engineer Binary Exploit Web Software Cloud GCP AWS Detection Response InfraSec AppSec CTF">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-144x144.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Python</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=365529229"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '365529229');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+    <div class="content index py4 ">
+        
+          <header id="header">
+  <a class="u-url u-uid" href="/">
+  
+    
+      <img id="logo" alt class="u-logo" src="/images/apple-touch-icon.png" />
+    
+  
+    <div id="title">
+      <h1 class="p-name">escape_wq</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-2x"></i></a>
+      </li>
+      <!--
+     --><li><a href="/">Home</a></li><!--
+   --><!--
+     --><li><a href="/notes/">Notes</a></li><!--
+   --><!--
+     --><li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li><!--
+   --><!--
+     --><li><a href="/search/">Search</a></li><!--
+   -->
+    </ul>
+  </div>
+</header>
+
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+
+  <div class="content" itemprop="articleBody">
+      
+          <p>Integers and floats are interesting creatures in Python. This list of values that can successfully cast to a number may surprise you:</p>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">val</span>                   <span class="variable">isfloat</span><span class="punctuation">(</span><span class="variable">val</span><span class="punctuation">)</span> <span class="variable">Note</span></span><br><span class="line"><span class="operator">--------------------</span>  <span class="operator">----------</span>   <span class="operator">--------------------------------</span></span><br><span class="line"><span class="string">&quot;&quot;</span>                    <span class="built_in">False</span>        <span class="built_in">Blank</span> <span class="variable">string</span></span><br><span class="line"><span class="string">&quot;127&quot;</span>                 <span class="built_in">True</span>         <span class="variable">Passed</span> <span class="variable">string</span></span><br><span class="line"><span class="built_in">True</span>                  <span class="built_in">True</span>         <span class="variable">Pure</span> <span class="variable">sweet</span> <span class="variable">Truth</span></span><br><span class="line"><span class="string">&quot;True&quot;</span>                <span class="built_in">False</span>        <span class="variable">Vile</span> <span class="variable">contemptible</span> <span class="variable">lie</span></span><br><span class="line"><span class="built_in">False</span>                 <span class="built_in">True</span>         <span class="variable">So</span> <span class="variable">false</span> <span class="variable">it</span> <span class="variable">becomes</span> <span class="variable">true</span></span><br><span class="line"><span class="string">&quot;123.456&quot;</span>             <span class="built_in">True</span>         <span class="built_in">Decimal</span></span><br><span class="line"><span class="string">&quot;      -127    &quot;</span>      <span class="built_in">True</span>         <span class="variable">Spaces</span> <span class="variable">trimmed</span></span><br><span class="line"><span class="string">&quot;\t\n12\r\n&quot;</span>          <span class="built_in">True</span>         <span class="variable">whitespace</span> <span class="variable">ignored</span></span><br><span class="line"><span class="string">&quot;NaN&quot;</span>                 <span class="built_in">True</span>         <span class="built_in">Not</span> <span class="variable">a</span> <span class="variable">number</span></span><br><span class="line"><span class="string">&quot;NaNanananaBATMAN&quot;</span>    <span class="built_in">False</span>        <span class="built_in">I</span> <span class="variable">am</span> <span class="variable">Batman</span></span><br><span class="line"><span class="string">&quot;-iNF&quot;</span>                <span class="built_in">True</span>         <span class="built_in">Negative</span> <span class="variable">infinity</span></span><br><span class="line"><span class="string">&quot;123.E4&quot;</span>              <span class="built_in">True</span>         <span class="variable">Exponential</span> <span class="variable">notation</span></span><br><span class="line"><span class="string">&quot;.1&quot;</span>                  <span class="built_in">True</span>         <span class="variable">mantissa</span> <span class="variable">only</span></span><br><span class="line"><span class="string">&quot;1,234&quot;</span>               <span class="built_in">False</span>        <span class="variable">Commas</span> <span class="variable">gtfo</span></span><br><span class="line"><span class="variable">u</span><span class="operator">&#x27;</span>\<span class="variable">x30</span><span class="operator">&#x27;</span>               <span class="built_in">True</span>         <span class="variable">Unicode</span> <span class="variable">is</span> <span class="variable">fine</span><span class="operator">.</span></span><br><span class="line"><span class="string">&quot;NULL&quot;</span>                <span class="built_in">False</span>        <span class="built_in">Null</span> <span class="variable">is</span> <span class="variable">not</span> <span class="variable">special</span></span><br><span class="line"><span class="number">0</span><span class="variable">x3fade</span>               <span class="built_in">True</span>         <span class="variable">Hexidecimal</span></span><br><span class="line"><span class="string">&quot;6e7777777777777&quot;</span>     <span class="built_in">True</span>         <span class="variable">Shrunk</span> <span class="variable">to</span> <span class="variable">infinity</span></span><br><span class="line"><span class="string">&quot;1.797693e+308&quot;</span>       <span class="built_in">True</span>         <span class="variable">This</span> <span class="variable">is</span> <span class="variable">max</span> <span class="variable">value</span></span><br><span class="line"><span class="string">&quot;infinity&quot;</span>            <span class="built_in">True</span>         <span class="variable">Same</span> <span class="variable">as</span> <span class="variable">inf</span></span><br><span class="line"><span class="string">&quot;infinityandBEYOND&quot;</span>   <span class="built_in">False</span>        <span class="variable">Extra</span> <span class="variable">characters</span> <span class="variable">wreck</span> <span class="variable">it</span></span><br><span class="line"><span class="string">&quot;12.34.56&quot;</span>            <span class="built_in">False</span>        <span class="variable">Only</span> <span class="variable">one</span> <span class="variable">dot</span> <span class="variable">allowed</span></span><br><span class="line"><span class="variable">u</span><span class="operator">&#x27;</span>四<span class="operator">&#x27;</span>                  <span class="built_in">False</span>        <span class="variable">Japanese</span> <span class="operator">&#x27;</span><span class="number">4</span><span class="operator">&#x27;</span> <span class="variable">is</span> <span class="variable">not</span> <span class="variable">a</span> <span class="variable">float</span><span class="operator">.</span></span><br><span class="line"><span class="string">&quot;#56&quot;</span>                 <span class="built_in">False</span>        <span class="variable">Pound</span> <span class="variable">sign</span></span><br><span class="line"><span class="string">&quot;56%&quot;</span>                 <span class="built_in">False</span>        <span class="variable">Percent</span> <span class="variable">of</span> <span class="variable">what</span><span class="operator">?</span></span><br><span class="line"><span class="string">&quot;0E0&quot;</span>                 <span class="built_in">True</span>         <span class="variable">Exponential</span><span class="operator">,</span> <span class="variable">move</span> <span class="variable">dot</span> <span class="number">0</span> <span class="variable">places</span></span><br><span class="line"><span class="number">0</span><span class="operator">**</span><span class="number">0</span>                  <span class="built_in">True</span>         <span class="number">0</span><span class="type">___</span><span class="number">0</span>  <span class="variable">Exponentiation</span></span><br><span class="line"><span class="string">&quot;-5e-5&quot;</span>               <span class="built_in">True</span>         <span class="variable">Raise</span> <span class="variable">to</span> <span class="variable">a</span> <span class="variable">negative</span> <span class="variable">number</span></span><br><span class="line"><span class="string">&quot;+1e1&quot;</span>                <span class="built_in">True</span>         <span class="built_in">Plus</span> <span class="variable">is</span> <span class="variable">OK</span> <span class="variable">with</span> <span class="variable">exponent</span></span><br><span class="line"><span class="string">&quot;+1e1^5&quot;</span>              <span class="built_in">False</span>        <span class="variable">Fancy</span> <span class="variable">exponent</span> <span class="variable">not</span> <span class="variable">interpreted</span></span><br><span class="line"><span class="string">&quot;+1e1.3&quot;</span>              <span class="built_in">False</span>        <span class="variable">No</span> <span class="variable">decimals</span> <span class="variable">in</span> <span class="variable">exponent</span></span><br><span class="line"><span class="string">&quot;-+1&quot;</span>                 <span class="built_in">False</span>        <span class="variable">Make</span> <span class="variable">up</span> <span class="variable">your</span> <span class="variable">mind</span></span><br><span class="line"><span class="string">&quot;(1)&quot;</span>                 <span class="built_in">False</span>        <span class="variable">Parenthesis</span> <span class="variable">is</span> <span class="variable">bad</span></span><br></pre></td></tr></table></figure>
+
+<p>This list was taken from the following: <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/379906/how-do-i-parse-a-string-to-a-float-or-int-in-python">https://stackoverflow.com/a/20929983</a></p>
+
+        
+  </div>
+</article>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2025
+    Sid Senthilkumar
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'escape-wq';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="I’ve been learning the basics of reverse engineering and binary exploitation for almost a year now. While I don’t consider myself an expert, I’ve learned more than I thought possible for myself in a s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pwn Path">
+<meta property="og:url" content="https://sidsbits.com/Path/index.html">
+<meta property="og:site_name" content="escape_wq">
+<meta property="og:description" content="I’ve been learning the basics of reverse engineering and binary exploitation for almost a year now. While I don’t consider myself an expert, I’ve learned more than I thought possible for myself in a s">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-05-01T02:39:53.000Z">
+<meta property="article:modified_time" content="2025-03-01T01:58:13.908Z">
+<meta property="article:author" content="Sid Senthilkumar">
+<meta property="article:tag" content="Binary Exploitation">
+<meta property="article:tag" content="Reverse Engineering">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-144x144.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Pwn Path</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=365529229"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '365529229');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/Arch-Install/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/Defeating-ASLR-with-a-Leak/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sidsbits.com/Path/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sidsbits.com/Path/&text=Pwn Path"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sidsbits.com/Path/&title=Pwn Path"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sidsbits.com/Path/&is_video=false&description=Pwn Path"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Pwn Path&body=Check out this article: https://sidsbits.com/Path/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sidsbits.com/Path/&title=Pwn Path"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sidsbits.com/Path/&title=Pwn Path"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sidsbits.com/Path/&title=Pwn Path"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sidsbits.com/Path/&title=Pwn Path"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sidsbits.com/Path/&name=Pwn Path&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sidsbits.com/Path/&t=Pwn Path"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-0-Reverse-Engineering-with-IOLI"><span class="toc-number">1.</span> <span class="toc-text">Level 0: Reverse Engineering with IOLI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-1-Buffer-Overflows"><span class="toc-number">2.</span> <span class="toc-text">Level 1: Buffer Overflows</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-2-Shellcoding"><span class="toc-number">3.</span> <span class="toc-text">Level 2: Shellcoding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-3-ROP-Emporium"><span class="toc-number">4.</span> <span class="toc-text">Level 3: ROP Emporium</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-4-Format-Strings"><span class="toc-number">5.</span> <span class="toc-text">Level 4: Format Strings</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-5-Gadgets-in-Shared-Objects-Defeating-ASLR"><span class="toc-number">6.</span> <span class="toc-text">Level 5: Gadgets in Shared Objects &amp; Defeating ASLR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solutions"><span class="toc-number">7.</span> <span class="toc-text">Solutions</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Pwn Path
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Siddarth Senthilkumar</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-05-01T02:39:53.000Z" class="dt-published" itemprop="datePublished">2018-04-30</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Binary-Exploitation/" rel="tag">Binary Exploitation</a>, <a class="p-category" href="/tags/Reverse-Engineering/" rel="tag">Reverse Engineering</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>I’ve been learning the basics of reverse engineering and binary exploitation for almost a year now. While I don’t consider myself an expert, I’ve learned more than I thought possible for myself in a short time. One of the problems I’ve had was finding good problem sets designed for learning with increasing steps of difficulty. So, I’m creating my own series of challenges curated from various sources that provide a good progression of difficulty for anyone interested in binary exploitation.</p>
+<p>Note that I give a solution description for each challenge. These challenges are not meant for you to frustrate yourself with finding vulnerabilities - you’ll eventually be able to do that after playing with a binary and it’ll just waste your time while you’re learning. Here, anyone who wants to learn a specific exploitation technique can refer to a sample problem and learn by doing.</p>
+<h2 id="Level-0-Reverse-Engineering-with-IOLI"><a href="#Level-0-Reverse-Engineering-with-IOLI" class="headerlink" title="Level 0: Reverse Engineering with IOLI"></a>Level 0: Reverse Engineering with IOLI</h2><p>The IOLI crackmes are the best place to start if you have zero experience with looking at binaries. A crackme is a challenge in which you are given a compiled program that requires a password. Usually, we aren’t given the program source code so we have to figure out what the necessary input is from the assembly instructions in the binary.</p>
+<p>In each of the IOLI crackmes, the binary will ask the user for a password and then print whether or not that password was correct. Our goal is to reverse engineer the correct passwords and gain access. Personally, I only think it’s worth doing these challenges until crackme0x07 since the solutions can get repetitive.</p>
+<table>
+<thead>
+<tr>
+<th>Challenge</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>crackme0x00a</td>
+<td>Hardcoded string comparison</td>
+</tr>
+<tr>
+<td>crackme0x00b</td>
+<td>Interesting hardcoded string comparison</td>
+</tr>
+<tr>
+<td>crackme0x01</td>
+<td>Hardcoded integer comparison</td>
+</tr>
+<tr>
+<td>crackme0x02</td>
+<td>Using GDB to avoid long computations</td>
+</tr>
+<tr>
+<td>crackme0x03</td>
+<td>String obfuscation and educated guessing</td>
+</tr>
+<tr>
+<td>crackme0x04</td>
+<td>Operations on string characters</td>
+</tr>
+<tr>
+<td>crackme0x05</td>
+<td>Bitwise operations</td>
+</tr>
+<tr>
+<td>crackme0x06</td>
+<td>Environment variables</td>
+</tr>
+<tr>
+<td>crackme0x07</td>
+<td>Stripped symbols</td>
+</tr>
+</tbody></table>
+<p>Download: <a href="challenges/crackmes.tar.gz">crackmes.tar.gz</a></p>
+<p>Original: <a target="_blank" rel="noopener" href="http://security.cs.rpi.edu/courses/binexp-spring2015/lectures/2/challenges.zip">challenges.zip</a></p>
+<h2 id="Level-1-Buffer-Overflows"><a href="#Level-1-Buffer-Overflows" class="headerlink" title="Level 1: Buffer Overflows"></a>Level 1: Buffer Overflows</h2><p>Now that you have a basic understanding of assembly language, static analysis, and debugging, you are ready to learn about buffer overflows. In a buffer overflow, you provide more data to a program than can fit in a specified buffer - causing the program to overwrite important data on the stack such as local variables and saved instruction pointers.</p>
+<table>
+<thead>
+<tr>
+<th>Challenge</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MBE Lab 2C</td>
+<td>Controlling stack variables</td>
+</tr>
+<tr>
+<td>MBE Lab 2B</td>
+<td>Calling functions with arguments</td>
+</tr>
+<tr>
+<td>MBE Lab 2A</td>
+<td>Call a function in a weird way</td>
+</tr>
+</tbody></table>
+<p>These challenges and many of the future ones come from RPISEC’s Modern Binary Exploitation course. I highly recommend you go through their slides prior to attempting these challenges. They give you detailed explanations on how the exploits work and even provide useful commands.</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/RPISEC/MBE/releases/download/v1.1_release/MBE_lectures.tar.gz">PDFs of MBE Lectures</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/RPISEC/MBE/releases/download/v1.1_release/MBE_release.tar.gz">Compiled MBE Binaries</a></p>
+<h2 id="Level-2-Shellcoding"><a href="#Level-2-Shellcoding" class="headerlink" title="Level 2: Shellcoding"></a>Level 2: Shellcoding</h2><p>In the previous challenges, there was always a “shell” function that you just could call which would give you a shell. However, there’s almost never a random shell function lying around in a real program.</p>
+<p>Shellcoding is the art of writing instructions you want to execute on the stack, and then overwriting the return address pointer to point to the shellcode you wrote. Note that shellcode doesn’t necessarily need to spawn a shell; shellcode refers to any executable code that the user provided - even if it’s as simple as printing “Hello World”.</p>
+<p>MBE Lab 3C | Returning to shellcode<br>MBE Lab 3B | Write shellcode that doesn’t spawn a shell<br>MBE Lab 3A | Write non-contiguous shellcode (limited space)</p>
+<h2 id="Level-3-ROP-Emporium"><a href="#Level-3-ROP-Emporium" class="headerlink" title="Level 3: ROP Emporium"></a>Level 3: ROP Emporium</h2><p>These days, shellcoding problems occur less frequently. This is because of a protection built into binaries called “NX bit” or “W^X”. NX stands for no-execute and refers to the fact that that writeable sections of memory must also be non-executable. This way, even if an attacker gains access to the instruction pointer, they can’t redirect execution to code that they wrote since the section that they wrote to will be non-executable.</p>
+<p>However, attackers have come up with ways to bypass this protection in the form of return-oriented programming, or ROP. We still overflow and control the instruction pointer, but now we execute chains of instructions that already exist in the binary’s code or in imported code.</p>
+<p>The majority of these challenges come from ROP Emporium, which I found to be an excellent set of challenges for learning ROP chaining. For more information about each challenge, visit the ROP Emporium website linked below. It will tell you what kind of exploit you need to do and give you hints (which will save you the trouble of having to reverse engineer the problem before beginning the exploit). You should make sure to do both the 32-bit and 64-bit challenges since there are interesting nuances between the architectures that will affect your ROP chains.</p>
+<table>
+<thead>
+<tr>
+<th>Challenge</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ret2win</td>
+<td>Controlling $eip</td>
+</tr>
+<tr>
+<td>split</td>
+<td>Calling functions with arguments, both found in the binary</td>
+</tr>
+<tr>
+<td>callme</td>
+<td>Calling exteral functions using the PLT</td>
+</tr>
+<tr>
+<td>write4</td>
+<td>Pass arbitrary arguments to functions that expect pointers by writing to .data</td>
+</tr>
+<tr>
+<td>fluff</td>
+<td>Using more difficult gadget patterns to construct ROP chains</td>
+</tr>
+<tr>
+<td>pivot</td>
+<td>Stack pivoting and adding offsets to get to a new function in libc file. You may want to do this after finishing Level 4.</td>
+</tr>
+</tbody></table>
+<p>Original: <a target="_blank" rel="noopener" href="https://ropemporium.com/">ROP Emporium</a></p>
+<h2 id="Level-4-Format-Strings"><a href="#Level-4-Format-Strings" class="headerlink" title="Level 4: Format Strings"></a>Level 4: Format Strings</h2><p>We’ve been doing relatively simple overflows until now - we just happen to overwrite data on the stack because the program read in more input than it should. What other ways can we control the instruction pointer? Format strings! Format strings are often used with functions like <code>printf</code> to interpret sequences of bytes as integers, or characters, or even pointers. <code>printf</code> doesn’t get passed in the number arguments to it - so if a format string was read as <code>%x%x%x</code> and the user didn’t provide three numbers, then <code>printf</code> just starts reading up the stack and printing out three numbers since it’ll think that those were the arguments to it. You can see the problems that this might cause. There is also a special format string, <code>%n</code>, which will allow you to write to arbitrary regions of memory.</p>
+<p>For more information, read the MBE slides on format strings and check out this excellent <a target="_blank" rel="noopener" href="http://codearcana.com/posts/2013/05/02/introduction-to-format-string-exploits.html">tutorial</a>.</p>
+<p>Format string challenges are important but can be a little tricky. You might argue that they are less complicated than ROP challenges, but I think it helps to learn the stack well and understand what memory sections are writeable before learning to exploit format string vulnerabilities. The challenges in this section are from angstromCTF 2018 and include the source code for each binary.</p>
+<table>
+<thead>
+<tr>
+<th>Challenge</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Number Guess</td>
+<td>Leak private local variables</td>
+</tr>
+<tr>
+<td>Letter</td>
+<td>Use <code>%n</code> to overwrite data in arbitrary memory locations</td>
+</tr>
+</tbody></table>
+<p>Download: <a href="challenges/format_strings.tar.gz">format_strings.tar.gz</a></p>
+<h2 id="Level-5-Gadgets-in-Shared-Objects-Defeating-ASLR"><a href="#Level-5-Gadgets-in-Shared-Objects-Defeating-ASLR" class="headerlink" title="Level 5: Gadgets in Shared Objects &amp; Defeating ASLR"></a>Level 5: Gadgets in Shared Objects &amp; Defeating ASLR</h2><p>Until now with the ROP Emporium challenges, we’ve been solely using gadgets found in the binary that we’re running. However, you can also use gadgets found in the linked shared object files such as libc.so. In fact, this will usually make your exploits easier because there are so many gadgets in the libc shared object.</p>
+<p>There is a catch though - it is slightly more work to ROP chain using the shared objects. Shared objects are compiled with a protection known as PIE, which stands for Position Independent Execution. If you look at a shared object file in a disassembler, you’ll see that each instruction’s address is something like <code>0x00000xxx</code>. This indicates that the .so file was compiled with PIE. When the shared object is loaded and run, the operating system chooses a random base address and all the address in the shared object are referenced by <code>random_base + 0x00000xxx</code>. This is known as ASLR.</p>
+<p>When an operating system has ASLR enabled and a binary is compiled with PIE, you can’t just jump to a fixed gadget addresses found in the binary and expect the jump to work. This is because the shared object’s base address will be randomized during the load time of the library. So how can we defeat this protectoin?</p>
+<p>Well, the offsets within the library remain the same between runs even if the base addresses are different. Therefore, if you know the full address of any function, you can use the offsets in the .so file to calculate the address of any other function in that shared object. Getting the address of any function in the PLT is known as a leak.</p>
+<p>The reason we haven’t had to deal with ASLR in the ROP Emporium challenges (even though ASLR was enabled!) is that we only looked for gadgets in the binary itself. Those binaries were not compiled with PIE (position independent execution), so ASLR didn’t affect them. Shared objects are always compiled with PIE, so ASLR affects them. If we had compiled the binaries in ROP Emporium with PIE, then you’d have to do the same kind of leak as discussed before to get the addresses of the gadgets before being able to jump to them. After leaking, the process is the same as usual for constructing a ROP chain.</p>
+<table>
+<thead>
+<tr>
+<th>Challenge</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ROPU</td>
+<td>Leak an address using puts, then jump to a target from one-gadget.</td>
+</tr>
+<tr>
+<td>Ropasaurus Rex</td>
+<td>Another leak but slightly more difficult (uses read() &#x2F; write())</td>
+</tr>
+<tr>
+<td>scv</td>
+<td>Leak a stack canary using format strings</td>
+</tr>
+</tbody></table>
+<h2 id="Solutions"><a href="#Solutions" class="headerlink" title="Solutions"></a>Solutions</h2><p>I’m working on creating a set of solutions for each of these challenges. Once it’s done, I’ll post it here.</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/notes/">Notes</a></li>
+        
+          <li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-0-Reverse-Engineering-with-IOLI"><span class="toc-number">1.</span> <span class="toc-text">Level 0: Reverse Engineering with IOLI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-1-Buffer-Overflows"><span class="toc-number">2.</span> <span class="toc-text">Level 1: Buffer Overflows</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-2-Shellcoding"><span class="toc-number">3.</span> <span class="toc-text">Level 2: Shellcoding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-3-ROP-Emporium"><span class="toc-number">4.</span> <span class="toc-text">Level 3: ROP Emporium</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-4-Format-Strings"><span class="toc-number">5.</span> <span class="toc-text">Level 4: Format Strings</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-5-Gadgets-in-Shared-Objects-Defeating-ASLR"><span class="toc-number">6.</span> <span class="toc-text">Level 5: Gadgets in Shared Objects &amp; Defeating ASLR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solutions"><span class="toc-number">7.</span> <span class="toc-text">Solutions</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sidsbits.com/Path/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sidsbits.com/Path/&text=Pwn Path"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sidsbits.com/Path/&title=Pwn Path"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sidsbits.com/Path/&is_video=false&description=Pwn Path"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Pwn Path&body=Check out this article: https://sidsbits.com/Path/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sidsbits.com/Path/&title=Pwn Path"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sidsbits.com/Path/&title=Pwn Path"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sidsbits.com/Path/&title=Pwn Path"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sidsbits.com/Path/&title=Pwn Path"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sidsbits.com/Path/&name=Pwn Path&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sidsbits.com/Path/&t=Pwn Path"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2025
+    Sid Senthilkumar
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'escape-wq';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Local AttestationAfter an SGX enclave has been instantiated on a platform, it may want to attest or prove that it is running on genuine SGX hardware. Before we talk about how it can prove this to remo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Intel SGX Attestation Part 2">
+<meta property="og:url" content="https://sidsbits.com/Intel-SGX-Attestation-Part-2/index.html">
+<meta property="og:site_name" content="escape_wq">
+<meta property="og:description" content="Local AttestationAfter an SGX enclave has been instantiated on a platform, it may want to attest or prove that it is running on genuine SGX hardware. Before we talk about how it can prove this to remo">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-09-15T00:47:24.000Z">
+<meta property="article:modified_time" content="2025-03-01T01:58:13.908Z">
+<meta property="article:author" content="Sid Senthilkumar">
+<meta property="article:tag" content="Cyber Security Reverse Engineer Binary Exploit Web Software Cloud GCP AWS Detection Response InfraSec AppSec CTF">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-144x144.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Intel SGX Attestation Part 2</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=365529229"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '365529229');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/Intel-SGX-Attestation-Part-1/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sidsbits.com/Intel-SGX-Attestation-Part-2/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sidsbits.com/Intel-SGX-Attestation-Part-2/&text=Intel SGX Attestation Part 2"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sidsbits.com/Intel-SGX-Attestation-Part-2/&title=Intel SGX Attestation Part 2"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sidsbits.com/Intel-SGX-Attestation-Part-2/&is_video=false&description=Intel SGX Attestation Part 2"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Intel SGX Attestation Part 2&body=Check out this article: https://sidsbits.com/Intel-SGX-Attestation-Part-2/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sidsbits.com/Intel-SGX-Attestation-Part-2/&title=Intel SGX Attestation Part 2"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sidsbits.com/Intel-SGX-Attestation-Part-2/&title=Intel SGX Attestation Part 2"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sidsbits.com/Intel-SGX-Attestation-Part-2/&title=Intel SGX Attestation Part 2"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sidsbits.com/Intel-SGX-Attestation-Part-2/&title=Intel SGX Attestation Part 2"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sidsbits.com/Intel-SGX-Attestation-Part-2/&name=Intel SGX Attestation Part 2&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sidsbits.com/Intel-SGX-Attestation-Part-2/&t=Intel SGX Attestation Part 2"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Local-Attestation"><span class="toc-number">1.</span> <span class="toc-text">Local Attestation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Motivation"><span class="toc-number">1.1.</span> <span class="toc-text">Motivation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Procedure"><span class="toc-number">1.2.</span> <span class="toc-text">Procedure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Establishing-a-Secure-Channel-between-Enclaves"><span class="toc-number">1.3.</span> <span class="toc-text">Establishing a Secure Channel between Enclaves</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Summary"><span class="toc-number">2.</span> <span class="toc-text">Summary</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#References"><span class="toc-number">3.</span> <span class="toc-text">References</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Intel SGX Attestation Part 2
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Siddarth Senthilkumar</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-09-15T00:47:24.000Z" class="dt-published" itemprop="datePublished">2021-09-14</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="Local-Attestation"><a href="#Local-Attestation" class="headerlink" title="Local Attestation"></a>Local Attestation</h2><p>After an SGX enclave has been instantiated on a platform, it may want to attest or prove that it is running on genuine SGX hardware. Before we talk about how it can prove this to remote parties, we will first discuss local attestation. Local attestation is when an enclave proves to another enclave on the same host that they are running on the same, genuine SGX hardware.</p>
+<h3 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h3><p>You may be wondering why an enclave would care to attest itself to another enclave. Imagine the following scenario: Netflix is streaming videos to your computer. Netflix doesn’t want you to save their videos since they are copyright protected. But, they have to send you the video somehow so you can play it. How can they accomplish this?</p>
+<p>If they send the video encrypted in an enclave binary, then you would not be able to view the raw video binary - only the CPU would be able to decode and play the video. But the enclave needs to first know if if it’s running on a genuine SGX platform. So, the enclave will want to attest itself with another enclave on your computer - maybe one written and signed by Intel for the sole purpose of verifying other enclaves. For this, we need a local attestation mechanism.</p>
+<h3 id="Procedure"><a href="#Procedure" class="headerlink" title="Procedure"></a>Procedure</h3><p>Intel SGX introduced a new instruction called “EREPORT”. When invoked by an enclave, EREPORT asks the hardware to produce a signed structure called a report. The key used to sign is called the report key. The report key can only be requested from the hardware by the verifying enclave, so only the verifying enclave can properly verify the signature of this report. In other words, each enclave has a unique report key that only it can access, but other enclaves can still ask for reports signed by it.</p>
+<p>The report contains the MRSIGNER, MRENCLAVE, some attributes associated with the enclave, and the hardware TCB*. The report also contains a small user-data field so the enclave author can include some miscellaneous data in the report. The user data must be passed to the EREPORT instruction as an argument.</p>
+<p>Then, the source enclave takes this report and sends it to the verifying enclave. The verifying enclave first checks the signature on the report. To do this, it gets its report key via the EGETKEY instruction. If the report was signed properly, then the verifying enclave knows both enclaves are running on the same platform. Finally, the verifying enclave generates its own report and sends that report to the original enclave so the original enclave can verify it.</p>
+<p>* Don’t worry about the meaning of hardware TCB for now. Just know it has something to do with the “security level” of the hardware.</p>
+<h3 id="Establishing-a-Secure-Channel-between-Enclaves"><a href="#Establishing-a-Secure-Channel-between-Enclaves" class="headerlink" title="Establishing a Secure Channel between Enclaves"></a>Establishing a Secure Channel between Enclaves</h3><p>Let’s say the two enclaves wish to establish a secure channel with each other. This means they want to send each other encrypted messages, since they can’t trust the application hosting them to send the data unadultered. Establishing a secure channel requires them to exchange session keys which can be used to encrypt their messages.</p>
+<p>They can do this using the report’s user data section. The user data section is only 256 bits long, so typically an application enclave will just hash the real data they want to pass and provide the hash in the report. Then, the application enclave will send both the report and the session key to the target enclave. The target enclave can verify that the hash of the attached user data matches the hash in the user data section of the report.</p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>To summarize, local attestation is performed through the following steps:</p>
+<ol>
+<li>Enclave A obtains enclave B’s MRENCLAVE value through some insecure path.</li>
+<li>Enclave A generates some data which can be used to provision a secure channel (e.g. diffie hellman key).</li>
+<li>Enclave A invokes EREPORT with two arguments: enclave B’s MRENCLAVE and a hash of the user data from the previous step. This tells the hardware to create a report and sign it using Enclave B’s report key. The hash of the user data should be in the user data field of the report.</li>
+<li>Enclave A sends the signed report and user data to enclave B. This can happen over an untrusted channel.</li>
+<li>Enclave B receives the report. First, it uses EGETKEY to retrieve its report key and recompute the MAC over the report. If it matches, then A really is an enclave running on the same platform as B, in an environment that abides by Intel SGX’s security model.</li>
+<li>Enclave B verifies that the user data was properly received by checking the hash in the report against the hash of the user data received.</li>
+<li>Enclave B creates a report for A by using the MRENCLAVE from the report it just received. It may attach its own user data for key exchange.</li>
+<li>Enclave B transmits its report to A, and A verifies the report + user data.</li>
+<li>Now, both enclaves can use their new session key generated from the user data to exchange encrypted information.</li>
+</ol>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.blackhat.com/docs/us-17/thursday/us-17-Swami-SGX-Remote-Attestation-Is-Not-Sufficient-wp.pdf">https://www.blackhat.com/docs/us-17/thursday/us-17-Swami-SGX-Remote-Attestation-Is-Not-Sufficient-wp.pdf</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://software.intel.com/content/www/us/en/develop/articles/innovative-technology-for-cpu-based-attestation-and-sealing.html">https://software.intel.com/content/www/us/en/develop/articles/innovative-technology-for-cpu-based-attestation-and-sealing.html</a></p>
+</li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/notes/">Notes</a></li>
+        
+          <li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Local-Attestation"><span class="toc-number">1.</span> <span class="toc-text">Local Attestation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Motivation"><span class="toc-number">1.1.</span> <span class="toc-text">Motivation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Procedure"><span class="toc-number">1.2.</span> <span class="toc-text">Procedure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Establishing-a-Secure-Channel-between-Enclaves"><span class="toc-number">1.3.</span> <span class="toc-text">Establishing a Secure Channel between Enclaves</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Summary"><span class="toc-number">2.</span> <span class="toc-text">Summary</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#References"><span class="toc-number">3.</span> <span class="toc-text">References</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sidsbits.com/Intel-SGX-Attestation-Part-2/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sidsbits.com/Intel-SGX-Attestation-Part-2/&text=Intel SGX Attestation Part 2"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sidsbits.com/Intel-SGX-Attestation-Part-2/&title=Intel SGX Attestation Part 2"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sidsbits.com/Intel-SGX-Attestation-Part-2/&is_video=false&description=Intel SGX Attestation Part 2"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Intel SGX Attestation Part 2&body=Check out this article: https://sidsbits.com/Intel-SGX-Attestation-Part-2/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sidsbits.com/Intel-SGX-Attestation-Part-2/&title=Intel SGX Attestation Part 2"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sidsbits.com/Intel-SGX-Attestation-Part-2/&title=Intel SGX Attestation Part 2"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sidsbits.com/Intel-SGX-Attestation-Part-2/&title=Intel SGX Attestation Part 2"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sidsbits.com/Intel-SGX-Attestation-Part-2/&title=Intel SGX Attestation Part 2"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sidsbits.com/Intel-SGX-Attestation-Part-2/&name=Intel SGX Attestation Part 2&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sidsbits.com/Intel-SGX-Attestation-Part-2/&t=Intel SGX Attestation Part 2"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2025
+    Sid Senthilkumar
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'escape-wq';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

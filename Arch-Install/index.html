@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="After procrastinating for a year, I finally installed Arch Linux on my personal laptop. Unlike the Linux distros I had experience with in the past, Arch Linux is a very bare-bones distribution. Whil">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Installing Arch Linux - Part 1">
+<meta property="og:url" content="https://sidsbits.com/Arch-Install/index.html">
+<meta property="og:site_name" content="escape_wq">
+<meta property="og:description" content="After procrastinating for a year, I finally installed Arch Linux on my personal laptop. Unlike the Linux distros I had experience with in the past, Arch Linux is a very bare-bones distribution. Whil">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://sidsbits.com/Arch-Install/refind_bootmanager.bmp">
+<meta property="article:published_time" content="2018-08-30T14:22:05.000Z">
+<meta property="article:modified_time" content="2025-03-01T01:58:13.621Z">
+<meta property="article:author" content="Sid Senthilkumar">
+<meta property="article:tag" content="Arch">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sidsbits.com/Arch-Install/refind_bootmanager.bmp">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-144x144.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Installing Arch Linux - Part 1</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=365529229"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '365529229');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/Serving-Flask/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/Path/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sidsbits.com/Arch-Install/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sidsbits.com/Arch-Install/&text=Installing Arch Linux - Part 1"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sidsbits.com/Arch-Install/&title=Installing Arch Linux - Part 1"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sidsbits.com/Arch-Install/&is_video=false&description=Installing Arch Linux - Part 1"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Installing Arch Linux - Part 1&body=Check out this article: https://sidsbits.com/Arch-Install/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sidsbits.com/Arch-Install/&title=Installing Arch Linux - Part 1"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sidsbits.com/Arch-Install/&title=Installing Arch Linux - Part 1"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sidsbits.com/Arch-Install/&title=Installing Arch Linux - Part 1"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sidsbits.com/Arch-Install/&title=Installing Arch Linux - Part 1"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sidsbits.com/Arch-Install/&name=Installing Arch Linux - Part 1&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sidsbits.com/Arch-Install/&t=Installing Arch Linux - Part 1"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Motivation"><span class="toc-number">1.</span> <span class="toc-text">Motivation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cautions-while-Dual-Booting-with-Windows"><span class="toc-number">2.</span> <span class="toc-text">Cautions while Dual-Booting with Windows</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Set-Windows-to-UTC-Time"><span class="toc-number">2.1.</span> <span class="toc-text">Set Windows to UTC Time</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Disable-Fast-Boot"><span class="toc-number">2.2.</span> <span class="toc-text">Disable Fast Boot</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Secure-Boot"><span class="toc-number">2.3.</span> <span class="toc-text">Secure Boot</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Connect-to-Internet-and-Set-Clock"><span class="toc-number">3.</span> <span class="toc-text">Connect to Internet and Set Clock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Partitioning-Disks"><span class="toc-number">4.</span> <span class="toc-text">Partitioning Disks</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install"><span class="toc-number">5.</span> <span class="toc-text">Install</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Boot-Managers-and-Kernels"><span class="toc-number">6.</span> <span class="toc-text">Boot Managers and Kernels</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Results"><span class="toc-number">7.</span> <span class="toc-text">Results</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Installing Arch Linux - Part 1
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Siddarth Senthilkumar</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-08-30T14:22:05.000Z" class="dt-published" itemprop="datePublished">2018-08-30</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Arch/" rel="tag">Arch</a>, <a class="p-category" href="/tags/Linux/" rel="tag">Linux</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <img src="/Arch-Install/refind_bootmanager.bmp" class="">
+
+<p>After procrastinating for a year, I finally installed Arch Linux on my personal laptop. Unlike the Linux distros I had experience with in the past, Arch Linux is a very bare-bones distribution. While the Mint and Ubuntu installers take care of all the installation details with a nice GUI to guide you through the process, Arch just drops you with a shell and says “you’re on your own”. But as a reward for having so little assumed for you, you’re given fine-grained control over your system and can set it up just the way you like it!</p>
+<h2 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h2><p>My main motivation in installing Arch was to learn how Linux and my computer worked more deeply. By arming myself with nothing but the Wiki and the Arch ISO, I figured I would learn a lot from performing the installation steps manually - and I was right!</p>
+<p>Here are some of the notes I took during the installation procedures. While this little post is no replacement for the Arch Wiki, I wanted to document my steps so I can refer to them if I ever decide to migrate to a new computer.</p>
+<h2 id="Cautions-while-Dual-Booting-with-Windows"><a href="#Cautions-while-Dual-Booting-with-Windows" class="headerlink" title="Cautions while Dual-Booting with Windows"></a>Cautions while Dual-Booting with Windows</h2><h3 id="Set-Windows-to-UTC-Time"><a href="#Set-Windows-to-UTC-Time" class="headerlink" title="Set Windows to UTC Time"></a>Set Windows to UTC Time</h3><p>If you are dual-booting alongside Windows like me, you will want to set your Windows time to use UTC time instead of localtime. Linux treats the hardware clock as if it’s UTC time and computes the localtime from that, but Windows treats the hardware clock as if it’s localtime. Therefore, after installing Arch, you may notice that your Windows clock will be off by several hours.</p>
+<p>See <a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/time#UTC_in_Windows">https://wiki.archlinux.org/index.php/time#UTC_in_Windows</a> to figure out how to fix this before it becomes a problem.</p>
+<h3 id="Disable-Fast-Boot"><a href="#Disable-Fast-Boot" class="headerlink" title="Disable Fast Boot"></a>Disable Fast Boot</h3><p>Windows has a feature called Fast Start-Up that hibernates the computer instead of shutting it down to decrease the boot times. This can cause data corruption if you shutdown your Windows machine and boot your Linux machine, since the Linux machine will mount the hibernated file system.</p>
+<p>See <a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/Dual_boot_with_Windows#Fast_Start-Up">https://wiki.archlinux.org/index.php/Dual_boot_with_Windows#Fast_Start-Up</a> to figure out how to disable fast boot before it becomes an issue.</p>
+<h3 id="Secure-Boot"><a href="#Secure-Boot" class="headerlink" title="Secure Boot"></a>Secure Boot</h3><p>Before starting the installer, you may wish to enter your BIOS menu (hit F12 during boot) and disable Secure Boot to make your installation simpler.</p>
+<h2 id="Connect-to-Internet-and-Set-Clock"><a href="#Connect-to-Internet-and-Set-Clock" class="headerlink" title="Connect to Internet and Set Clock"></a>Connect to Internet and Set Clock</h2><p>This installation was done on a machine that supports UEFI, so these steps were written as such. For older BIOS machines, you will want to refer to the Arch wiki.</p>
+<p>First, press F12 at the hardware vendor loading screen to load the BIOS settings.<br>Then, select <code>UEFI BOOT from USB</code> to boot from the USB that contains your Arch ISO.<br>You should see the operating system on your USB boot up, eventually dropping you into a root shell.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Confirm UEFI Mode</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># If this directory is populated, you&#x27;re in UEFI.</span></span><br><span class="line"><span class="built_in">ls</span> /sys/firmware/efi/efivars</span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Change Keyboard Layout</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># The default keyboard layout is US.</span></span><br><span class="line"><span class="comment"># See Arch guide if you want to change it to something else.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Connect to Internet</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># If you have an Ethernet cable, you can plug it in for automatic internet.</span></span><br><span class="line"><span class="comment"># Otherwise, you can use wireless.</span></span><br><span class="line">wifi-menu</span><br><span class="line">ping google.com <span class="comment"># Test connection</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Update the System Clock</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line">timedatectl set-ntp <span class="literal">true</span></span><br><span class="line">timedatectl status <span class="comment"># Check status</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Partitioning-Disks"><a href="#Partitioning-Disks" class="headerlink" title="Partitioning Disks"></a>Partitioning Disks</h2><p>Before you install Arch somewhere, you will need to partition your hard disk into segments that hold different pieces of your operating system. How you decide to partition is a matter of preference, but there are some basic partitions that everyone should consider:</p>
+<table>
+<thead>
+<tr>
+<th>Partition</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Root</td>
+<td>Main partition that contains programs and files.</td>
+</tr>
+<tr>
+<td>Boot</td>
+<td>The EFI System partition. Typically ~512 MB but some OSes make it smaller (like Windows, which uses 99MB). You don’t need to remake the EFI System partition if it already exists.</td>
+</tr>
+<tr>
+<td>Swap</td>
+<td>Should be your RAM + 3GB else hibernate may not work.</td>
+</tr>
+<tr>
+<td>Shared</td>
+<td>Optional: Windows can only read NTFS file systems, so it may help to set aside a partition as a shared drive between Linux and Windows.</td>
+</tr>
+<tr>
+<td>Home</td>
+<td>Optional: Can be used to share files between Linux distributions if you have more than one. Not recommended to make this a separate partition unless you know what you’re doing.</td>
+</tr>
+</tbody></table>
+<p>In my case, I went with the first four. My machine supported GPT partitioning as opposed to the older MBR scheme, so I went with GPT.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Note Existing Drives and Partitions</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line">lsblk <span class="comment"># Lists the block devices</span></span><br><span class="line">fdisk -l  <span class="comment"># Show parittions, sizes, and types</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Partition the Drives</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># d deletes partitions.</span></span><br><span class="line"><span class="comment"># n adds new partitions.</span></span><br><span class="line"><span class="comment"># w writes table to disk.</span></span><br><span class="line">fdisk /dev/sdx <span class="comment"># Use for MBR</span></span><br><span class="line">gdisk /dev/sdx <span class="comment"># Use for GPT</span></span><br></pre></td></tr></table></figure>
+
+<p>After partitioning, you will want to format each partition with an appropriate file system. Here are a few choices:</p>
+<table>
+<thead>
+<tr>
+<th>File System</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ext4</td>
+<td>Most stable.</td>
+</tr>
+<tr>
+<td>btrfs</td>
+<td>Unstable, but probably the future of file systems.</td>
+</tr>
+<tr>
+<td>tmpfs</td>
+<td>Good for storage of temporary files; is the default for &#x2F;tmp in Arch.</td>
+</tr>
+<tr>
+<td>ntfs</td>
+<td>Windows readable.</td>
+</tr>
+<tr>
+<td>FAT</td>
+<td>Used for EFI System Partition.</td>
+</tr>
+</tbody></table>
+<p>I went with vanilla ext4 for my root partition.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Format Partitions</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># For each partition (root, home, etc.)</span></span><br><span class="line">mkfs.ext4 /dev/sdxy</span><br><span class="line"></span><br><span class="line"><span class="comment"># For Swap</span></span><br><span class="line">mkswap /dev/sdxy</span><br><span class="line">swapon /dev/sdxy</span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Mount the root file system to /mnt</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line">mount /dev/sdxy /mnt</span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Mount any remaining partitions except swap.</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># With Windows, just mount EFI partition as /mnt/boot</span></span><br><span class="line"><span class="built_in">mkdir</span> -p /mnt/boot</span><br><span class="line">mount /dev/sdxy /mnt/boot</span><br></pre></td></tr></table></figure>
+
+<p>Here is my final partition scheme.</p>
+<table>
+<thead>
+<tr>
+<th>FS Type</th>
+<th>Code</th>
+<th>SDA</th>
+<th>Size</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2700</td>
+<td>1</td>
+<td>499 MB</td>
+<td>Windows&#x2F;OEM Dell Recovery Environment</td>
+<td></td>
+</tr>
+<tr>
+<td>FAT</td>
+<td>EF00</td>
+<td>2</td>
+<td>99 MB</td>
+<td>EFI System Partition (ESP)</td>
+</tr>
+<tr>
+<td>0C01</td>
+<td>3</td>
+<td>16 MB</td>
+<td>MSR Partition</td>
+<td></td>
+</tr>
+<tr>
+<td>NTFS</td>
+<td>0700</td>
+<td>4</td>
+<td>456.1 GB</td>
+<td>Windows C-Drive</td>
+</tr>
+<tr>
+<td>NTFS</td>
+<td>0700</td>
+<td>5</td>
+<td>10 GB</td>
+<td>Winshare</td>
+</tr>
+<tr>
+<td>8200</td>
+<td>6</td>
+<td>11 GB</td>
+<td>Swap</td>
+<td></td>
+</tr>
+<tr>
+<td>ext4</td>
+<td>8304</td>
+<td>7</td>
+<td>400 GB</td>
+<td>Arch x86_64 root (&#x2F;)</td>
+</tr>
+<tr>
+<td>ext4</td>
+<td>8304</td>
+<td>8</td>
+<td>53.8 GB</td>
+<td>Unallocated</td>
+</tr>
+</tbody></table>
+<h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><p>Now, we are ready to install the base packages.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Select a Mirror</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Move a US mirror near the top to the very top of the mirror list.</span></span><br><span class="line">vim /etc/pacman.d/mirrorlist</span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Install Packages</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># base is needed.</span></span><br><span class="line"><span class="comment"># base-devel is needed for building packages (useful for developers).</span></span><br><span class="line"><span class="comment"># Make sure this finishes without errors or the following steps may not work.</span></span><br><span class="line">pacstrap /mnt base base-devel</span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Generate fstab file with UUIDs option</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line">genfstab -U /mnt &gt;&gt; /mnt/etc/fstab</span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Change root to new FS</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line">arch-chroot /mnt</span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Get vim ;)</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line">pacman -S vim</span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Set Timezone</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="built_in">ln</span> -sf /usr/share/zoneinfo/New_York /etc/localtime</span><br><span class="line">hwclock --systohc</span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Generate Locales</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Search and uncomment &quot;en_US.UTF-8 UTF-8&quot;.</span></span><br><span class="line"><span class="comment"># Uncomment and any other localisations needed.</span></span><br><span class="line">vim /etc/locale.gen</span><br><span class="line">locale-gen</span><br><span class="line">vim /etc/locale.conf <span class="comment"># Enter LANG=en_US.UTF-8</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Create Hostname File</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Enter only one line, the hostname you want</span></span><br><span class="line"><span class="comment"># Ex. user@emerald -&gt; emerald is the hostname</span></span><br><span class="line">vim /etc/hostname</span><br><span class="line"><span class="comment"># Add hostname to hosts file.</span></span><br><span class="line"><span class="comment"># a. Add this line</span></span><br><span class="line"><span class="comment"># 127.0.1.1 	&lt;myhostname&gt;.localdomain	&lt;myhostname&gt;</span></span><br><span class="line"><span class="comment"># b. Put myhostname at the end of the other lines too</span></span><br><span class="line"><span class="comment"># 127.0.0.1 	... 	localhost	myhostname</span></span><br><span class="line"><span class="comment"># ::1 		... 	localhost	myhostname</span></span><br><span class="line">vim /etc/hosts</span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Install Wireless Packages</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># You may need to install additional firmware packages to use wireless.</span></span><br><span class="line">pacman -S iw wpa_supplicant dialog</span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Install Useful Software</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># net-tools give you ifconfig</span></span><br><span class="line">pacman -S wget net-tools</span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Set Root Password</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line">passwd</span><br></pre></td></tr></table></figure>
+
+<h2 id="Boot-Managers-and-Kernels"><a href="#Boot-Managers-and-Kernels" class="headerlink" title="Boot Managers and Kernels"></a>Boot Managers and Kernels</h2><p>The base installation is complete. We now need a way to make sure we can boot into our new Linux system. I used the rEFInd boot manager with a custom theme to accomplish this, though you can use GRUB too.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Install intel-ucode for Intel Processors</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line">pacman -S intel-ucode</span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Install rEFInd</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line">pacman -S refind-efi</span><br><span class="line">refind-install</span><br><span class="line"></span><br><span class="line"><span class="comment"># Note: You must adjust kernel options in /boot/refind-linux.conf manually.</span></span><br><span class="line"><span class="comment"># rEFInd cannot populate the proper boot entries while running refind-install from</span></span><br><span class="line"><span class="comment"># a bootable flash drive.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Get Root Partition&#x27;s UUID</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="built_in">ls</span> -l /dev/disk/by-uuid</span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Create Arch Folder for Kernel</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># By making the parent directory of the kernel &quot;arch&quot;, rEFInd will display</span></span><br><span class="line"><span class="comment"># an icon for Arch Linux on the boot screen.</span></span><br><span class="line"><span class="built_in">cd</span> /boot &amp;&amp; <span class="built_in">mkdir</span> <span class="built_in">arch</span></span><br><span class="line"><span class="built_in">mv</span> vmlinuz-linux intel-ucode.img refind_linux.conf initramfs-linux.img initramfs-linux-fallback.img <span class="built_in">arch</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Update refind-linux.conf</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line">vim /boot/arch/refind-linux.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># Update config file:</span></span><br><span class="line"><span class="comment"># &quot;Boot with standard options&quot;  &quot;root=UUID=&lt;UUID_root&gt; rw initrd=/boot/arch/intel-ucode.img initrd=/boot/arch/initramfs-linux.img quiet splash&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># NOTE 1: If /boot is on a different partition,</span></span><br><span class="line"><span class="comment">#         then instead of /boot/arch/intel-ucode.img, put arch/intel-ucode.img.</span></span><br><span class="line"><span class="comment">#         Same with anything found in the /boot partition (initramfs-linux.img).</span></span><br><span class="line"><span class="comment"># NOTE 2: intel-ucode must be before initramfs.</span></span><br><span class="line"><span class="comment"># NOTE 3: You can delete the other two boot options if you want</span></span><br><span class="line"><span class="comment">#         (the ones other than &quot;Boot with standard options&quot;).</span></span><br><span class="line"><span class="comment"># NOTE 4: Here are some of the useful kernel parameters.</span></span><br><span class="line"><span class="comment"># quiet - Don&#x27;t display every single systemd message on boot;</span></span><br><span class="line"><span class="comment">#         just important ones like errors and warnings.</span></span><br><span class="line"><span class="comment"># root=UUID=... - Tells kernel which partition has the root filesystem.</span></span><br><span class="line"><span class="comment"># initrd = ... - Loads these images, enables microcode updates.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Update refind.conf</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Check saved settings on GitHub</span></span><br><span class="line">vim /boot/EFI/refind/refind.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Download rEFInd Icons / Theme in /boot/EFI/refind</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Replace icons directory with custom icons from GitHub</span></span><br><span class="line"><span class="comment"># Replace background.png, selection-big.png, selection-small.png</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="comment"># Exit and Reboot</span></span><br><span class="line"><span class="comment"># --------------------------</span></span><br><span class="line"><span class="built_in">exit</span> <span class="comment"># Exits chroot environment</span></span><br><span class="line">umount -R /mnt <span class="comment"># Unmounts partitions</span></span><br><span class="line">reboot <span class="comment"># Reboots into actual system</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Results"><a href="#Results" class="headerlink" title="Results"></a>Results</h2><p>Awesome! After the above steps, you should be able to see a boot manager like the one at the beginning of this article whenever you boot, allowing you to boot into your newly installed Arch or your existing Windows operating system. In my next post, I will discuss how you can set up and customize your new Arch Linux.</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/notes/">Notes</a></li>
+        
+          <li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Motivation"><span class="toc-number">1.</span> <span class="toc-text">Motivation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cautions-while-Dual-Booting-with-Windows"><span class="toc-number">2.</span> <span class="toc-text">Cautions while Dual-Booting with Windows</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Set-Windows-to-UTC-Time"><span class="toc-number">2.1.</span> <span class="toc-text">Set Windows to UTC Time</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Disable-Fast-Boot"><span class="toc-number">2.2.</span> <span class="toc-text">Disable Fast Boot</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Secure-Boot"><span class="toc-number">2.3.</span> <span class="toc-text">Secure Boot</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Connect-to-Internet-and-Set-Clock"><span class="toc-number">3.</span> <span class="toc-text">Connect to Internet and Set Clock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Partitioning-Disks"><span class="toc-number">4.</span> <span class="toc-text">Partitioning Disks</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Install"><span class="toc-number">5.</span> <span class="toc-text">Install</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Boot-Managers-and-Kernels"><span class="toc-number">6.</span> <span class="toc-text">Boot Managers and Kernels</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Results"><span class="toc-number">7.</span> <span class="toc-text">Results</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sidsbits.com/Arch-Install/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sidsbits.com/Arch-Install/&text=Installing Arch Linux - Part 1"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sidsbits.com/Arch-Install/&title=Installing Arch Linux - Part 1"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sidsbits.com/Arch-Install/&is_video=false&description=Installing Arch Linux - Part 1"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Installing Arch Linux - Part 1&body=Check out this article: https://sidsbits.com/Arch-Install/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sidsbits.com/Arch-Install/&title=Installing Arch Linux - Part 1"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sidsbits.com/Arch-Install/&title=Installing Arch Linux - Part 1"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sidsbits.com/Arch-Install/&title=Installing Arch Linux - Part 1"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sidsbits.com/Arch-Install/&title=Installing Arch Linux - Part 1"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sidsbits.com/Arch-Install/&name=Installing Arch Linux - Part 1&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sidsbits.com/Arch-Install/&t=Installing Arch Linux - Part 1"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2025
+    Sid Senthilkumar
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'escape-wq';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

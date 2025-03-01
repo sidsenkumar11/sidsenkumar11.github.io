@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Python InterpretersUseful KnowledgeThere’s a lot you can do within an interpreter even without direct access to source.  dir() will list out all the available names inside the current space. You can a">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jail-Escapes">
+<meta property="og:url" content="https://sidsbits.com/jail-escapes/index.html">
+<meta property="og:site_name" content="escape_wq">
+<meta property="og:description" content="Python InterpretersUseful KnowledgeThere’s a lot you can do within an interpreter even without direct access to source.  dir() will list out all the available names inside the current space. You can a">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-08-14T11:55:46.000Z">
+<meta property="article:modified_time" content="2025-03-01T01:58:13.910Z">
+<meta property="article:author" content="Sid Senthilkumar">
+<meta property="article:tag" content="Cyber Security Reverse Engineer Binary Exploit Web Software Cloud GCP AWS Detection Response InfraSec AppSec CTF">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-144x144.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Jail-Escapes</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=365529229"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '365529229');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+    <div class="content index py4 ">
+        
+          <header id="header">
+  <a class="u-url u-uid" href="/">
+  
+    
+      <img id="logo" alt class="u-logo" src="/images/apple-touch-icon.png" />
+    
+  
+    <div id="title">
+      <h1 class="p-name">escape_wq</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-2x"></i></a>
+      </li>
+      <!--
+     --><li><a href="/">Home</a></li><!--
+   --><!--
+     --><li><a href="/notes/">Notes</a></li><!--
+   --><!--
+     --><li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li><!--
+   --><!--
+     --><li><a href="/search/">Search</a></li><!--
+   -->
+    </ul>
+  </div>
+</header>
+
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+
+  <div class="content" itemprop="articleBody">
+      
+          <h1 id="Python-Interpreters"><a href="#Python-Interpreters" class="headerlink" title="Python Interpreters"></a>Python Interpreters</h1><h2 id="Useful-Knowledge"><a href="#Useful-Knowledge" class="headerlink" title="Useful Knowledge"></a>Useful Knowledge</h2><p>There’s a lot you can do within an interpreter even without direct access to source.</p>
+<ol>
+<li><p><code>dir()</code> will list out all the available names inside the current space. You can also use <code>dir()</code> on a function to see what attributes and properties the function has.</p>
+</li>
+<li><p><code>func_name.func_code</code> has a ton of useful properties to get information about the function. Among the most useful:</p>
+</li>
+</ol>
+<ul>
+<li><code>func_name.func_code.argcount</code> - Self-explanatory</li>
+<li><code>func_name.func_code.co_code</code> - Gives you the bytecode representing the function.</li>
+<li><code>func_name.func_code.co_consts</code> - Constant numbers and strings present inside the function.</li>
+<li><code>func_name.func_code.co_varnames</code> - Names of variables inside the function.</li>
+</ul>
+<h2 id="Eval-to-String-when-Alphanumeric-Characters-Disallowed"><a href="#Eval-to-String-when-Alphanumeric-Characters-Disallowed" class="headerlink" title="Eval to String when Alphanumeric Characters Disallowed"></a>Eval to String when Alphanumeric Characters Disallowed</h2><p>I first came across this problem during TJCTF 2018, “Mirror Mirror”.<br>We were dropped into an REPL with the knowledge that there was a get_flag function.<br>Here is what the code looked like:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">super_secret_string = <span class="string">&#x27;this_is_the_super_secret_string&#x27;</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_flag</span>(<span class="params"><span class="built_in">input</span></span>):</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">input</span>.isalnum() <span class="keyword">or</span> <span class="string">&#x27;_&#x27;</span> <span class="keyword">in</span> <span class="built_in">input</span>:</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;Character not allowed&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">eval</span>(<span class="built_in">input</span>) == super_secret_string):</span><br><span class="line">        <span class="keyword">if</span> (something):</span><br><span class="line">            <span class="built_in">print</span> <span class="built_in">eval</span>(<span class="built_in">input</span>)[<span class="number">0</span>] + <span class="string">&#x27; is not a valid character\n&#x27;</span></span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="built_in">print</span> <span class="string">&quot;nice, here&#x27;s your flag&quot;</span> + flag</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span> <span class="string">&quot;You didn&#x27;t guess the value of my super_secret_string\n&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>Of course, most special functions were blocked so I couldn’t view the flag directly.<br>With big credit to <a target="_blank" rel="noopener" href="http://wapiflapi.github.io/2013/04/22/plaidctf-pyjail-story-of-pythons-escape/">http://wapiflapi.github.io/2013/04/22/plaidctf-pyjail-story-of-pythons-escape/</a>, we were able to create a string that would evaluate to another string, bypassing the input check. I stole the following from <a target="_blank" rel="noopener" href="https://ctftime.org/writeup/10677">https://ctftime.org/writeup/10677</a>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">brainfuckize</span>(<span class="params">nb</span>):</span><br><span class="line">    <span class="keyword">if</span> nb <span class="keyword">in</span> [-<span class="number">2</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>]:</span><br><span class="line">        <span class="keyword">return</span> [<span class="string">&quot;~(&#123;&#125;&lt;[])&quot;</span>, <span class="string">&quot;~([]&lt;[])&quot;</span>,</span><br><span class="line">                 <span class="string">&quot;([]&lt;[])&quot;</span>,  <span class="string">&quot;(&#123;&#125;&lt;[])&quot;</span>][nb+<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> nb % <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;~%s&quot;</span> % brainfuckize(~nb)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;(%s&lt;&lt;(&#123;&#125;&lt;[]))&quot;</span> % brainfuckize(nb/<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">craftChar</span>(<span class="params">n</span>):</span><br><span class="line">    beg = <span class="string">&quot;`&#x27;%\xcb&#x27;`[&#123;&#125;&lt;[]::~(~(&#123;&#125;&lt;[])&lt;&lt;(&#123;&#125;&lt;[]))]%(&quot;</span></span><br><span class="line">    end = <span class="string">&quot;)&quot;</span></span><br><span class="line">    mid = brainfuckize(n)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> beg+mid+end</span><br><span class="line"></span><br><span class="line">result = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="string">&#x27;this_is_the_super_secret_string&#x27;</span>:</span><br><span class="line">    result+= craftChar(<span class="built_in">ord</span>(i))</span><br><span class="line">    result+=<span class="string">&#x27;+&#x27;</span></span><br><span class="line"></span><br><span class="line">result = result[:-<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+
+<h1 id="Restricted-Shells"><a href="#Restricted-Shells" class="headerlink" title="Restricted Shells"></a>Restricted Shells</h1><h2 id="No-Letters"><a href="#No-Letters" class="headerlink" title="No Letters"></a>No Letters</h2><p>You can do tons of interesting things in a shell using shell expansions to call binaries even if you are restricted by the letters you can input. For example:</p>
+<p><code>/???/???/?????32</code> expands to &#x2F;usr&#x2F;bin&#x2F;linux32, which will give you a simple dash shell. You could also run python using <code>/???/???/??????2</code>.</p>
+
+        
+  </div>
+</article>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2025
+    Sid Senthilkumar
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'escape-wq';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

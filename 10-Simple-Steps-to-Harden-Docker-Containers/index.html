@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Docker is a well tested containerization platform that is used by hundreds of companies to securely and scalably deploy applications. Today, I’ll explain some of the basic steps you can take to secure">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10 Simple Steps to Harden Your Docker Containers">
+<meta property="og:url" content="https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/index.html">
+<meta property="og:site_name" content="escape_wq">
+<meta property="og:description" content="Docker is a well tested containerization platform that is used by hundreds of companies to securely and scalably deploy applications. Today, I’ll explain some of the basic steps you can take to secure">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-07-19T11:50:49.000Z">
+<meta property="article:modified_time" content="2025-03-01T01:58:13.621Z">
+<meta property="article:author" content="Sid Senthilkumar">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Hardening">
+<meta property="article:tag" content="Secure">
+<meta property="article:tag" content="Containers">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-144x144.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>10 Simple Steps to Harden Your Docker Containers</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=365529229"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '365529229');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/Confidential-Computing/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/Serving-Flask/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/&text=10 Simple Steps to Harden Your Docker Containers"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/&title=10 Simple Steps to Harden Your Docker Containers"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/&is_video=false&description=10 Simple Steps to Harden Your Docker Containers"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=10 Simple Steps to Harden Your Docker Containers&body=Check out this article: https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/&title=10 Simple Steps to Harden Your Docker Containers"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/&title=10 Simple Steps to Harden Your Docker Containers"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/&title=10 Simple Steps to Harden Your Docker Containers"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/&title=10 Simple Steps to Harden Your Docker Containers"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/&name=10 Simple Steps to Harden Your Docker Containers&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/&t=10 Simple Steps to Harden Your Docker Containers"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Create-a-Less-Privileged-User"><span class="toc-number">1.</span> <span class="toc-text">1. Create a Less Privileged User</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Use-an-Alpine-Base-Image"><span class="toc-number">2.</span> <span class="toc-text">2. Use an Alpine Base Image</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Namespace-Isolation-on-the-Docker-Host"><span class="toc-number">3.</span> <span class="toc-text">3. Namespace Isolation on the Docker Host</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Use-dockerignore"><span class="toc-number">4.</span> <span class="toc-text">4. Use .dockerignore</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Use-Dockerfile-Security-Linters-Scanners"><span class="toc-number">5.</span> <span class="toc-text">5. Use Dockerfile Security Linters &amp; Scanners</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-Explicitly-supply-IP-Addresses-for-Exposed-Ports"><span class="toc-number">6.</span> <span class="toc-text">6. Explicitly supply IP Addresses for Exposed Ports</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-Use-Control-Groups-cgroups"><span class="toc-number">7.</span> <span class="toc-text">7. Use Control Groups (cgroups)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-Make-Container-Read-Only"><span class="toc-number">8.</span> <span class="toc-text">8. Make Container Read-Only</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-Network-Isolation"><span class="toc-number">9.</span> <span class="toc-text">9. Network Isolation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-Set-up-AppArmor-Seccomp-Rules-and-Capabilities"><span class="toc-number">10.</span> <span class="toc-text">10. Set up AppArmor, Seccomp Rules, and Capabilities</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sample-docker-compose"><span class="toc-number">11.</span> <span class="toc-text">Sample docker-compose</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        10 Simple Steps to Harden Your Docker Containers
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Siddarth Senthilkumar</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-07-19T11:50:49.000Z" class="dt-published" itemprop="datePublished">2019-07-19</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Containers/" rel="tag">Containers</a>, <a class="p-category" href="/tags/Docker/" rel="tag">Docker</a>, <a class="p-category" href="/tags/Hardening/" rel="tag">Hardening</a>, <a class="p-category" href="/tags/Secure/" rel="tag">Secure</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>Docker is a well tested containerization platform that is used by hundreds of companies to securely and scalably deploy applications. Today, I’ll explain some of the basic steps you can take to secure your containers so that if an application gets popped, you can minimize the impact on other containers on the same host and the host itself. Many of the practices listed here are just my notes from <a target="_blank" rel="noopener" href="https://snyk.io/blog/10-docker-image-security-best-practices/">this snyk blog post</a> and <a target="_blank" rel="noopener" href="https://www.secjuice.com/how-to-harden-docker-containers/">this secjuice article</a>, so please give their pages a look for more details!</p>
+<h2 id="1-Create-a-Less-Privileged-User"><a href="#1-Create-a-Less-Privileged-User" class="headerlink" title="1. Create a Less Privileged User"></a>1. Create a Less Privileged User</h2><p>By default, your app runs as root inside the container. You can create a special group and user and then change to that user before launching your app. That way, your attacker doesn’t get root access by default!</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="language-bash"> addgroup -S app_group &amp;&amp; adduser -S --shell /sbin/nologin -g app_group app_user</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">chown</span> -R app_user:app_group /app</span></span><br><span class="line"><span class="keyword">USER</span> app_user</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-Use-an-Alpine-Base-Image"><a href="#2-Use-an-Alpine-Base-Image" class="headerlink" title="2. Use an Alpine Base Image"></a>2. Use an Alpine Base Image</h2><p>If an attacker compromises your app, they may wish to pivot around the system and escalate their privileges. This is facilitated by the other programs residing in the container that may have vulnerabilities themselves. One of the first things an attacker will do is check what processes are running on the system, which processes are running as root, and what suid binaries are installed on the system. For example, the Morris Worm exploited a buffer overflow in the <a target="_blank" rel="noopener" href="http://seclab.cs.ucdavis.edu/projects/vulnerabilities/doves/1.html"><code>finger</code> daemon</a> to get a root shell on the victim, since the daemon often ran as superuser.</p>
+<p>The potential for escalation can be significantly reduced by just stripping out all the unnecessary programs in your base image as this decreases the available attack surface. Fortunately, there are already pre-built Docker images that take care of this for you: the Alpine images. Alpine images are based on BusyBox and only contain the essential files needed for your app. If you need a container for nginx, for example, you can specify a container like the following:</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> nginx:alpine</span><br></pre></td></tr></table></figure>
+
+<p>Want to run a Python application? Easy:</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> python:<span class="number">3.7</span>-alpine</span><br></pre></td></tr></table></figure>
+
+<p>The image will be stripped down but will still have the bare minimum needed to run a Python application. You won’t find programs that should never get run (like vim or netcat) inside an Alpine image. Finally, one last benefit of the Alpine image is that your resulting image will be a lot smaller! The whole image might only take up a few megabytes of space, compared to over a gigabyte if you use a Debian or Ubuntu image.</p>
+<h2 id="3-Namespace-Isolation-on-the-Docker-Host"><a href="#3-Namespace-Isolation-on-the-Docker-Host" class="headerlink" title="3. Namespace Isolation on the Docker Host"></a>3. Namespace Isolation on the Docker Host</h2><p>By default, the root namespace in your Docker container maps 1:1 with the host. What this means is that if an attacker gets root in a container and then breaks out of the container, they’ll also have root access on the Docker host. This can easily be mitigated by re-mapping the Docker <code>root</code> to a less privileged user on the host. The <a target="_blank" rel="noopener" href="https://docs.docker.com/engine/security/userns-remap/">Docker docs</a> have a great explanation with more details; here I just list what I think are the easiest ways to apply this.</p>
+<p>First, set Docker to use a configuration file (if not already). Edit <code>/etc/default/docker</code> and add:</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">DOCKER_OPTS</span>=<span class="string">&quot;--config-file=/etc/docker/daemon.json&quot;</span></span><br></pre></td></tr></table></figure>
+<p>Then, create or edit <code>/etc/docker/daemon.json</code> and add the <code>userns-remap</code> option to the config:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;userns-remap&quot;</span><span class="punctuation">:</span> <span class="string">&quot;default&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>With the “default” remap option set, Docker will look for the <code>dockremap</code> subuid and subgid to perform any remappings. Now, we’ll add “dockremap” user and group entries for subuid&#x2F;subgid.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">echo</span> <span class="string">&quot;dockremap:345000:65536&quot;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> -a /etc/subuid</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">echo</span> <span class="string">&quot;dockremap:345000:65536&quot;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> -a /etc/subgid</span></span><br></pre></td></tr></table></figure>
+
+<p>I chose the UID&#x2F;GID ranges you see above (345000-65536) but you’re free to choose anything that doesn’t conflict with another existing mapping. Finally, restart your Docker daemon to apply the changes.</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-Use-dockerignore"><a href="#4-Use-dockerignore" class="headerlink" title="4. Use .dockerignore"></a>4. Use .dockerignore</h2><p>Sometimes, I’ll find myself issuing a command like <code>COPY . .</code> in a Dockerfile. You want to be careful whenever you copy a full folder’s contents into your image. Make sure you don’t copy local build files like <code>__pycache__</code> and <code>venv</code>, or secret files like <code>.env</code> or <code>creds.json</code>. You can use a <code>.dockerignore</code> file to explicitly blacklist or whitelist certain file types. I would recommend using whitelisting so that you’re always aware of exactly what files are going into your container. Better yet would be to avoid blind full directory copies like <code>COPY . .</code> altogether, but since that can be difficult for larger projects, a <code>.dockerignore</code> file might be more practical.</p>
+<h2 id="5-Use-Dockerfile-Security-Linters-Scanners"><a href="#5-Use-Dockerfile-Security-Linters-Scanners" class="headerlink" title="5. Use Dockerfile Security Linters &amp; Scanners"></a>5. Use Dockerfile Security Linters &amp; Scanners</h2><p>A linter is an automatic way to provide immediate feedback on  best practices and could catch simple security issues in your Dockerfile. One that I’ve used in the past is <a target="_blank" rel="noopener" href="https://github.com/hadolint/hadolint">hadolint</a>, which integrates into my text editor (VSCode) nicely. There are lots of tools that automatically scan your images for known CVEs. If you have any good suggestions that you’ve used in the past, please let me know in the comments!</p>
+<h2 id="6-Explicitly-supply-IP-Addresses-for-Exposed-Ports"><a href="#6-Explicitly-supply-IP-Addresses-for-Exposed-Ports" class="headerlink" title="6. Explicitly supply IP Addresses for Exposed Ports"></a>6. Explicitly supply IP Addresses for Exposed Ports</h2><p>In a docker-compose file, you can use the <code>ports</code> command to map container ports to ports on the host like the following:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="number">80</span><span class="string">:80</span></span><br></pre></td></tr></table></figure>
+
+<p>By default, this makes port 80 on the host’s public IP address available for use. If you’re just developing locally, you should explicitly define the IP that gets mapped so that others can’t access your dev environment.</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="string">:80:80</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="7-Use-Control-Groups-cgroups"><a href="#7-Use-Control-Groups-cgroups" class="headerlink" title="7. Use Control Groups (cgroups)"></a>7. Use Control Groups (cgroups)</h2><p>The Linux kernel allows you to limit access to physical hardware resources (eg the CPU, RAM, network, etc). This can be important if you don’t want one container to monopolize the resources on the host, such as in a DOS attack. There are many things you could restrict, but here are some of the basic things.</p>
+<figure class="highlight bash"><figcaption><span>Restrict app to Certain CPU Cores</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Restrict app to only use cores 0-1</span></span><br><span class="line">docker run --cpuset-cpus 0-1 my_image</span><br><span class="line"><span class="comment"># Restrict app to only use cores 0 and 2</span></span><br><span class="line">docker run --cpuset-cpus 0,2 my_image</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><figcaption><span>Specify Time Allocation per Container</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --cpu-shares 512</span><br></pre></td></tr></table></figure>
+
+<p>The <code>--cpu-shares</code> flag takes a value from 0-1024 and uses a relative weighting scheme. For example:<br>    - Container 1 has 1024 shares, Containers 2 and 3 have 512 shares each.<br>    - Then Container 1 has 50% of the CPU time, the other 2 have 25% each.</p>
+<p>Shares are only enforced when CPU time is running, not I&#x2F;O wait time. This is because other containers can use the CPU during that time anyway.</p>
+<figure class="highlight bash"><figcaption><span>Prevent Fork Bombs</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --pids-limit 200 my_image</span><br></pre></td></tr></table></figure>
+<p>This limits the number of processes a container can fork at runtime, which prevents fork bombs from consuming a Docker Hosts’ entire process table.</p>
+<h2 id="8-Make-Container-Read-Only"><a href="#8-Make-Container-Read-Only" class="headerlink" title="8. Make Container Read-Only"></a>8. Make Container Read-Only</h2><p>Ideally, your app’s container should be stateless so writes aren’t really necessary. Any “writes” should happen in a separate database container. Practically, though, many programs rely on the ability to write files to <code>/tmp</code> or other files during their runtime, and they may throw errors if you try to make the whole container read-only. One way around this is to use the <code>--tmpfs</code> flag to create writeable directories for whatever you need. See <a target="_blank" rel="noopener" href="https://nickjanetakis.com/blog/docker-tip-55-creating-read-only-containers">here</a> for more details and the <a href="#Sample-docker-compose">compose file</a> at the bottom of the page for an example.</p>
+<h2 id="9-Network-Isolation"><a href="#9-Network-Isolation" class="headerlink" title="9. Network Isolation"></a>9. Network Isolation</h2><p>If you use <code>docker-compose</code>, you can specify networking namespaces to isolate the different containers that comprise your application. For example: Let’s say you have 1 container for your app logic and 2 containers for different databases.</p>
+<p>You want the different databases to talk to the application, but you don’t want the databases to talk to each other. If one of the DB containers gets compromised, it at least shouldn’t be able to mess with the other DB container. You can use network namespaces to implement this in your docker compose file. Here’s a simple example where the databases can’t talk to each other, but they can talk to the app.</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line">    <span class="attr">app:</span></span><br><span class="line">        <span class="attr">networks:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">dbA</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">dbB</span></span><br><span class="line">    <span class="attr">databaseA:</span></span><br><span class="line">        <span class="attr">networks:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">dbA</span></span><br><span class="line">    <span class="attr">databaseB:</span></span><br><span class="line">        <span class="attr">networks:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">dbB</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">dbA:</span></span><br><span class="line">  <span class="attr">dbB:</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="10-Set-up-AppArmor-Seccomp-Rules-and-Capabilities"><a href="#10-Set-up-AppArmor-Seccomp-Rules-and-Capabilities" class="headerlink" title="10. Set up AppArmor, Seccomp Rules, and Capabilities"></a>10. Set up AppArmor, Seccomp Rules, and Capabilities</h2><p>Linux provides extremely fine-grained controls to OS resources. AppArmor, Seccomp, and Capabilities are ways to  minimize the resources available to an attacker of your app both during and after the exploitation process. This may be overkill depending on your app’s functionality and your threat model - they’re probably more relevant to those who wish to build a sandbox to run untrusted code, but I list these here for completeness. <a target="_blank" rel="noopener" href="https://security.stackexchange.com/questions/196881/docker-when-to-use-apparmor-vs-seccomp-vs-cap-drop">Here</a> is an excellent set of explanations from the security stack exchange on the differences between the three.</p>
+<ol>
+<li><p>AppArmor is a kernel security module that allows you to restrict or remove fine-grained access to specific operations. For example, you can explicitly deny your app from ever reading files from <code>/etc/</code>. Even if an attacker can execute arbitrary code via your app, they’ll never be able to perform a read on anything in <code>/etc/</code> if you configure your AppArmor rules as such. You can also restrict things like network and socket access to only talk to pre-specified hosts.</p>
+</li>
+<li><p>Seccomp is short for “secure computing mode” and is another Linux security feature. You can use seccomp to remove the ability of a program to use certain syscalls that aren’t needed. A common exploitation technique is to use syscalls with attacker-specified arguments to perform reads and writes in memory. With the right seccomp rules in place, an attacker will have an extremely difficult time manipulating the program’s memory to build a reliable exploit.</p>
+</li>
+<li><p>Capabilities are individual privileges of the root user that are provided by the Linux kernel. A root process can drop capabilities so that it’s never able to do something it shouldn’t, such as creating raw connections to the network.</p>
+</li>
+</ol>
+<h2 id="Sample-docker-compose"><a href="#Sample-docker-compose" class="headerlink" title="Sample docker-compose"></a>Sample docker-compose</h2><p>I’ve implemented some of the above protections in the below docker-compose file. I’ve specified a web app that uses nginx to field requests, a Flask web server that processes the requests, and a separate image for a job called “dirsearch”. The “dirsearch” job only talks to nginx via the <code>frontend</code> network. The nginx container talks to the flask webapp via the <code>backend</code> network. Finally, the flask container is <code>read_only</code>, except for the <code>/tmp</code> directory.</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">flask:</span> <span class="comment"># Creates a virtual hostname &quot;flask&quot; available to nginx container too!</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">webapp-flask</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">      <span class="attr">context:</span> <span class="string">flask_server</span></span><br><span class="line">      <span class="attr">dockerfile:</span> <span class="string">app_container/Dockerfile</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">backend</span></span><br><span class="line">    <span class="attr">read_only:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">tmpfs:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/tmp</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">nginx:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">webapp-nginx</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">      <span class="attr">context:</span> <span class="string">flask_server</span></span><br><span class="line">      <span class="attr">dockerfile:</span> <span class="string">nginx_container/Dockerfile</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">flask</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">frontend</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">backend</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="string">:80:80</span> <span class="comment"># Map port 80 on host to port 80 on nginx container (so http://localhost works on host)</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">dirsearch:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">dirsearch</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">      <span class="attr">context:</span> <span class="string">dirsearch_job</span></span><br><span class="line">      <span class="attr">dockerfile:</span> <span class="string">Dockerfile</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">frontend</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="string">:5000:5000</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">frontend:</span></span><br><span class="line">  <span class="attr">backend:</span></span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/notes/">Notes</a></li>
+        
+          <li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Create-a-Less-Privileged-User"><span class="toc-number">1.</span> <span class="toc-text">1. Create a Less Privileged User</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Use-an-Alpine-Base-Image"><span class="toc-number">2.</span> <span class="toc-text">2. Use an Alpine Base Image</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Namespace-Isolation-on-the-Docker-Host"><span class="toc-number">3.</span> <span class="toc-text">3. Namespace Isolation on the Docker Host</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Use-dockerignore"><span class="toc-number">4.</span> <span class="toc-text">4. Use .dockerignore</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Use-Dockerfile-Security-Linters-Scanners"><span class="toc-number">5.</span> <span class="toc-text">5. Use Dockerfile Security Linters &amp; Scanners</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-Explicitly-supply-IP-Addresses-for-Exposed-Ports"><span class="toc-number">6.</span> <span class="toc-text">6. Explicitly supply IP Addresses for Exposed Ports</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-Use-Control-Groups-cgroups"><span class="toc-number">7.</span> <span class="toc-text">7. Use Control Groups (cgroups)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-Make-Container-Read-Only"><span class="toc-number">8.</span> <span class="toc-text">8. Make Container Read-Only</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-Network-Isolation"><span class="toc-number">9.</span> <span class="toc-text">9. Network Isolation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-Set-up-AppArmor-Seccomp-Rules-and-Capabilities"><span class="toc-number">10.</span> <span class="toc-text">10. Set up AppArmor, Seccomp Rules, and Capabilities</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sample-docker-compose"><span class="toc-number">11.</span> <span class="toc-text">Sample docker-compose</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/&text=10 Simple Steps to Harden Your Docker Containers"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/&title=10 Simple Steps to Harden Your Docker Containers"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/&is_video=false&description=10 Simple Steps to Harden Your Docker Containers"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=10 Simple Steps to Harden Your Docker Containers&body=Check out this article: https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/&title=10 Simple Steps to Harden Your Docker Containers"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/&title=10 Simple Steps to Harden Your Docker Containers"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/&title=10 Simple Steps to Harden Your Docker Containers"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/&title=10 Simple Steps to Harden Your Docker Containers"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/&name=10 Simple Steps to Harden Your Docker Containers&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sidsbits.com/10-Simple-Steps-to-Harden-Docker-Containers/&t=10 Simple Steps to Harden Your Docker Containers"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2025
+    Sid Senthilkumar
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'escape-wq';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

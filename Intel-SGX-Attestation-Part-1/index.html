@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="What is Remote Attestation?Intel SGX is a set of processor extensions for establishing enclaves. Enclaves are trusted execution environments whose code and data cannot be accessed outside the enclave">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Intel SGX Attestation Part 1">
+<meta property="og:url" content="https://sidsbits.com/Intel-SGX-Attestation-Part-1/index.html">
+<meta property="og:site_name" content="escape_wq">
+<meta property="og:description" content="What is Remote Attestation?Intel SGX is a set of processor extensions for establishing enclaves. Enclaves are trusted execution environments whose code and data cannot be accessed outside the enclave">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-09-14T01:21:04.000Z">
+<meta property="article:modified_time" content="2025-03-01T01:58:13.908Z">
+<meta property="article:author" content="Sid Senthilkumar">
+<meta property="article:tag" content="Cyber Security Reverse Engineer Binary Exploit Web Software Cloud GCP AWS Detection Response InfraSec AppSec CTF">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-144x144.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Intel SGX Attestation Part 1</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=365529229"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '365529229');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/Intel-SGX-Attestation-Part-2/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/Confidential-Computing/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sidsbits.com/Intel-SGX-Attestation-Part-1/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sidsbits.com/Intel-SGX-Attestation-Part-1/&text=Intel SGX Attestation Part 1"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sidsbits.com/Intel-SGX-Attestation-Part-1/&title=Intel SGX Attestation Part 1"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sidsbits.com/Intel-SGX-Attestation-Part-1/&is_video=false&description=Intel SGX Attestation Part 1"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Intel SGX Attestation Part 1&body=Check out this article: https://sidsbits.com/Intel-SGX-Attestation-Part-1/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sidsbits.com/Intel-SGX-Attestation-Part-1/&title=Intel SGX Attestation Part 1"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sidsbits.com/Intel-SGX-Attestation-Part-1/&title=Intel SGX Attestation Part 1"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sidsbits.com/Intel-SGX-Attestation-Part-1/&title=Intel SGX Attestation Part 1"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sidsbits.com/Intel-SGX-Attestation-Part-1/&title=Intel SGX Attestation Part 1"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sidsbits.com/Intel-SGX-Attestation-Part-1/&name=Intel SGX Attestation Part 1&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sidsbits.com/Intel-SGX-Attestation-Part-1/&t=Intel SGX Attestation Part 1"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-Remote-Attestation"><span class="toc-number">1.</span> <span class="toc-text">What is Remote Attestation?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Secure-Enclave-Instantiation"><span class="toc-number">2.</span> <span class="toc-text">Secure Enclave Instantiation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Why-are-these-registers-important"><span class="toc-number">2.1.</span> <span class="toc-text">Why are these registers important?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#How-are-these-registers-set"><span class="toc-number">2.2.</span> <span class="toc-text">How are these registers set?</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#References"><span class="toc-number">3.</span> <span class="toc-text">References</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Intel SGX Attestation Part 1
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Siddarth Senthilkumar</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-09-14T01:21:04.000Z" class="dt-published" itemprop="datePublished">2021-09-13</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="What-is-Remote-Attestation"><a href="#What-is-Remote-Attestation" class="headerlink" title="What is Remote Attestation?"></a>What is Remote Attestation?</h2><p>Intel SGX is a set of processor extensions for establishing enclaves. Enclaves are trusted execution environments whose code and data cannot be accessed outside the enclave - even by the application that created it or by the operating system. An attacker that wishes to inspect the contents of an enclave may try to emulate the hardware. The process of proving that the enclave has been established in a secure hardware environment is known as attestation. In the cloud, remote attestation gives enclave authors the ability to remotely verify that their code is running on genuine, secure SGX hardware.</p>
+<p>Note: the term “enclave” is used to denote both a signed binary file as well as the encrypted memory where the binary is loaded at runtime. To disambiguate, I will refer to the binary as the enclave binary and to the encrypted memory as the enclave.</p>
+<h2 id="Secure-Enclave-Instantiation"><a href="#Secure-Enclave-Instantiation" class="headerlink" title="Secure Enclave Instantiation"></a>Secure Enclave Instantiation</h2><p>It would be meaningless for an enclave to perform attestation if the code in the enclave could be modified by an attacker. So before we can understand how remote attestation works, we must first understand how the processor securely loads enclave binaries into memory.</p>
+<p>To do this, we introduce two properties of an enclave: the MRENCLAVE and MRSIGNER. These are two registers introduced by the SGX architecture and are set by the hardware when an enclave is instantiated.</p>
+<ul>
+<li><p><strong>MRENCLAVE</strong> - Represents the enclave identity. Contains the SHA256 hash of an internal log that records all the activity during enclave instantiation. This includes the contents of the enclave memory pages (code&#x2F;data&#x2F;stack&#x2F;heap), the order and relative position in which the enclave’s pages were placed, and any security flags associated with the pages. The MRENCLAVE value is also known as the enclave <em>measurement</em>.</p>
+</li>
+<li><p><strong>MRSIGNER</strong> - Represents the sealing identity. An enclave author must sign their enclave binary with an RSA private key. The MRSIGNER is a hash of the corresponding public key certificate (typically self-signed).</p>
+</li>
+</ul>
+<h3 id="Why-are-these-registers-important"><a href="#Why-are-these-registers-important" class="headerlink" title="Why are these registers important?"></a>Why are these registers important?</h3><p>The MRENCLAVE is like a hash of all the memory pages, data, and security flags of the freshly loaded enclave memory. If this value can somehow be verified, then the enclave can at least be sure its code and data were not tampered.</p>
+<p>The MRSIGNER provides a way to authenticate the enclave. If multiple enclaves are signed by the same enclave author, they will have the same MRSIGNER. The Sealing Identity can be used to seal data in a way that enclaves from the same Sealing Authority can share and migrate their sealed data.</p>
+<h3 id="How-are-these-registers-set"><a href="#How-are-these-registers-set" class="headerlink" title="How are these registers set?"></a>How are these registers set?</h3><p>A part of the enclave binary is a structure called the MRSIGN struct. It contains the expected MRENCLAVE value, the RSA public key of the enclave author, and a signature over the whole enclave binary.</p>
+<p>Before an enclave is instantiated, the author’s identity is first verified using the public key. If the public key verifies the signature over the enclave, we know that the self-signed certificate containing the public key really does represent the enclave author.</p>
+<p>Then, the MRENCLAVE value from the struct is copied to the MRENCLAVE register. The CPU begins loading pages into memory and setting security flags on those pages. As it does this, it keeps a log of what data is being loaded and set. At the end, this log is hashed and compared with the MRENCLAVE in the register. If they match, then the CPU knows that the enclave binary was not tampered with and can safely begin executing enclave code.</p>
+<p>Finally, the MRSIGNER is stored in the MRSIGNER register. It is simply a hash of the enclave author’s public key. Now, both the MRENCLAVE and MRSIGNER are available for use within the enclave for sealing data and attestation. Naturally, only the CPU can write to these registers - they cannot be overwritten after enclave instantiation.</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://software.intel.com/content/www/us/en/develop/articles/innovative-technology-for-cpu-based-attestation-and-sealing.html">https://software.intel.com/content/www/us/en/develop/articles/innovative-technology-for-cpu-based-attestation-and-sealing.html</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://community.intel.com/t5/Intel-Software-Guard-Extensions/Question-about-MRENCLAVE-and-MRSIGNER-Register-used-in/m-p/1070695/highlight/true">https://community.intel.com/t5/Intel-Software-Guard-Extensions/Question-about-MRENCLAVE-and-MRSIGNER-Register-used-in/m-p/1070695/highlight/true</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://software.intel.com/content/www/us/en/develop/download/intel-sgx-intel-epid-provisioning-and-attestation-services.html">https://software.intel.com/content/www/us/en/develop/download/intel-sgx-intel-epid-provisioning-and-attestation-services.html</a></p>
+</li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/notes/">Notes</a></li>
+        
+          <li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-Remote-Attestation"><span class="toc-number">1.</span> <span class="toc-text">What is Remote Attestation?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Secure-Enclave-Instantiation"><span class="toc-number">2.</span> <span class="toc-text">Secure Enclave Instantiation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Why-are-these-registers-important"><span class="toc-number">2.1.</span> <span class="toc-text">Why are these registers important?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#How-are-these-registers-set"><span class="toc-number">2.2.</span> <span class="toc-text">How are these registers set?</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#References"><span class="toc-number">3.</span> <span class="toc-text">References</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://sidsbits.com/Intel-SGX-Attestation-Part-1/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://sidsbits.com/Intel-SGX-Attestation-Part-1/&text=Intel SGX Attestation Part 1"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://sidsbits.com/Intel-SGX-Attestation-Part-1/&title=Intel SGX Attestation Part 1"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://sidsbits.com/Intel-SGX-Attestation-Part-1/&is_video=false&description=Intel SGX Attestation Part 1"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Intel SGX Attestation Part 1&body=Check out this article: https://sidsbits.com/Intel-SGX-Attestation-Part-1/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://sidsbits.com/Intel-SGX-Attestation-Part-1/&title=Intel SGX Attestation Part 1"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://sidsbits.com/Intel-SGX-Attestation-Part-1/&title=Intel SGX Attestation Part 1"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://sidsbits.com/Intel-SGX-Attestation-Part-1/&title=Intel SGX Attestation Part 1"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://sidsbits.com/Intel-SGX-Attestation-Part-1/&title=Intel SGX Attestation Part 1"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://sidsbits.com/Intel-SGX-Attestation-Part-1/&name=Intel SGX Attestation Part 1&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://sidsbits.com/Intel-SGX-Attestation-Part-1/&t=Intel SGX Attestation Part 1"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2025
+    Sid Senthilkumar
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/notes/">Notes</a></li><!--
+     --><!--
+       --><li><a href="/resources/senthilkumar_resume.pdf">Resume</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'escape-wq';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>
